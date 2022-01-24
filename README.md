@@ -5,5 +5,5 @@ The Goal of this app is to provide cost effective platform for tracking users dr
 This app moonitors sensor data, health data, video data and vehicle data through the use OBD dongle connected to the app through bluetooth
 ## App structure
 The mobile application is developed purely with swift and a little objetive-c.
-The application has a watch extension which enables live monitoring of users' heart rate while drIving
+The application has a watch extension which enables live monitoring of users' heart rate while driving
 Data from this app is hosted on AWS amplify S3 bucket for further analysis.
