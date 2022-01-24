@@ -6,17 +6,58 @@
 //
 
 import UIKit
+import Amplify
+import AmplifyPlugins
+import SwiftUI
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+class AppDelegate: UIResponder, UIApplicationDelegate{
+    
+    
+    var restrictRotation:UIInterfaceOrientationMask = .portrait
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        LocalNotificationHelper.requestPermission()
+        
+        WatchKitConnection.shared.startSession()
+    
+        configureAmplify()
+        fetchCurrentAuthSession()
+        
+        
+            
+        
         return true
     }
-
+    
+    
+    func fetchCurrentAuthSession() {
+        _ = Amplify.Auth.fetchAuthSession { result in
+            switch result {
+            case .success(let session):
+                print("Is user signed in - \(session.isSignedIn)")
+            case .failure(let error):
+                print("Fetch session failed with error \(error)")
+            }
+        }
+    }
+    
+    func configureAmplify(){
+        do{
+            let models = AmplifyModels()
+//            try Amplify.add(plugin: AWSAPIPlugin(modelRegistration:models))
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSS3StoragePlugin())
+            try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration:models))
+            try Amplify.configure()
+            print("Amplify configured successfully")
+        }catch{
+            print("could not initialize Amplify", error)
+        }
+    }
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -30,6 +71,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    internal var shouldRotate = false
+    func application(_ application: UIApplication,
+                     supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return shouldRotate ? .allButUpsideDown : .portrait
+    }
+    
 
 
 }

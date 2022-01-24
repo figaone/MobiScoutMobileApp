@@ -1,0 +1,66 @@
+{
+    "UserAgent": "aws-amplify/cli",
+    "Version": "0.1.0",
+    "IdentityManager": {
+        "Default": {}
+    },
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "us-east-2:2d2af4a2-82af-463e-92c5-8f81449374d4",
+                "Region": "us-east-2"
+            }
+        }
+    },
+    "CognitoUserPool": {
+        "Default": {
+            "PoolId": "us-east-2_IUS65qnOc",
+            "AppClientId": "4gjcqhm9kcbb5kjtps4a77eeql",
+            "Region": "us-east-2"
+        }
+    },
+    "Auth": {
+        "Default": {
+            "OAuth": {
+                "WebDomain": "wellnessscoutc2fa45fe-c2fa45fe-dev.auth.us-east-2.amazoncognito.com",
+                "AppClientId": "4gjcqhm9kcbb5kjtps4a77eeql",
+                "SignInRedirectURI": "WellnessScout://",
+                "SignOutRedirectURI": "WellnessScout://",
+                "Scopes": [
+                    "phone",
+                    "email",
+                    "openid",
+                    "profile",
+                    "aws.cognito.signin.user.admin"
+                ]
+            },
+            "authenticationFlowType": "USER_SRP_AUTH",
+            "socialProviders": [
+                "GOOGLE"
+            ],
+            "usernameAttributes": [
+                "EMAIL"
+            ],
+            "signupAttributes": [
+                "EMAIL"
+            ],
+            "passwordProtectionSettings": {
+                "passwordPolicyMinLength": 8,
+                "passwordPolicyCharacters": []
+            },
+            "mfaConfiguration": "OFF",
+            "mfaTypes": [
+                "SMS"
+            ],
+            "verificationMechanisms": [
+                "EMAIL"
+            ]
+        }
+    },
+    "S3TransferUtility": {
+        "Default": {
+            "Bucket": "wellnessscout36882d7fefef4a51a6d7be8fcd5f853273617-dev",
+            "Region": "us-east-2"
+        }
+    }
+}
