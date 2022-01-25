@@ -258,11 +258,12 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //        observeObdAdaptorStat()
 //        //start obd adaptor connection
 //        obdDeviceService.getObdData()
-//        instanceOfCustomObject.onStartup()
-//        //start observing obd data
-//        DispatchQueue.main.async {
-//            self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
-//        }
+        //start OBD connection
+        instanceOfCustomObject.onStartup()
+        //start observing obd data
+        DispatchQueue.main.async {
+            self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
+        }
         
         
         
