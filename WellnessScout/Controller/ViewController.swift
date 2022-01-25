@@ -160,8 +160,6 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         healthStore.requestAuthorization()
         self.performQuery()
 //        healthStore.requestHealthDataAccessIfNeeded(dataTypes: mobilityContent) { (success) in
@@ -2419,9 +2417,34 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     }
     //reconnect obd adaptor
     @IBAction func reconnectOBDAdaptor(_ sender: UIButton) {
+//        obdConnectButtonLabel
         self.instanceOfCustomObject.onDisconnectAdapterClicked()
+        self.instanceOfCustomObject.onConnectAdapterClicked()
+//        if adaptorStatusLabel.text == "OBD2AdapterStateGone"{
+//            self.instanceOfCustomObject.onConnectAdapterClicked()
+//        }else if adaptorStatusLabel.text == "OBD2AdapterStateConnected"{
+//            self.instanceOfCustomObject.onDisconnectAdapterClicked()
+//        }else if adaptorStatusLabel.text == "OBD2AdapterStateUnsupportedProtocol"{
+//            self.presentAlert(withTitle: "OBD2AdapterState", message: "OBD2 Adaptor has UnsupportedProtocol", actions: ["OK" : UIAlertAction.Style.default])
+//        }else{
+//            self.instanceOfCustomObject.onDisconnectAdapterClicked()
+//            self.instanceOfCustomObject.onConnectAdapterClicked()
+//        }
     }
     
+    func changeAdpatorButtonLanbel(){
+        if adaptorStatusLabel.text == "OBD2AdapterStateGone"{
+            self.obdConnectButtonLabel.titleLabel?.text = "connect"
+        }else if adaptorStatusLabel.text == "OBD2AdapterStateConnected"{
+            self.obdConnectButtonLabel.titleLabel?.text = "disconnect"
+        }else if adaptorStatusLabel.text == "OBD2AdapterStateUnsupportedProtocol"{
+            self.obdConnectButtonLabel.titleLabel?.text = "reconnect"
+        }else{
+            self.obdConnectButtonLabel.titleLabel?.text = "reconnect"
+        }
+    }
+    
+
     
     //function used to log the sensor data
     @objc func logSensorData(){

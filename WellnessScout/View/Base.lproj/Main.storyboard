@@ -1524,8 +1524,8 @@ It is your responsibility to periodically review these Terms of Use to stay info
                                                     <constraint firstAttribute="width" constant="74" id="l2s-iR-6zB"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="tinted" title="disconnect">
-                                                    <fontDescription key="titleFontDescription" type="system" pointSize="8"/>
+                                                <buttonConfiguration key="configuration" style="tinted" title="Reconnect">
+                                                    <fontDescription key="titleFontDescription" type="system" pointSize="9"/>
                                                 </buttonConfiguration>
                                                 <connections>
                                                     <action selector="reconnectOBDAdaptor:" destination="Vta-9B-u2k" eventType="touchUpInside" id="Qin-iP-a8y"/>
