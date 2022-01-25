@@ -258,11 +258,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //        observeObdAdaptorStat()
 //        //start obd adaptor connection
 //        obdDeviceService.getObdData()
-        instanceOfCustomObject.onStartup()
-        //start observing obd data
-        DispatchQueue.main.async {
-            self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
-        }
+//        instanceOfCustomObject.onStartup()
+//        //start observing obd data
+//        DispatchQueue.main.async {
+//            self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
+//        }
         
         
         
@@ -681,6 +681,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                                                                 print("Could not find the back camera device input's video port")
                                                                 return false
         }
+        
+        
         
         // Add the back camera video data output
         guard session.canAddOutput(backCameraVideoDataOutput) else {
@@ -1172,15 +1174,16 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 AllData.shared.isRecording = false
                 self.movieRecorder?.stopRecording { movieURL in
                     camState = .backcam
+//                    convertVideo(movieURL, "RoadViewVideo", false)
                     allData.roadViewURL = String(describing: movieURL)
                     let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-                    
+
                     let documentURL = URL(fileURLWithPath: documentDirectoryPath).appendingPathComponent("RoadViewVideo\(AllData.shared.name).mp4")
-                    
+
                     localFileManager.saveVideoToDocumentsDirectory(srcURL: movieURL, dstURL: documentURL){ movieUrl in
                         if let currentBackgroundRecordingID = self.backgroundRecordingID {
                             self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
-                            
+
                             if currentBackgroundRecordingID != UIBackgroundTaskIdentifier.invalid {
                                 UIApplication.shared.endBackgroundTask(currentBackgroundRecordingID)
                             }
@@ -1189,9 +1192,9 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
                         if userData.automaticUpload == true{
                             amplifyVidUpload.specialUpload(url: movieUrl, videoName: movieUrl.lastPathComponent, saveLocation: AllData.shared.name)
-                            
+
                         }
-                        
+
                     }
                     //invalidate the data collection timer
                     AllData.shared.recordAwsTimer.invalidate()
@@ -1199,14 +1202,17 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 }
                 self.movieRecorderpip?.stopRecording { movieURL in
                     camState = .frontcam
+                    
+//                    convertVideo(movieURL, "DriverMonitorVideo", true)
+                    
                     let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-                    
+
                     let documentURL = URL(fileURLWithPath: documentDirectoryPath).appendingPathComponent("DriverMonitorVideo\(AllData.shared.name).mp4")
-                    
+
                     localFileManager.saveVideoToDocumentsDirectory(srcURL: movieURL, dstURL: documentURL){ sensorUrl in
                         if let currentBackgroundRecordingID = self.backgroundRecordingID {
                             self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
-                            
+
                             if currentBackgroundRecordingID != UIBackgroundTaskIdentifier.invalid {
                                 UIApplication.shared.endBackgroundTask(currentBackgroundRecordingID)
                             }
@@ -1219,7 +1225,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                             DispatchQueue.main.async {
                                 self.presentAlert(withTitle: "Files Upload", message: "file is uploading automatically, please navigate to upload tab to see progress", actions: ["OK" : UIAlertAction.Style.default])
                             }
-                            
+
                         }else{
                             DispatchQueue.main.async {
                                 self.presentAlert(withTitle: "Files Saved", message: "file is saved in library Tab, please upload from there", actions: ["OK" : UIAlertAction.Style.default])
@@ -1232,6 +1238,104 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
             }
         }
 }
+    
+    func convertVideo(_ videoURL: URL, _ filename: String, _ saveToDatestoreDriverMon: Bool){
+        let avAsset = AVURLAsset(url: videoURL, options:nil)
+        let outputFileType = AVFileType.mp4
+        let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let outputURL =  URL(fileURLWithPath: documentDirectoryPath).appendingPathComponent("\(filename)\(AllData.shared.name).mp4")
+        let preset = AVAssetExportPresetHighestQuality
+        AVAssetExportSession.determineCompatibility(ofExportPreset: preset, with: avAsset, outputFileType: outputFileType){ isCompatible in
+            guard isCompatible else{ return }
+            
+            // Compatibility check succeeded, continue with export
+            guard let exportSession = AVAssetExportSession(asset: avAsset, presetName: preset) else {return}
+            
+            exportSession.outputFileType = outputFileType
+            exportSession.outputURL = outputURL
+            exportSession.exportAsynchronously { [self] in
+                switch exportSession.status{
+                    
+                case .unknown:
+                    print("video could not be exported")
+                case .waiting:
+                    print("print export waiting")
+                case .exporting:
+                    print("exporting to mp4")
+                case .completed:
+                    print("export completed")
+                    if let currentBackgroundRecordingID = self.backgroundRecordingID {
+                        self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
+                        
+                        if currentBackgroundRecordingID != UIBackgroundTaskIdentifier.invalid {
+                            UIApplication.shared.endBackgroundTask(currentBackgroundRecordingID)
+                        }
+                    }
+                    if saveToDatestoreDriverMon == true{
+                        existingPost.driverMonitorURL = String(describing: outputURL.lastPathComponent)
+                    }else{
+                        existingPost.roadViewURL = String(describing: outputURL.lastPathComponent)
+                    }
+                    
+                    amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
+                    if userData.automaticUpload == true{
+                        amplifyVidUpload.specialUpload(url: outputURL, videoName: outputURL.lastPathComponent, saveLocation: AllData.shared.name)
+                        DispatchQueue.main.async {
+                            self.presentAlert(withTitle: "Files Upload", message: "file is uploading automatically, please navigate to upload tab to see progress", actions: ["OK" : UIAlertAction.Style.default])
+                        }
+                        
+                    }else{
+                        DispatchQueue.main.async {
+                            self.presentAlert(withTitle: "Files Saved", message: "file is saved in library Tab, please upload from there", actions: ["OK" : UIAlertAction.Style.default])
+                        }
+                    }
+                case .failed:
+                    print("export failed")
+                case .cancelled:
+                    print("export cancelled")
+                @unknown default:
+                    print("unknown")
+                }
+            }
+        }
+    }
+//    func encodeVideo(_ videoURL: URL)  {
+//        var exportSession: AVAssetExportSession!
+//            let avAsset = AVURLAsset(url: videoURL, options: nil)
+//
+//            //Create Export session
+//            exportSession = AVAssetExportSession(asset: avAsset, presetName: AVAssetExportPresetPassthrough)
+//
+//            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
+//            let filePath = documentsDirectory.appendingPathComponent("rendered-Video.mp4")
+//            deleteFile(filePath)
+//
+//            exportSession!.outputURL = filePath
+//            exportSession!.outputFileType = AVFileType.mp4
+//            exportSession!.shouldOptimizeForNetworkUse = true
+//            let start = CMTimeMakeWithSeconds(0.0, preferredTimescale: 0)
+//            let range = CMTimeRangeMake(start: start, duration: avAsset.duration)
+//            exportSession.timeRange = range
+//
+//            exportSession!.exportAsynchronously(completionHandler: {() -> Void in
+//                DispatchQueue.main.async {
+//                    Utility.stopActivityIndicator()
+//
+//                    switch self.exportSession!.status {
+//                    case .failed:
+//                        self.view.makeToast(self.exportSession?.error?.localizedDescription ?? "")
+//                    case .cancelled:
+//                        self.view.makeToast("Export canceled")
+//                    case .completed:
+//                        if let url = self.exportSession.outputURL {
+//                            //Rendered Video URL
+//                        }
+//                    default:
+//                        break
+//                    }
+//                }
+//            })
+//        }
     
     
     
@@ -1255,14 +1359,17 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     }
     
     private func createVideoSettings() -> [String: NSObject]? {
-        guard let backCameraVideoSettings = backCameraVideoDataOutput.recommendedVideoSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject] else {
+        guard let backCameraVideoSettings = backCameraVideoDataOutput.recommendedVideoSettings(forVideoCodecType: .h264, assetWriterOutputFileType: .mp4) as? [String: NSObject] else {
             print("Could not get back camera video settings")
             return nil
         }
-        guard let frontCameraVideoSettings = frontCameraVideoDataOutput.recommendedVideoSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject] else {
+        guard let frontCameraVideoSettings = backCameraVideoDataOutput.recommendedVideoSettings(forVideoCodecType: .h264, assetWriterOutputFileType: .mp4) as? [String: NSObject] else {
             print("Could not get front camera video settings")
             return nil
         }
+        
+//        backCameraVideoDataOutput.recommendedVideoSettings(forVideoCodecType: .h264, assetWriterOutputFileType: .mp4) as? [String: NSObject]
+        
         
         if backCameraVideoSettings == frontCameraVideoSettings {
             // The front and back camera video settings are equal, so return either one
