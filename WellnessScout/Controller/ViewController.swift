@@ -1300,43 +1300,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
             }
         }
     }
-//    func encodeVideo(_ videoURL: URL)  {
-//        var exportSession: AVAssetExportSession!
-//            let avAsset = AVURLAsset(url: videoURL, options: nil)
-//
-//            //Create Export session
-//            exportSession = AVAssetExportSession(asset: avAsset, presetName: AVAssetExportPresetPassthrough)
-//
-//            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
-//            let filePath = documentsDirectory.appendingPathComponent("rendered-Video.mp4")
-//            deleteFile(filePath)
-//
-//            exportSession!.outputURL = filePath
-//            exportSession!.outputFileType = AVFileType.mp4
-//            exportSession!.shouldOptimizeForNetworkUse = true
-//            let start = CMTimeMakeWithSeconds(0.0, preferredTimescale: 0)
-//            let range = CMTimeRangeMake(start: start, duration: avAsset.duration)
-//            exportSession.timeRange = range
-//
-//            exportSession!.exportAsynchronously(completionHandler: {() -> Void in
-//                DispatchQueue.main.async {
-//                    Utility.stopActivityIndicator()
-//
-//                    switch self.exportSession!.status {
-//                    case .failed:
-//                        self.view.makeToast(self.exportSession?.error?.localizedDescription ?? "")
-//                    case .cancelled:
-//                        self.view.makeToast("Export canceled")
-//                    case .completed:
-//                        if let url = self.exportSession.outputURL {
-//                            //Rendered Video URL
-//                        }
-//                    default:
-//                        break
-//                    }
-//                }
-//            })
-//        }
+
     
     
     
