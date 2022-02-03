@@ -42,7 +42,7 @@
                                                 </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1@2.com" borderStyle="roundedRect" placeholder="    Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xqg-b3-iwV">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="    Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xqg-b3-iwV">
                                                 <rect key="frame" x="20" y="159.33333333333334" width="347" height="58.666666666666657"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="41"/>
                                                 <textInputTraits key="textInputTraits"/>

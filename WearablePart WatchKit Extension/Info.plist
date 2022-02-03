@@ -2,16 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>Workouts tracked by MyWorkouts on Apple Watch will be saved to HealthKit.</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Your workout related data will be used to display your saved workouts in MyWorkouts.</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>co.kgyamfi.WellnessScout.WellnessScout2</string>
+	</array>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>co.kgyamfi.WellnessScout.WellnessScout2.WearablePart.watchkitapp</string>
+			<string>co.kgyamfi.WellnessScout.MobiScout.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
