@@ -47,7 +47,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="41"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" borderStyle="roundedRect" placeholder="    Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3kh-1p-sRD">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="    Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3kh-1p-sRD">
                                                 <rect key="frame" x="20" y="257" width="347" height="57"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="41"/>
                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
