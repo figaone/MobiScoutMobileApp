@@ -162,17 +162,6 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate {
     @IBAction func loginPressed(_ sender: UIButton) {
         if let email = emailTextField.text, let password = passwordTextfield.text {
             signIn(email: email, password: password)
-//            sessionManager.login(username: email, password: password)
-//            if sessionManager.authState == .session{
-//
-//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                let secondVC = storyboard.instantiateViewController(identifier: "MainTabBarView")
-//                secondVC.modalPresentationStyle = .fullScreen
-//                self.show(secondVC, sender: self)
-//
-//            } else {
-//                return
-//            }
         }
     }
     
