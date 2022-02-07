@@ -162,6 +162,13 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         
         healthStore.requestAuthorization()
         self.performQuery()
+        
+        //start OBD connection
+        instanceOfCustomObject.onStartup()
+        //start observing obd data
+        DispatchQueue.main.async {
+            self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
+        }
 //        healthStore.requestHealthDataAccessIfNeeded(dataTypes: mobilityContent) { (success) in
 //            if success {
 //                self.performQuery()
@@ -256,12 +263,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //        observeObdAdaptorStat()
 //        //start obd adaptor connection
 //        obdDeviceService.getObdData()
-//        //start OBD connection
-//        instanceOfCustomObject.onStartup()
-        //start observing obd data
-//        DispatchQueue.main.async {
-//            self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
-//        }
+
         
         
         
@@ -1111,8 +1113,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 }
                 
                 //fetch vehicle info using the VIN
-                if let vinNumber = instanceOfCustomObject.vinLabel{
-                    vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
+                DispatchQueue.main.async {
+                    if let vinNumber = instanceOfCustomObject.vinLabel{
+                        print(vinNumber)
+                        vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
+                    }
                 }
                 
 //                AllData.shared.recordDataTimer = Timer.scheduledTimer(timeInterval: AllData.shared.sensorFrequency, target: self, selector: #selector(logSensorData), userInfo: nil, repeats: true)
@@ -1128,7 +1133,13 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 //call the function to update the auto save view
 //                updateAutoSaveTimer(endDate: SingeltonData.shared.recordingStartDate, currentDate: Date(), view: autoSaveView)
             } else {
-                print(userData.automaticUpload)
+                DispatchQueue.main.async {
+                    if let vinNumber = instanceOfCustomObject.vinLabel{
+                        print(vinNumber)
+                        vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
+                    }
+                }
+                
                 //set the workout to stop on watch when recording has stopped
                 workoutContorl = "stop"
                 WatchKitConnection.shared.sendMessage(message: ["username" : workoutContorl as AnyObject])

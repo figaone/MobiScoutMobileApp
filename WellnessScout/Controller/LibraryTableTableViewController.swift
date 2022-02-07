@@ -427,7 +427,7 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
             cell.healthDataButtonLabel.tag = indexPath.row
             cell.obdDataOpenButtonLabel.tag = indexPath.row
             cell.uploadButton.setTitle("Uploaded", for: .normal)
-            cell.uploadButton.isEnabled = false
+            cell.uploadButton.isEnabled = true
 //            cell.uploadButton.titleLabel?.text = "Uploaded"
         }else{
 //            print("upload")
