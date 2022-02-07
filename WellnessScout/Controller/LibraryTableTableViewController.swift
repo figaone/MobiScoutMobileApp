@@ -50,7 +50,6 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         loadDataFromDataStore(){ totalData in
             self.URLOfData = totalData
             print(totalData)
-            self.tableView.reloadData()
         }
        
         
@@ -311,8 +310,10 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
                 self.URLOfData = totalData
                 print("this is data after upload", totalData)
                 self.tableView.dataSource = self
-                self.tableView.reloadData()
-                self.presentAlert(withTitle: "Upload Started", message: "Video upload and data upload has been started, navigate to the upload tab to monitor the progress.", actions: ["OK" : UIAlertAction.Style.default])
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.presentAlert(withTitle: "Upload Started", message: "Video upload and data upload has been started, navigate to the upload tab to monitor the progress.", actions: ["OK" : UIAlertAction.Style.default])
+                }
             }
             DispatchQueue.main.async {
                 self.tabBarController?.selectedIndex = 2
