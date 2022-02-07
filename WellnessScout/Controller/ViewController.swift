@@ -391,7 +391,9 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     let alertMessage = "Alert message when multi cam is not supported"
                     let message = NSLocalizedString("Multi Cam Not Supported", comment: alertMessage)
                     let alertController = UIAlertController(title: Bundle.main.applicationName, message: message, preferredStyle: .alert)
-                    
+                    alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"),
+                                                            style: .cancel,
+                                                            handler: nil))
                     self.present(alertController, animated: true, completion: nil)
                 }
             }
