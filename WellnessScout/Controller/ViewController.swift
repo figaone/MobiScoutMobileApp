@@ -256,12 +256,12 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //        observeObdAdaptorStat()
 //        //start obd adaptor connection
 //        obdDeviceService.getObdData()
-        //start OBD connection
-        instanceOfCustomObject.onStartup()
+//        //start OBD connection
+//        instanceOfCustomObject.onStartup()
         //start observing obd data
-        DispatchQueue.main.async {
-            self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
-        }
+//        DispatchQueue.main.async {
+//            self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
+//        }
         
         
         
@@ -1039,7 +1039,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
    @objc @IBAction private func toggleMovieRecording(_ recordButton: UIButton) {
         recordButton.isEnabled = false
-        
+       
         dataOutputQueue.async { [self] in
             defer {
                 DispatchQueue.main.async {
@@ -1095,6 +1095,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 //set the name for the data
                 AllData.shared.name = dateString
                 //sets the is recording variable
+                
                 AllData.shared.isRecording = true
                 //start the timer to log the data
                 DispatchQueue.main.async {
@@ -1137,10 +1138,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
             
                 //initialize new data object
                 existingPost = DateStored()
-                
+               
                 //convert sensor data to csv and save
                 csvParser.createCsv(recordedDataDictionary, "sensorData\(AllData.shared.name).csv"){ sensorUrl in
                     existingPost.dateStored = AllData.shared.name
+                    existingPost.createdAt = Temporal.DateTime(Date())
                     existingPost.sensorDataURL = String(describing: sensorUrl.lastPathComponent)
                     amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
                     sensorDataState = .sensorData

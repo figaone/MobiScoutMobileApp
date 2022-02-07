@@ -470,12 +470,13 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
 //    }
 
     func loadDataFromDataStore(completion: @escaping ([DateStored]) -> Void){
-        Amplify.DataStore.query(DateStored.self, sort: .descending(DateStored.keys.dateStored)) {
+        Amplify.DataStore.query(DateStored.self, sort: .descending(DateStored.keys.createdAt)) {
             switch $0 {
             case .success(let result):
                 
 //                self.URLOfData = result
-                
+                print("this is the data")
+                print(result)
                 completion(result)
             case .failure(let error):
                 print("Error listing posts - \(error.localizedDescription)")
