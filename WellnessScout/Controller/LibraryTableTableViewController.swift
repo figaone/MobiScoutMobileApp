@@ -50,6 +50,7 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         loadDataFromDataStore(){ totalData in
             self.URLOfData = totalData
             print(totalData)
+            self.tableView.reloadData()
         }
        
         
