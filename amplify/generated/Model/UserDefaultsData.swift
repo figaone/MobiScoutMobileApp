@@ -12,6 +12,8 @@ class UserDefaultsData : Codable{
     var frameRate : Double!
     //user frequency
     var frequency : Double = 1
+    //time interval for autosave
+    var autoSaveTime : TimeInterval = 600
     //upload data automatically after recording
     var automaticUpload : Bool = true
 }

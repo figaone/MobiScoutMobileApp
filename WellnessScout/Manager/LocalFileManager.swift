@@ -132,16 +132,36 @@ class LocalFileManager{
     func deleteFile(fileUrl:URL){
         //attempt to remove the file
         do{
-            try! FileManager.default.removeItem(at: fileUrl)
-        } catch let error{
+            let urlString: String = fileUrl.absoluteString
+            if FileManager.default.fileExists(atPath: urlString){
+                try! FileManager.default.removeItem(at: fileUrl)
+            } else{
+                let rootViewController = LibraryTableTableViewController()
+                rootViewController.presentAlert(withTitle: "Delete Error", message: "File does not exist", actions: ["OK" : UIAlertAction.Style.default])
+            }
+            
+        } catch let error as NSError{
             let rootViewController = LibraryTableTableViewController()
-
             rootViewController.presentAlert(withTitle: "Delete Error", message: "\(error)", actions: ["OK" : UIAlertAction.Style.default])
         }
         
     }
     
-    
+//    do {
+//         let fileManager = FileManager.default
+//
+//        // Check if file exists
+//        if fileManager.fileExists(atPath: filePath) {
+//            // Delete file
+//            try fileManager.removeItem(atPath: filePath)
+//        } else {
+//            print("File does not exist")
+//        }
+//
+//    }
+//    catch let error as NSError {
+//        print("An error took place: \(error)")
+//    }
     
     
     

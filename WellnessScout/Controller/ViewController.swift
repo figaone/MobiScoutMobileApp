@@ -25,7 +25,7 @@ var maxSpeed : Any = 0
 var dtaURLS = DateStored()
 //var realDat = DateStored()
 //Dictionary for health data
-var firstdat : OrderedDictionary<String, [Any]> = [:]
+var firstdat : OrderedDictionary<String, [Any]> = ["Date":[],"StepCount":[],"DistanceWalkingRunning":[],"HeadphoneAudioExposure":[],"HeartRate":[]]
 var obdData : OrderedDictionary<String, [Any]> = [:]
 var recordedDataDictionary : OrderedDictionary<String, [Any]> = ["id":[],"latitude":[],"longitude":[],"accelerationX":[],"accelerationY":[],"accelerationZ":[],"gyrodataX":[],"gyrodataY":[],"gyrodataZ":[],"pitchData":[],"rollData":[],"yawData":[],"quarternionX":[],"quarternionY":[],"quarternionZ":[],"quarternionW":[],"userAccelerationX":[],"userAccelerationY":[],"userAccelerationZ":[],"timeStamp":[],"unixTimeStamp":[],"heartRateWearablePart":[],"speedMobileDevice(mph)":[],"speedVehicleOBD(kph)":[],"rpmVehicleOBD(rpm)":[],"temperatureVehicleOBD(C)":[],"videoName":[],"videoID":[],"traveledDistanceInMetres":[],"straightDistanceInMetres":[],"altitudeInMetres":[],"header":[],"savelocationID":[]]
 var DataArraySensor : [MainSensorData] = []
@@ -164,11 +164,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         self.performQuery()
         
         //start OBD connection
-        instanceOfCustomObject.onStartup()
-        //start observing obd data
-        DispatchQueue.main.async {
-            self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
-        }
+            instanceOfCustomObject.onStartup()
+            //start observing obd data
+            DispatchQueue.main.async {
+                self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
+            }
 //        healthStore.requestHealthDataAccessIfNeeded(dataTypes: mobilityContent) { (success) in
 //            if success {
 //                self.performQuery()
@@ -412,6 +412,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //        biggerFrame.size.height += tabBarController.tabBar.frame.size.height;
 //        tabBarController.view.frame = biggerFrame ;
 //        backCameraVideoPreviewLayer!.bounds.size.width = blurredUiView.bounds.size.width
+    }
+    
+    //fires when the device is low on memory
+    override func didReceiveMemoryWarning() {
+        presentAlert(withTitle: "Memory Low", message: "The device is low on memory, this will lead to unexpected behavior",  actions: ["OK" : UIAlertAction.Style.default])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1109,8 +1114,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     togglePiPDoubleTapGestureRecognizer.numberOfTapsRequired = 2
                     blurredUiView.addGestureRecognizer(togglePiPDoubleTapGestureRecognizer)
                     print("travelled distance:",distanceMain)
+                    
+                    AllData.shared.saveDataTimer = Timer.scheduledTimer(timeInterval: userData.autoSaveTime + 2, target: self, selector: #selector(saveRecordedData), userInfo: nil, repeats: true)
 //                    didFinishedActiveSession()
                 }
+                
                 
                 //fetch vehicle info using the VIN
                 DispatchQueue.main.async {
@@ -1133,6 +1141,10 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 //call the function to update the auto save view
 //                updateAutoSaveTimer(endDate: SingeltonData.shared.recordingStartDate, currentDate: Date(), view: autoSaveView)
             } else {
+                
+                AllData.shared.saveDataTimer.invalidate()
+                AllData.shared.recordAwsTimer.invalidate()
+                recordTimerObd.invalidate()
                 DispatchQueue.main.async {
                     if let vinNumber = instanceOfCustomObject.vinLabel{
                         print(vinNumber)
@@ -1145,7 +1157,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 WatchKitConnection.shared.sendMessage(message: ["username" : workoutContorl as AnyObject])
                 
                 //invalidate the timer when recording stops
-                recordTimerObd.invalidate()
+                
             
                 //initialize new data object
                 existingPost = DateStored()
@@ -1247,7 +1259,6 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         }
                     }
                     self.frntcm = String(describing: movieURL)
-                    AllData.shared.recordAwsTimer.invalidate()
                 }
             }
         }
@@ -2094,10 +2105,13 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
             let predicate = createLastWeekPredicate()
             let dateInterval = DateComponents(day: 1)
             
+            firstdat.updateValue([Date().timeIntervalSince1970 as Any] as [Any], forKey: "unixTimeStamp")
+            firstdat.updateValue([AllData.shared.motionManager.deviceMotion?.timestamp as Any] as [Any], forKey: "timeStamp")
             // Process data.
             let statisticsOptions = getStatisticsOptions(for: item.dataTypeIdentifier)
             let initialResultsHandler: (HKStatisticsCollection) -> Void = { (statisticsCollection) in
                 var values: [Double] = []
+                var dateCollected: [Date] = []
                 
                 
                 //["heartRate":[],"stepCount":[],"distanceWalking":[],"HeadphoneAudioExposure":[]]
@@ -2105,23 +2119,27 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
                     let statisticsQuantity = getStatisticsQuantity(for: statistics, with: statisticsOptions)
                     if let unit = preferredUnit(for: item.dataTypeIdentifier),
-                        let value = statisticsQuantity?.doubleValue(for: unit) {
+                       let value = statisticsQuantity?.doubleValue(for: unit) {
                         values.append(value)
-                        
+                        dateCollected.append(statistics.startDate)
                     }
-                    
-
-                    _ = HealthData()
+                
+                    firstdat["Date"] = dateCollected as [Date]
                     if item.dataTypeIdentifier == "HKQuantityTypeIdentifierStepCount"{
-                        firstdat.updateValue(values as [Double], forKey: "StepCount")
+//                        firstdat.updateValue(values as [Double], forKey: "StepCount")
+                        firstdat["StepCount"] = values as [Double]
                     }else if item.dataTypeIdentifier == "HKQuantityTypeIdentifierDistanceWalkingRunning"{
-                        firstdat.updateValue(values as [Double], forKey: "DistanceWalkingRunning")
+//                        firstdat.updateValue(values as [Double], forKey: "DistanceWalkingRunning")
+                        firstdat["DistanceWalkingRunning"] = values as [Double]
                     }else if item.dataTypeIdentifier == "HKQuantityTypeIdentifierHeadphoneAudioExposure"{
-                        firstdat.updateValue(values as [Double], forKey: "HeadphoneAudioExposure")
+//                        firstdat.updateValue(values as [Double], forKey: "HeadphoneAudioExposure")
+                        firstdat["HeadphoneAudioExposure"] = values as [Double]
                     }else if item.dataTypeIdentifier == "HKQuantityTypeIdentifierHeartRate"{
-                        firstdat.updateValue(values as [Double], forKey: "HeartRate")
+//                        firstdat.updateValue(values as [Double], forKey: "HeartRate")
+                        firstdat["HeartRate"] = values as [Double]
                     }
                     
+                
 
                     
                 }
@@ -2634,6 +2652,182 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
        
     }
     
+    @objc private func saveRecordedData(){
+        print("Recorded data saved")
+        DispatchQueue.main.async { [self] in
+                if let vinNumber = instanceOfCustomObject.vinLabel{
+                    print(vinNumber)
+                    vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
+                }
+            }
+            
+            //set the workout to stop on watch when recording has stopped
+            workoutContorl = "stop"
+//            WatchKitConnection.shared.sendMessage(message: ["username" : workoutContorl as AnyObject])
+            
+            //invalidate the timer when recording stops
+            recordTimerObd.invalidate()
+        
+            //initialize new data object
+            existingPost = DateStored()
+           
+            //convert sensor data to csv and save
+            csvParser.createCsv(recordedDataDictionary, "sensorData\(AllData.shared.name).csv"){ sensorUrl in
+                existingPost.dateStored = AllData.shared.name
+                existingPost.createdAt = Temporal.DateTime(Date())
+                existingPost.sensorDataURL = String(describing: sensorUrl.lastPathComponent)
+                amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
+                sensorDataState = .sensorData
+                //upload senor data automatically to cloud if automatic upload is selected
+                
+                if userData.automaticUpload == true{
+                    uploadSensordataAWS(sensor: sensorUrl)
+                    AllData.shared.dateStoredId = existingPost.id
+                }
+            }
+            csvParser.createCsv(firstdat, "initialHealth\(AllData.shared.name).csv"){ sensorUrl in
+                existingPost.initiaLHealthData = String(describing: sensorUrl.lastPathComponent)
+                amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
+                sensorDataState = .initialHealthData
+                if userData.automaticUpload == true{
+                    uploadSensordataAWS(sensor: sensorUrl)
+                }
+            }
+            csvParser.createCsv(obdData, "obdData\(AllData.shared.name).csv"){ sensorUrl in
+                allData.initialVehicleData = String(describing: sensorUrl)
+                existingPost.initialVehicleData = String(describing: sensorUrl.lastPathComponent)
+                amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
+                sensorDataState = .canBusData
+                if userData.automaticUpload == true{
+                    uploadSensordataAWS(sensor: sensorUrl)
+                }
+            }
+            AllData.shared.isRecording = false
+        self.movieRecorder?.stopRecording { [self] movieURL in
+                camState = .backcam
+//                    convertVideo(movieURL, "RoadViewVideo", false)
+                self.allData.roadViewURL = String(describing: movieURL)
+                let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+
+                let documentURL = URL(fileURLWithPath: documentDirectoryPath).appendingPathComponent("RoadViewVideo\(AllData.shared.name).mp4")
+
+                self.localFileManager.saveVideoToDocumentsDirectory(srcURL: movieURL, dstURL: documentURL){ movieUrl in
+                    if let currentBackgroundRecordingID = self.backgroundRecordingID {
+                        self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
+
+                        if currentBackgroundRecordingID != UIBackgroundTaskIdentifier.invalid {
+                            UIApplication.shared.endBackgroundTask(currentBackgroundRecordingID)
+                        }
+                    }
+                    self.existingPost.roadViewURL = String(describing: movieUrl.lastPathComponent)
+                    amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
+                    if userData.automaticUpload == true{
+                        amplifyVidUpload.specialUpload(url: movieUrl, videoName: movieUrl.lastPathComponent, saveLocation: AllData.shared.name)
+
+                    }
+
+                }
+                //invalidate the data collection timer
+                AllData.shared.recordAwsTimer.invalidate()
+                
+            }
+        self.movieRecorderpip?.stopRecording { [self] movieURL in
+                camState = .frontcam
+                
+//                    convertVideo(movieURL, "DriverMonitorVideo", true)
+                
+                let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+
+                let documentURL = URL(fileURLWithPath: documentDirectoryPath).appendingPathComponent("DriverMonitorVideo\(AllData.shared.name).mp4")
+
+                self.localFileManager.saveVideoToDocumentsDirectory(srcURL: movieURL, dstURL: documentURL){ sensorUrl in
+                    if let currentBackgroundRecordingID = self.backgroundRecordingID {
+                        self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
+
+                        if currentBackgroundRecordingID != UIBackgroundTaskIdentifier.invalid {
+                            UIApplication.shared.endBackgroundTask(currentBackgroundRecordingID)
+                        }
+                    }
+                    print(sensorUrl)
+                    existingPost.driverMonitorURL = String(describing: sensorUrl.lastPathComponent)
+                    amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
+                    if userData.automaticUpload == true{
+                        amplifyVidUpload.specialUpload(url: sensorUrl, videoName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name)
+                        DispatchQueue.main.async {
+                            self.presentAlert(withTitle: "Files Upload", message: "file is uploading automatically, please navigate to upload tab to see progress", actions: ["OK" : UIAlertAction.Style.default])
+                        }
+
+                    }else{
+                        DispatchQueue.main.async {
+                            self.presentAlert(withTitle: "Files Saved", message: "file is saved in library Tab, please upload from there", actions: ["OK" : UIAlertAction.Style.default])
+                        }
+                    }
+                }
+                self.frntcm = String(describing: movieURL)
+                AllData.shared.recordAwsTimer.invalidate()
+            }
+        //delay so the values can be switched and we can process the data
+        let delay : Double = 2.0 //delay time in seconds
+        print("Dispatch time is :", DispatchTime.now())
+        let time = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline:time){
+            guard let audioSettings = self.createAudioSettings() else {
+                print("Could not create audio settings")
+                return
+            }
+            
+            guard let videoSettings = self.createVideoSettings() else {
+                print("Could not create video settings")
+                return
+            }
+            
+            guard let videoTransform = self.createVideoTransform() else {
+                print("Could not create video transform")
+                return
+            }
+            
+            //set the workout to start on watch when recording has started
+            
+            self.movieRecorder = MovieRecorder(audioSettings: audioSettings,
+                                               videoSettings: videoSettings,
+                                               videoTransform: videoTransform)
+            self.movieRecorderpip = MovieRecorder(audioSettings: audioSettings,
+                                               videoSettings: videoSettings,
+                                               videoTransform: videoTransform)
+
+            
+            self.movieRecorder?.startRecording()
+            self.movieRecorderpip?.startRecording()
+            
+            //create the name for the data
+            let dateFormatter : DateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy_MMM_dd_HH_mm_ss"
+            let date = Date()
+            let dateString = dateFormatter.string(from: date)
+            //set the name for the data
+            AllData.shared.name = dateString
+            //sets the is recording variable
+            
+            AllData.shared.isRecording = true
+            //start the timer to log the data
+            DispatchQueue.main.async { [self] in
+                AllData.shared.recordAwsTimer = Timer.scheduledTimer(timeInterval: AllData.shared.sensorFrequency, target: self, selector: #selector(awsSensordat), userInfo: nil, repeats: true)
+                self.performQuery()
+                print("travelled distance:",distanceMain)
+//                    didFinishedActiveSession()
+            }
+            
+            //fetch vehicle info using the VIN
+            DispatchQueue.main.async { [self] in
+                if let vinNumber = instanceOfCustomObject.vinLabel{
+                    print(vinNumber)
+                    vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
+                }
+            }
+        }
+        
+    }
+    
     
     private func saveVideosToDevice(movieURL : URL, moviename : String){
         //save the data to firebase to refrence back, the create and id
@@ -2771,6 +2965,8 @@ extension ViewController: VehicleInfoManagerDelegate {
             obdData["NCSAMake"] = [vehicleInfo.NCSAMake as Any]
             obdData["Doors"] = [vehicleInfo.Doors as Any]
             obdData["NCSAModel"] = [vehicleInfo.NCSAModel as Any]
+            obdData["timeStamp"] = [AllData.shared.motionManager.deviceMotion?.timestamp as Any]
+            obdData[" unixTimeStamp"] = [Date().timeIntervalSince1970 as Any]
         }
     }
     func didFailWithError(error: Error) {
