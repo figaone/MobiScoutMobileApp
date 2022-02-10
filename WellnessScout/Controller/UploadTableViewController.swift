@@ -38,7 +38,7 @@ class UploadTableViewController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         //ask for access to the photo library
-        videoManager.checkPhotoLibraryPermission()
+//        videoManager.checkPhotoLibraryPermission()
         //reload the view
         tableView.reloadData()
 //        alldata.clockTimer = Timer.scheduledTimer( timeInterval: 0.1, target: self, selector: #selector(updateCells), userInfo: nil, repeats: true)
@@ -75,6 +75,7 @@ class UploadTableViewController: UITableViewController {
     
     //Function called every time interval
     @objc func updateCells() {
+       
         //Gets the indexs for the visile rows
         let indexPathsArray = tableView.indexPathsForVisibleRows
         //loops through the indexs in the indexPathsArray
@@ -83,7 +84,7 @@ class UploadTableViewController: UITableViewController {
             if let cell = tableView.cellForRow(at: indexPath) as? UploadTableViewCell{
                 
                 if AllData.shared.storageTaskArray2.count > 0{
-                    cell.videoNameLabel.text = AllData.shared.storageTaskArray2[indexPath.row].request.local.lastPathComponent
+                    print(AllData.shared.storageTaskArray2.count)
                     let progress = AllData.shared.storageTaskArray2[indexPath.row]
                     progressSink = progress
                         .progressPublisher
@@ -109,6 +110,15 @@ class UploadTableViewController: UITableViewController {
                                         self.removeFailedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
                                     }
                                 }, receiveValue: { print("File successfully uploaded: \($0)")
+//                                    let dataUploadUrl = AllData.shared.storageTaskArray2[AllData.shared.storageTaskArray2.count].request.local.path
+//                                    // clean up after copying file
+//                                    if FileManager.default.fileExists(atPath: dataUploadUrl) {
+//                                        do {
+//                                            try FileManager.default.removeItem(atPath: dataUploadUrl)
+//                                        } catch {
+//                                            print("Could not remove file at url: \(dataUploadUrl)")
+//                                        }
+//                                    }
 //                                    print("this the data id sent",AllData.shared.dateStoredId)
 //                                    self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
                                     cell.videoNameLabel.text = $0
@@ -322,6 +332,15 @@ class UploadTableViewController: UITableViewController {
                             self.removeFailedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
                         }
                     }, receiveValue: { print("File successfully uploaded: \($0)")
+                        let dataUploadUrl = AllData.shared.storageTaskArray2[indexPath.row].request.local.path
+                        // clean up after copying file
+                        if FileManager.default.fileExists(atPath: dataUploadUrl) {
+                            do {
+                                try FileManager.default.removeItem(atPath: dataUploadUrl)
+                            } catch {
+                                print("Could not remove file at url: \(dataUploadUrl)")
+                            }
+                        }
 //                        print("this the data id sent",AllData.shared.dateStoredId)
 //                        self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
 //                        cell.videoNameLabel.text = $0
@@ -399,6 +418,20 @@ class UploadTableViewController: UITableViewController {
         //return the new url
         return temporaryFileURL as URL
     }
+    
+    func removeDirectory(withDirectoryName originName:String, toDirectory directory: FileManager.SearchPathDirectory = .applicationSupportDirectory) {
+        let fileManager = FileManager.default
+        let path = FileManager.default.urls(for: directory, in: .userDomainMask)
+        if let originURL = path.first?.appendingPathComponent(originName) {
+            do {
+                try fileManager.removeItem(at: originURL)
+            }
+            catch let error {
+                print ("\(error) error")
+            }
+        }
+    }
+
     
 }
 

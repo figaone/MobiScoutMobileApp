@@ -202,14 +202,20 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //                print(error as Any)
 //            }
 //        }
+        if let recorder = recordButton{
+            recorder.layer.cornerRadius = recordButton.frame.width / 2
+            recorder.layer.masksToBounds = true
+            recorder.layer.borderWidth = 5
+            recorder.layer.borderColor = UIColor.white.cgColor
+            recordButton.isEnabled = false
+        }
         
-        recordButton.layer.cornerRadius = recordButton.frame.width / 2
-        recordButton.layer.masksToBounds = true
-        recordButton.layer.borderWidth = 5
-        recordButton.layer.borderColor = UIColor.white.cgColor
         
         //hide blurred view
-        blurredUiView.isHidden = true
+        if let blurredview = blurredUiView {
+            blurredview.isHidden = true
+        }
+       
         
         //get user defaults data
         userData = defaultsManager.getUserDefaults()
@@ -298,7 +304,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         
         localFileManager.createDirectory()
         // Disable UI. Enable the UI later, if and only if the session starts running.
-        recordButton.isEnabled = false
+//        recordButton.isEnabled = false
         
         
         // Set up the back and front video preview views.
@@ -416,7 +422,9 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     //fires when the device is low on memory
     override func didReceiveMemoryWarning() {
-        presentAlert(withTitle: "Memory Low", message: "The device is low on memory, this will lead to unexpected behavior",  actions: ["OK" : UIAlertAction.Style.default])
+        DispatchQueue.main.async {
+            self.presentAlert(withTitle: "Memory Low", message: "The device is low on memory, this will lead to unexpected behavior",  actions: ["OK" : UIAlertAction.Style.default])
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1207,6 +1215,16 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     let documentURL = URL(fileURLWithPath: documentDirectoryPath).appendingPathComponent("RoadViewVideo\(AllData.shared.name).mp4")
 
                     localFileManager.saveVideoToDocumentsDirectory(srcURL: movieURL, dstURL: documentURL){ movieUrl in
+                        
+                        // clean up after copying file
+                        if FileManager.default.fileExists(atPath: movieURL.path) {
+                            do {
+                                try FileManager.default.removeItem(atPath: movieURL.path)
+                            } catch {
+                                print("Could not remove file at url: \(movieURL)")
+                            }
+                        }
+                        
                         if let currentBackgroundRecordingID = self.backgroundRecordingID {
                             self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
 
@@ -1216,6 +1234,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         }
                         existingPost.roadViewURL = String(describing: movieUrl.lastPathComponent)
                         amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
+                        //remove file from temporary storage  after saving to documents directory
                         if userData.automaticUpload == true{
                             amplifyVidUpload.specialUpload(url: movieUrl, videoName: movieUrl.lastPathComponent, saveLocation: AllData.shared.name)
 
@@ -1236,6 +1255,24 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     let documentURL = URL(fileURLWithPath: documentDirectoryPath).appendingPathComponent("DriverMonitorVideo\(AllData.shared.name).mp4")
 
                     localFileManager.saveVideoToDocumentsDirectory(srcURL: movieURL, dstURL: documentURL){ sensorUrl in
+                        
+                        // clean up after copying file
+                        if FileManager.default.fileExists(atPath: movieURL.path) {
+                            do {
+                                try FileManager.default.removeItem(atPath: movieURL.path)
+                            } catch {
+                                print("Could not remove file at url: \(movieURL)")
+                            }
+                        }
+                        //remove file from temporary storage  after saving to documents directory
+//                        do {
+//                                try FileManager.default.removeItem(at: movieURL)
+//                                print("file deleted succesfully")
+//                            }
+//                            catch {
+//                                fatalError()
+//                            }
+                        
                         if let currentBackgroundRecordingID = self.backgroundRecordingID {
                             self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
 
@@ -1246,6 +1283,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         print(sensorUrl)
                         existingPost.driverMonitorURL = String(describing: sensorUrl.lastPathComponent)
                         amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
+                       
                         if userData.automaticUpload == true{
                             amplifyVidUpload.specialUpload(url: sensorUrl, videoName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name)
                             DispatchQueue.main.async {
@@ -2654,19 +2692,17 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     @objc private func saveRecordedData(){
         print("Recorded data saved")
-        DispatchQueue.main.async { [self] in
-                if let vinNumber = instanceOfCustomObject.vinLabel{
+        DispatchQueue.main.async {
+            if let vinNumber = self.instanceOfCustomObject.vinLabel{
                     print(vinNumber)
-                    vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
+                self.vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
                 }
             }
             
             //set the workout to stop on watch when recording has stopped
             workoutContorl = "stop"
 //            WatchKitConnection.shared.sendMessage(message: ["username" : workoutContorl as AnyObject])
-            
-            //invalidate the timer when recording stops
-            recordTimerObd.invalidate()
+        
         
             //initialize new data object
             existingPost = DateStored()
@@ -2703,7 +2739,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 }
             }
             AllData.shared.isRecording = false
-        self.movieRecorder?.stopRecording { [self] movieURL in
+        self.movieRecorder?.stopRecording { movieURL in
                 camState = .backcam
 //                    convertVideo(movieURL, "RoadViewVideo", false)
                 self.allData.roadViewURL = String(describing: movieURL)
@@ -2712,6 +2748,15 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 let documentURL = URL(fileURLWithPath: documentDirectoryPath).appendingPathComponent("RoadViewVideo\(AllData.shared.name).mp4")
 
                 self.localFileManager.saveVideoToDocumentsDirectory(srcURL: movieURL, dstURL: documentURL){ movieUrl in
+                    
+                    // clean up after copying file
+                    if FileManager.default.fileExists(atPath: movieURL.path) {
+                        do {
+                            try FileManager.default.removeItem(atPath: movieURL.path)
+                        } catch {
+                            print("Could not remove file at url: \(movieURL)")
+                        }
+                    }
                     if let currentBackgroundRecordingID = self.backgroundRecordingID {
                         self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
 
@@ -2720,9 +2765,9 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         }
                     }
                     self.existingPost.roadViewURL = String(describing: movieUrl.lastPathComponent)
-                    amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
-                    if userData.automaticUpload == true{
-                        amplifyVidUpload.specialUpload(url: movieUrl, videoName: movieUrl.lastPathComponent, saveLocation: AllData.shared.name)
+                    self.amplifyVidUpload.saveDataURLlocally(dataURLS: self.existingPost)
+                    if self.userData.automaticUpload == true{
+                        self.amplifyVidUpload.specialUpload(url: movieUrl, videoName: movieUrl.lastPathComponent, saveLocation: AllData.shared.name)
 
                     }
 
@@ -2731,16 +2776,27 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 AllData.shared.recordAwsTimer.invalidate()
                 
             }
-        self.movieRecorderpip?.stopRecording { [self] movieURL in
+        self.movieRecorderpip?.stopRecording { movieURL in
                 camState = .frontcam
                 
 //                    convertVideo(movieURL, "DriverMonitorVideo", true)
                 
+            
                 let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
 
                 let documentURL = URL(fileURLWithPath: documentDirectoryPath).appendingPathComponent("DriverMonitorVideo\(AllData.shared.name).mp4")
 
                 self.localFileManager.saveVideoToDocumentsDirectory(srcURL: movieURL, dstURL: documentURL){ sensorUrl in
+
+                    // clean up after copying file
+                    if FileManager.default.fileExists(atPath: movieURL.path) {
+                        do {
+                            try FileManager.default.removeItem(atPath: movieURL.path)
+                        } catch {
+                            print("Could not remove file at url: \(movieURL)")
+                        }
+                    }
+                    
                     if let currentBackgroundRecordingID = self.backgroundRecordingID {
                         self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
 
@@ -2749,18 +2805,20 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         }
                     }
                     print(sensorUrl)
-                    existingPost.driverMonitorURL = String(describing: sensorUrl.lastPathComponent)
-                    amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
-                    if userData.automaticUpload == true{
-                        amplifyVidUpload.specialUpload(url: sensorUrl, videoName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name)
-                        DispatchQueue.main.async {
-                            self.presentAlert(withTitle: "Files Upload", message: "file is uploading automatically, please navigate to upload tab to see progress", actions: ["OK" : UIAlertAction.Style.default])
-                        }
+                    self.existingPost.driverMonitorURL = String(describing: sensorUrl.lastPathComponent)
+                    self.amplifyVidUpload.saveDataURLlocally(dataURLS: self.existingPost)
+                    if self.userData.automaticUpload == true{
+                        self.amplifyVidUpload.specialUpload(url: sensorUrl, videoName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name)
+                        print("File is uploading...")
+//                        DispatchQueue.main.async {
+//                            self.presentAlert(withTitle: "Files Upload", message: "file is uploading automatically, please navigate to upload tab to see progress", actions: ["OK" : UIAlertAction.Style.default])
+//                        }
 
                     }else{
-                        DispatchQueue.main.async {
-                            self.presentAlert(withTitle: "Files Saved", message: "file is saved in library Tab, please upload from there", actions: ["OK" : UIAlertAction.Style.default])
-                        }
+                        print("file is saved...")
+//                        DispatchQueue.main.async {
+//                            self.presentAlert(withTitle: "Files Saved", message: "file is saved in library Tab, please upload from there", actions: ["OK" : UIAlertAction.Style.default])
+//                        }
                     }
                 }
                 self.frntcm = String(describing: movieURL)
@@ -2965,6 +3023,7 @@ extension ViewController: VehicleInfoManagerDelegate {
             obdData["NCSAMake"] = [vehicleInfo.NCSAMake as Any]
             obdData["Doors"] = [vehicleInfo.Doors as Any]
             obdData["NCSAModel"] = [vehicleInfo.NCSAModel as Any]
+            obdData["DateofCollection"] = [AllData.shared.name as Any]
             obdData["timeStamp"] = [AllData.shared.motionManager.deviceMotion?.timestamp as Any]
             obdData[" unixTimeStamp"] = [Date().timeIntervalSince1970 as Any]
         }
