@@ -84,7 +84,6 @@ class UploadTableViewController: UITableViewController {
             if let cell = tableView.cellForRow(at: indexPath) as? UploadTableViewCell{
                 
                 if AllData.shared.storageTaskArray2.count > 0{
-                    print(AllData.shared.storageTaskArray2.count)
                     let progress = AllData.shared.storageTaskArray2[indexPath.row]
                     progressSink = progress
                         .progressPublisher
@@ -109,30 +108,30 @@ class UploadTableViewController: UITableViewController {
                                         print(storageError)
                                         self.removeFailedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
                                     }
+                                    print("Uploaded")
+                                    for paths in AllData.shared.storageTaskArray2{
+                                        print("This are they \(paths)")
+                                    }
                                 }, receiveValue: { print("File successfully uploaded: \($0)")
-//                                    let dataUploadUrl = AllData.shared.storageTaskArray2[AllData.shared.storageTaskArray2.count].request.local.path
-//                                    // clean up after copying file
-//                                    if FileManager.default.fileExists(atPath: dataUploadUrl) {
-//                                        do {
-//                                            try FileManager.default.removeItem(atPath: dataUploadUrl)
-//                                        } catch {
-//                                            print("Could not remove file at url: \(dataUploadUrl)")
-//                                        }
-//                                    }
-//                                    print("this the data id sent",AllData.shared.dateStoredId)
-//                                    self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
-                                    cell.videoNameLabel.text = $0
-                                    if AllData.shared.storageTaskArray2.count > 0{
-                                        //remove values if they have finished
-                                        print("this the data id sent",AllData.shared.dateStoredId)
+                                    // clean up after uploading file
+                                if FileManager.default.fileExists(atPath: progress.request.local.path) {
+                                        do {
+                                            try FileManager.default.removeItem(atPath: progress.request.local.path)
+                                        } catch {
+                                            print("Could not remove file at url: \(progress.request.local.path)")
+                                        }
+                                    }
+                                    
+                                    self.removeFinishedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
+            //                        print("this the data id sent",AllData.shared.dateStoredId)
+            //                        self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
+            //                        cell.videoNameLabel.text = $0
+                                    if AllData.shared.storageTaskArray2.isEmpty{
                                         self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
-                                        self.removeFinishedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
+                                        print("this the data id sent",AllData.shared.dateStoredId)
                                     }
                                 }
                             )
-
-                       
-                    
                 }
 //                //Checks if the array is not 0 and that we are on correct segmented control
 //                if AllData.shared.storageTaskArray.count > 0{
@@ -188,6 +187,13 @@ class UploadTableViewController: UITableViewController {
             print(task)
             if task.isFinished{
                 print(index)
+                if FileManager.default.fileExists(atPath: task.request.local.path) {
+                        do {
+                            try FileManager.default.removeItem(atPath: task.request.local.path)
+                        } catch {
+                            print("Could not remove file at url: \(task.request.local.path)")
+                        }
+                    }
                 AllData.shared.storageTaskArray2.remove(at: index)
                 //check to see if the task had an error, if it did pause it and report that there was an error
                 index = index - 1
@@ -213,7 +219,7 @@ class UploadTableViewController: UITableViewController {
         var index = 0
         for task in uploadTaskArray{
             //if the item is complete
-            if task.isFinished{
+            if task.isCancelled{
                 //remove the item from the data
                 AllData.shared.storageTaskArray2.remove(at: index)
                 //remove index
@@ -232,7 +238,7 @@ class UploadTableViewController: UITableViewController {
         var index = 0
         for task in uploadTaskArray{
             //if the item is complete
-            if task.isFinished{
+            if task.isCancelled{
                 //remove the item from the data
                 AllData.shared.storageTaskArray2.remove(at: index)
                 //remove index
@@ -294,6 +300,7 @@ class UploadTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //gets the cell and sets it to the custom cell
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "uploadCell", for: indexPath) as! UploadTableViewCell
         
         //set the upload tag
@@ -304,7 +311,7 @@ class UploadTableViewController: UITableViewController {
         //Adds a target for when the buttons are pressed, the selector is going to another function
         cell.uploadButton.addTarget(self, action: #selector(uploadButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
         cell.cancelButton.addTarget(self, action: #selector(cancelButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
-        
+    
         let progress = AllData.shared.storageTaskArray2[indexPath.row]
         cell.videoNameLabel.text = AllData.shared.storageTaskArray2[indexPath.row].request.local.lastPathComponent
         progressSink = progress
@@ -330,64 +337,40 @@ class UploadTableViewController: UITableViewController {
                         if case .failure(let storageError) = completion {
                             print(storageError)
                             self.removeFailedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
+                        }else{
+                            print("completed")
                         }
                     }, receiveValue: { print("File successfully uploaded: \($0)")
-                        let dataUploadUrl = AllData.shared.storageTaskArray2[indexPath.row].request.local.path
-                        // clean up after copying file
-                        if FileManager.default.fileExists(atPath: dataUploadUrl) {
+                        
+            
+                        // clean up after uploading file
+                    if FileManager.default.fileExists(atPath: progress.request.local.path) {
                             do {
-                                try FileManager.default.removeItem(atPath: dataUploadUrl)
+                                try FileManager.default.removeItem(atPath: progress.request.local.path)
                             } catch {
-                                print("Could not remove file at url: \(dataUploadUrl)")
+                                print("Could not remove file at url: \(progress.request.local.path)")
                             }
                         }
+                        
+                        self.removeFinishedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
 //                        print("this the data id sent",AllData.shared.dateStoredId)
 //                        self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
 //                        cell.videoNameLabel.text = $0
-                        if AllData.shared.storageTaskArray2.count > 0{
-                            //remove values if they have finished
-                            print("this the data id sent",AllData.shared.dateStoredId)
+                        if AllData.shared.storageTaskArray2.isEmpty{
                             self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
-                            self.removeFinishedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
+                            print("this the data id sent",AllData.shared.dateStoredId)
                         }
+                            
+                 
+                            
+                            
+                      
                     }
                 )
 
             
         
-//        //checks the storage object and looks at the progress of it
-//        AllData.shared.storageTaskArray2[indexPath.row].observe(.progress) { snapshot in
-//            //updates the cell item here
-//            cell.progressBar.progress = Float(snapshot.progress!.fractionCompleted)
-//            cell.videoNameLabel.text = snapshot.reference.name
-//            //create the completed bytes and format
-//            let completedBytes = String( format : "%.3f", (Double(snapshot.progress!.completedUnitCount) * 0.000001))
-//            //create the total bytes and format
-//            let totalBytes = String(format: "%.3f", (Double(snapshot.progress!.totalUnitCount) * 0.000001))
-//            //set the total
-////            cell.transferedBytesLabel.text = "\(completedBytes) / \(totalBytes) MB"
-//        }
-//
-//        //completetion of upload
-//        AllData.shared.storageTaskArray2[indexPath.row].observe(.success) { snapshot in
-//            // Download completed successfully
-//            // Stop progress indicator
-//            print("Finished")
-//            self.removeFinishedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
-//            //remove all temp files here so the app doesn't continue to grow in size
-//            FileManager.default.clearTmpDirectory()
-//        }
-//        //failure of upload
-//        AllData.shared.storageTaskArray2[indexPath.row].observe(.failure) { snapshot in
-//            // An error occurred!
-//            // Stop progress indicator
-//            print("Error occured while uploading")
-//            self.presentAlert(withTitle: "Upload Removed", message: "Removing upload named \(String(describing: cell.videoNameLabel.text!)) this is due to an invalid internet connection or it was manually removed!", actions: ["OK" : UIAlertAction.Style.default])
-//            //MARK: Could have two options on the failure button, which are remove and retry
-//            self.removeFailedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
-//            //remove all temp files here so the app doesn't continue to grow in size
-//            FileManager.default.clearTmpDirectory()
-//        }
+
         
         //returns the cell
         return cell

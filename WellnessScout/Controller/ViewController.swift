@@ -163,12 +163,10 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         healthStore.requestAuthorization()
         self.performQuery()
         
-        //start OBD connection
-            instanceOfCustomObject.onStartup()
-            //start observing obd data
-            DispatchQueue.main.async {
-                self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
-            }
+        
+            
+                
+        
 //        healthStore.requestHealthDataAccessIfNeeded(dataTypes: mobilityContent) { (success) in
 //            if success {
 //                self.performQuery()
@@ -202,25 +200,22 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //                print(error as Any)
 //            }
 //        }
-        if let recorder = recordButton{
-            recorder.layer.cornerRadius = recordButton.frame.width / 2
-            recorder.layer.masksToBounds = true
-            recorder.layer.borderWidth = 5
-            recorder.layer.borderColor = UIColor.white.cgColor
-            recordButton.isEnabled = false
-        }
+        
+        recordButton.layer.cornerRadius = recordButton.frame.width / 2
+        recordButton.layer.masksToBounds = true
+        recordButton.layer.borderWidth = 5
+        recordButton.layer.borderColor = UIColor.white.cgColor
+        
+      
         
         
         //hide blurred view
-        if let blurredview = blurredUiView {
-            blurredview.isHidden = true
-        }
+        blurredUiView.isHidden = true
        
         
         //get user defaults data
         userData = defaultsManager.getUserDefaults()
        
-//      sensorManager.printSensorData(motionManager: allData.motionManager)
         sensorManager.startUpdatingSensorData(motionManager: allData.motionManager)
         
         
@@ -269,8 +264,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //        observeObdAdaptorStat()
 //        //start obd adaptor connection
 //        obdDeviceService.getObdData()
-
         
+        //start OBD connection
+        instanceOfCustomObject.onStartup()
+            //start observing obd data
+        self.recordTimerObd = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.testContinues), userInfo: nil, repeats: true)
         
         
         data = mobilityContent.map { ($0, []) }
@@ -304,12 +302,15 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         
         localFileManager.createDirectory()
         // Disable UI. Enable the UI later, if and only if the session starts running.
-//        recordButton.isEnabled = false
+        recordButton.isEnabled = false
         
         
-        // Set up the back and front video preview views.
+        // Set up the back and front video preview views.if let backcam = backCameraVideoPreviewView, let frontcam = frontCameraVideoPreviewView{
         backCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
         frontCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
+    
+        
+        
         
         // Store the back and front video preview layers so we can connect them to their inputs
         backCameraVideoPreviewLayer = backCameraVideoPreviewView.videoPreviewLayer
@@ -420,12 +421,12 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //        backCameraVideoPreviewLayer!.bounds.size.width = blurredUiView.bounds.size.width
     }
     
-    //fires when the device is low on memory
-    override func didReceiveMemoryWarning() {
-        DispatchQueue.main.async {
-            self.presentAlert(withTitle: "Memory Low", message: "The device is low on memory, this will lead to unexpected behavior",  actions: ["OK" : UIAlertAction.Style.default])
-        }
-    }
+//    //fires when the device is low on memory
+//    override func didReceiveMemoryWarning() {
+//        DispatchQueue.main.async {
+//            self.presentAlert(withTitle: "Memory Low", message: "The device is low on memory, this will lead to unexpected behavior",  actions: ["OK" : UIAlertAction.Style.default])
+//        }
+//    }
     
     override func viewWillDisappear(_ animated: Bool) {
         sessionQueue.async {
@@ -1115,15 +1116,15 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 //start the timer to log the data
                 DispatchQueue.main.async {
                     AllData.shared.recordAwsTimer = Timer.scheduledTimer(timeInterval: AllData.shared.sensorFrequency, target: self, selector: #selector(awsSensordat), userInfo: nil, repeats: true)
-
+                    AllData.shared.saveDataTimer = Timer.scheduledTimer(timeInterval: userData.autoSaveTime + 2, target: self, selector: #selector(saveRecordedData), userInfo: nil, repeats: true)
+                }
+               
+                DispatchQueue.main.async {
                     blurredUiView.isHidden = false
                     self.performQuery()
                     let togglePiPDoubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(exitBlurred))
                     togglePiPDoubleTapGestureRecognizer.numberOfTapsRequired = 2
                     blurredUiView.addGestureRecognizer(togglePiPDoubleTapGestureRecognizer)
-                    print("travelled distance:",distanceMain)
-                    
-                    AllData.shared.saveDataTimer = Timer.scheduledTimer(timeInterval: userData.autoSaveTime + 2, target: self, selector: #selector(saveRecordedData), userInfo: nil, repeats: true)
 //                    didFinishedActiveSession()
                 }
                 
@@ -1236,7 +1237,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
                         //remove file from temporary storage  after saving to documents directory
                         if userData.automaticUpload == true{
-                            amplifyVidUpload.specialUpload(url: movieUrl, videoName: movieUrl.lastPathComponent, saveLocation: AllData.shared.name)
+                            amplifyVidUpload.specialUpload(url: movieUrl, fileName: movieUrl.lastPathComponent, saveLocation: AllData.shared.name, contentType: "video/mp4")
 
                         }
 
@@ -1285,7 +1286,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
                        
                         if userData.automaticUpload == true{
-                            amplifyVidUpload.specialUpload(url: sensorUrl, videoName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name)
+                            amplifyVidUpload.specialUpload(url: sensorUrl, fileName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name, contentType: "video/mp4")
                             DispatchQueue.main.async {
                                 self.presentAlert(withTitle: "Files Upload", message: "file is uploading automatically, please navigate to upload tab to see progress", actions: ["OK" : UIAlertAction.Style.default])
                             }
@@ -1342,7 +1343,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     
                     amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
                     if userData.automaticUpload == true{
-                        amplifyVidUpload.specialUpload(url: outputURL, videoName: outputURL.lastPathComponent, saveLocation: AllData.shared.name)
+                        amplifyVidUpload.specialUpload(url: outputURL, fileName: outputURL.lastPathComponent, saveLocation: AllData.shared.name, contentType: "video/mp4")
                         DispatchQueue.main.async {
                             self.presentAlert(withTitle: "Files Upload", message: "file is uploading automatically, please navigate to upload tab to see progress", actions: ["OK" : UIAlertAction.Style.default])
                         }
@@ -2391,6 +2392,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     print(error)
                 }
             } receiveValue: { heartrate in
+                self.watchConnectionIcon.image = UIImage(systemName: "applewatch")
                 self.heartRateMain = heartrate
                 self.heartRateValue.text = String(heartrate)
                 
@@ -2531,7 +2533,6 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         sensorDataObj.accelerationZ = AllData.shared.motionManager.accelerometerData!.acceleration.z
         let zacc = AllData.shared.motionManager.accelerometerData!.acceleration.z
         self.accelerationInZ.text = String(format: "%.2f", zacc)
-        self.heartRateValue.text = String(AllData.shared.heartRate)
         //gyroscope data
         sensorDataObj.gyroDataX = AllData.shared.motionManager.gyroData?.rotationRate.x
         sensorDataObj.gyroDataY = AllData.shared.motionManager.gyroData?.rotationRate.y
@@ -2692,17 +2693,17 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     @objc private func saveRecordedData(){
         print("Recorded data saved")
+        
+        //invalidate the data collection timer
+        AllData.shared.saveDataTimer.invalidate()
+        AllData.shared.recordAwsTimer.invalidate()
+        recordTimerObd.invalidate()
         DispatchQueue.main.async {
             if let vinNumber = self.instanceOfCustomObject.vinLabel{
                     print(vinNumber)
                 self.vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
                 }
             }
-            
-            //set the workout to stop on watch when recording has stopped
-            workoutContorl = "stop"
-//            WatchKitConnection.shared.sendMessage(message: ["username" : workoutContorl as AnyObject])
-        
         
             //initialize new data object
             existingPost = DateStored()
@@ -2717,7 +2718,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 //upload senor data automatically to cloud if automatic upload is selected
                 
                 if userData.automaticUpload == true{
-                    uploadSensordataAWS(sensor: sensorUrl)
+//                    uploadSensordataAWS(sensor: sensorUrl)
+                    self.amplifyVidUpload.specialUpload(url: sensorUrl, fileName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name, contentType: "text/csv")
                     AllData.shared.dateStoredId = existingPost.id
                 }
             }
@@ -2726,7 +2728,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
                 sensorDataState = .initialHealthData
                 if userData.automaticUpload == true{
-                    uploadSensordataAWS(sensor: sensorUrl)
+//                    uploadSensordataAWS(sensor: sensorUrl)
+                    self.amplifyVidUpload.specialUpload(url: sensorUrl, fileName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name, contentType: "text/csv")
                 }
             }
             csvParser.createCsv(obdData, "obdData\(AllData.shared.name).csv"){ sensorUrl in
@@ -2735,12 +2738,13 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
                 sensorDataState = .canBusData
                 if userData.automaticUpload == true{
-                    uploadSensordataAWS(sensor: sensorUrl)
+//                    uploadSensordataAWS(sensor: sensorUrl)
+                    self.amplifyVidUpload.specialUpload(url: sensorUrl, fileName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name, contentType: "text/csv")
                 }
             }
             AllData.shared.isRecording = false
         self.movieRecorder?.stopRecording { movieURL in
-                camState = .backcam
+//                camState = .backcam
 //                    convertVideo(movieURL, "RoadViewVideo", false)
                 self.allData.roadViewURL = String(describing: movieURL)
                 let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
@@ -2767,13 +2771,12 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     self.existingPost.roadViewURL = String(describing: movieUrl.lastPathComponent)
                     self.amplifyVidUpload.saveDataURLlocally(dataURLS: self.existingPost)
                     if self.userData.automaticUpload == true{
-                        self.amplifyVidUpload.specialUpload(url: movieUrl, videoName: movieUrl.lastPathComponent, saveLocation: AllData.shared.name)
+                        self.amplifyVidUpload.specialUpload(url: movieUrl, fileName: movieUrl.lastPathComponent, saveLocation: AllData.shared.name, contentType: "video/mp4")
 
                     }
 
                 }
-                //invalidate the data collection timer
-                AllData.shared.recordAwsTimer.invalidate()
+                
                 
             }
         self.movieRecorderpip?.stopRecording { movieURL in
@@ -2797,18 +2800,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         }
                     }
                     
-                    if let currentBackgroundRecordingID = self.backgroundRecordingID {
-                        self.backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
-
-                        if currentBackgroundRecordingID != UIBackgroundTaskIdentifier.invalid {
-                            UIApplication.shared.endBackgroundTask(currentBackgroundRecordingID)
-                        }
-                    }
                     print(sensorUrl)
                     self.existingPost.driverMonitorURL = String(describing: sensorUrl.lastPathComponent)
                     self.amplifyVidUpload.saveDataURLlocally(dataURLS: self.existingPost)
                     if self.userData.automaticUpload == true{
-                        self.amplifyVidUpload.specialUpload(url: sensorUrl, videoName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name)
+                        self.amplifyVidUpload.specialUpload(url: sensorUrl, fileName: sensorUrl.lastPathComponent, saveLocation: AllData.shared.name, contentType: "video/mp4")
                         print("File is uploading...")
 //                        DispatchQueue.main.async {
 //                            self.presentAlert(withTitle: "Files Upload", message: "file is uploading automatically, please navigate to upload tab to see progress", actions: ["OK" : UIAlertAction.Style.default])
@@ -2868,18 +2864,18 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
             
             AllData.shared.isRecording = true
             //start the timer to log the data
-            DispatchQueue.main.async { [self] in
-                AllData.shared.recordAwsTimer = Timer.scheduledTimer(timeInterval: AllData.shared.sensorFrequency, target: self, selector: #selector(awsSensordat), userInfo: nil, repeats: true)
-                self.performQuery()
-                print("travelled distance:",distanceMain)
+            DispatchQueue.main.async { [weak self] in
+                AllData.shared.recordAwsTimer = Timer.scheduledTimer(timeInterval: AllData.shared.sensorFrequency, target: self as Any, selector: #selector(self?.awsSensordat), userInfo: nil, repeats: true)
+                self?.performQuery()
+                print("travelled distance:",self?.distanceMain as Any)
 //                    didFinishedActiveSession()
             }
             
             //fetch vehicle info using the VIN
-            DispatchQueue.main.async { [self] in
-                if let vinNumber = instanceOfCustomObject.vinLabel{
+            DispatchQueue.main.async { [weak self] in
+                if let vinNumber = self?.instanceOfCustomObject.vinLabel{
                     print(vinNumber)
-                    vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
+                    self?.vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
                 }
             }
         }
@@ -2974,12 +2970,16 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     @IBOutlet weak var backCameraView: UIView!
     
     @objc func testContinues(){
-        if let obdVehSpeed = instanceOfCustomObject.speedLabel{
-            let kphSpeed = Measurement(value: Double((obdVehSpeed as! NSString).integerValue ), unit: UnitSpeed.kilometersPerHour)
-            let mphSpeed = kphSpeed.converted(to: .milesPerHour)
-            speedometerTextField.text = String(format: "%.0f", mphSpeed.value)
+        DispatchQueue.main.async { [weak self] in
+            
+            if let obdVehSpeed = self?.instanceOfCustomObject.speedLabel{
+                let kphSpeed = Measurement(value: Double((obdVehSpeed as! NSString).integerValue ), unit: UnitSpeed.kilometersPerHour)
+                let mphSpeed = kphSpeed.converted(to: .milesPerHour)
+                self?.speedometerTextField.text = String(format: "%.0f", mphSpeed.value)
+            }
+            self?.adaptorStatusLabel.text = self?.instanceOfCustomObject.adapterStatusLabel as? String
         }
-        adaptorStatusLabel.text = instanceOfCustomObject.adapterStatusLabel as? String
+       
     }
     
     

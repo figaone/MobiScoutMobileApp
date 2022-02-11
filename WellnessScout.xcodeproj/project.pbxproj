@@ -81,6 +81,7 @@
 		548C8E4D27270866007B17A7 /* HealthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C8E4C27270865007B17A7 /* HealthData.swift */; };
 		5494280A2718E49A0000472C /* DefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549428092718E49A0000472C /* DefaultsManager.swift */; };
 		5494280E271BF4260000472C /* shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5494280D271BF4250000472C /* shared.swift */; };
+		549B4F2727B6CD2D00A26F2A /* ViewControllertwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549B4F2627B6CD2C00A26F2A /* ViewControllertwo.swift */; };
 		549F4F7A2793E11600F06760 /* WatchKitConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549F4F792793E11600F06760 /* WatchKitConnection.swift */; };
 		549F4F7C2793E21600F06760 /* WatchWorkoutTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549F4F7B2793E21600F06760 /* WatchWorkoutTracking.swift */; };
 		549F4F7F2793E49200F06760 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 549F4F7E2793E49200F06760 /* HealthKit.framework */; };
@@ -225,6 +226,7 @@
 		548C8E4C27270865007B17A7 /* HealthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthData.swift; sourceTree = "<group>"; };
 		549428092718E49A0000472C /* DefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsManager.swift; sourceTree = "<group>"; };
 		5494280D271BF4250000472C /* shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shared.swift; sourceTree = "<group>"; };
+		549B4F2627B6CD2C00A26F2A /* ViewControllertwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllertwo.swift; sourceTree = "<group>"; };
 		549F4F792793E11600F06760 /* WatchKitConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WatchKitConnection.swift; path = "WearablePart WatchKit Extension/WatchKitConnection.swift"; sourceTree = SOURCE_ROOT; };
 		549F4F7B2793E21600F06760 /* WatchWorkoutTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WatchWorkoutTracking.swift; path = "WearablePart WatchKit Extension/WatchWorkoutTracking.swift"; sourceTree = SOURCE_ROOT; };
 		549F4F7D2793E49200F06760 /* wearablePart WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "wearablePart WatchKit Extension.entitlements"; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				54D71DB9273313C7001A6FE5 /* TermsOfUseViewController.swift */,
 				541683EF2741AA3A005C4869 /* ConfirmationViewOne.swift */,
 				541C9EBA274D8051001BA986 /* ConfirmViewController.swift */,
+				549B4F2627B6CD2C00A26F2A /* ViewControllertwo.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -701,6 +704,7 @@
 				5440007D27703F7100B14BE3 /* MainSensorData.swift in Sources */,
 				541C9EC3274EF1A7001BA986 /* AuthenticatedApp.swift in Sources */,
 				54072CEC2718A8E40067AE5D /* UserDefaultsData.swift in Sources */,
+				549B4F2727B6CD2D00A26F2A /* ViewControllertwo.swift in Sources */,
 				54EE32EA2707B813004A54C9 /* WelcomeViewController.swift in Sources */,
 				5440007E27703F7100B14BE3 /* DateStored+Schema.swift in Sources */,
 				54EE32E62707B813004A54C9 /* AppDelegate.swift in Sources */,
@@ -821,7 +825,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "wearablePart WatchKit Extension/wearablePart WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "wearablePart WatchKit Extension/Info.plist";
@@ -854,7 +858,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "wearablePart WatchKit Extension/wearablePart WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "wearablePart WatchKit Extension/Info.plist";
@@ -888,7 +892,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = wearablePart_WatchKit_Extension;
@@ -914,7 +918,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = wearablePart_WatchKit_Extension;
@@ -1058,7 +1062,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WellnessScout/WellnessScout.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WellnessScout/Info.plist;
@@ -1107,7 +1111,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WellnessScout/WellnessScout.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WellnessScout/Info.plist;

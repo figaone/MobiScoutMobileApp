@@ -8,7 +8,8 @@
 import Foundation
 import Amplify
 import AWSS3
-
+import Combine
+var resultSink: AnyCancellable?
 public class AmplifyDataUpload{
     var fileStatus:String = ""
     
@@ -69,7 +70,10 @@ public class AmplifyDataUpload{
         })
     }
     
-    func specialUpload(url : URL, videoName: String, saveLocation: String){
+   
+    
+    func specialUpload(url : URL, fileName: String, saveLocation: String, contentType: String){
+        print(fileName as Any)
 //        let userID = Amplify.Auth.getCurrentUser()?.userId
 //        let options = StorageUploadDataRequest.Options(accessLevel: .protected, contentType: "video/mp4")
 //        let vidlocation = "\(saveLocation)/\(videoName)"
@@ -88,12 +92,52 @@ public class AmplifyDataUpload{
 //        }
 //    })
 //
-        let storageOperation = Amplify.Storage.uploadFile(key: "\(saveLocation)/\(videoName)", local: url, options: .init(accessLevel: .protected, contentType: "video/mp4"))
-        allData.storageTaskArray2.append(storageOperation)
         
-        if storageOperation.isFinished{
-            print("it is finished")
-        }
+        let storageOperation = Amplify.Storage.uploadFile(key: "\(saveLocation)/\(fileName)", local: url, options: .init(accessLevel: .protected, contentType: contentType))
+//        allData.storageTaskArray2.append(storageOperation)
+        AllData.shared.storageTaskArray2.append(storageOperation)
+//        resultSink = storageOperation
+//                .resultPublisher
+//                .receive(on: DispatchQueue.main)
+//                .sink(
+//                    receiveCompletion: { completion in
+//                        if case .failure(let storageError) = completion {
+//                            print(storageError)
+//
+//                        }
+//                        print("Uploaded special upload 1")
+//
+//
+////                            print("This are the :\(paths)")
+//                            let pathOfFile = storageOperation.request.local.path
+//                            if FileManager.default.fileExists(atPath:  pathOfFile) {
+//                                do {
+//                                    try FileManager.default.removeItem(atPath: url.path)
+//                                    print("file \(url) is removed")
+//                                } catch {
+//                                    print("Could not remove file at url: \(url.path)")
+//                                }
+//                            }
+//
+//
+//                    }, receiveValue: { print("File successfully uploaded: \($0)")
+//                        // clean up after uploading file
+////                        for urlPath in storageOperation.{
+////                            print("THIS ARE THE EVENTS:\(urlPath)")
+////                        }
+//
+//
+////
+////                        self.removeFinishedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
+//////                        print("this the data id sent",AllData.shared.dateStoredId)
+//////                        self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
+//////                        cell.videoNameLabel.text = $0
+////                        if AllData.shared.storageTaskArray2.isEmpty{
+////                            self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
+////                            print("this the data id sent",AllData.shared.dateStoredId)
+////                        }
+//                    }
+//                )
         
 
 }

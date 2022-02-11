@@ -292,11 +292,14 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
             let fileU3 = localFileManager.retriveVid(fileName: fileN3)
             let fileU4 = localFileManager.retriveVid(fileName: fileN4)
             let fileU5 = localFileManager.retriveVid(fileName: fileN5)
-            amplifyVidUpload.specialUpload(url: fileU1!, videoName: fileU1!.lastPathComponent, saveLocation: fileN6)
-            amplifyVidUpload.specialUpload(url: fileU2!, videoName: fileU2!.lastPathComponent, saveLocation: fileN6)
-            amplifyVidUpload.sensorUpload(url: fileU3!, sensorName: fileU3!.lastPathComponent, saveLocation: fileN6)
-            amplifyVidUpload.sensorUpload(url: fileU4!, sensorName: fileU4!.lastPathComponent, saveLocation: fileN6)
-            amplifyVidUpload.sensorUpload(url: fileU5!, sensorName: fileU5!.lastPathComponent, saveLocation: fileN6)
+            amplifyVidUpload.specialUpload(url: fileU1!, fileName: fileU1!.lastPathComponent, saveLocation: fileN6, contentType: "video/mp4")
+            amplifyVidUpload.specialUpload(url: fileU2!, fileName: fileU2!.lastPathComponent, saveLocation: fileN6, contentType: "video/mp4")
+            amplifyVidUpload.specialUpload(url: fileU3!, fileName: fileU3!.lastPathComponent, saveLocation: fileN6, contentType: "test/csv")
+            amplifyVidUpload.specialUpload(url: fileU4!, fileName: fileU4!.lastPathComponent, saveLocation: fileN6, contentType: "test/csv")
+            amplifyVidUpload.specialUpload(url: fileU5!, fileName: fileU5!.lastPathComponent, saveLocation: fileN6, contentType: "test/csv")
+//            amplifyVidUpload.sensorUpload(url: fileU3!, sensorName: fileU3!.lastPathComponent, saveLocation: fileN6)
+//            amplifyVidUpload.sensorUpload(url: fileU4!, sensorName: fileU4!.lastPathComponent, saveLocation: fileN6)
+//            amplifyVidUpload.sensorUpload(url: fileU5!, sensorName: fileU5!.lastPathComponent, saveLocation: fileN6)
             
             
             
@@ -428,8 +431,21 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
             cell.sensorDataButOpenLabel.tag = indexPath.row
             cell.healthDataButtonLabel.tag = indexPath.row
             cell.obdDataOpenButtonLabel.tag = indexPath.row
-            cell.uploadButton.setTitle("Uploaded", for: .normal)
+            cell.uploadButton.setTitle("Upload", for: .normal)
             cell.uploadButton.isEnabled = true
+            cell.sizeOfVideoLabel.isHidden = true
+//            let dataUrl = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].driverMonitorURL!)
+//            if FileManager.default.fileExists(atPath: dataUrl!.path) {
+//                cell.previewButton.tag = indexPath.row
+//                cell.sizeOfVideoLabel.text = localFileManager.getFileSize(fileUrl: dataUrl!) + " MB"
+//            }else{
+//                cell.previewButton.isHidden = true
+//                cell.nameOfVideoLabel.isHidden = true
+//            }
+//            if let fileU1 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].driverMonitorURL!){
+//                cell.sizeOfVideoLabel.text = localFileManager.getFileSize(fileUrl: fileU1) + " MB"
+//            }
+            
 //            cell.uploadButton.titleLabel?.text = "Uploaded"
         }else{
 //            print("upload")
@@ -445,6 +461,7 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
             cell.obdDataOpenButtonLabel.tag = indexPath.row
             cell.uploadButton.setTitle("Upload", for: .normal)
             cell.uploadButton.isEnabled = true
+            cell.sizeOfVideoLabel.isHidden = true
         }
         
     
