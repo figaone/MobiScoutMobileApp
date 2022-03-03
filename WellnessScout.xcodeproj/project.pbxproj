@@ -278,6 +278,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A92199786669C31A11966E7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -507,6 +514,7 @@
 			buildPhases = (
 				54A61A262793D19F006D9AB6 /* Resources */,
 				54A61A4A2793D1A4006D9AB6 /* Embed App Extensions */,
+				A92199786669C31A11966E7F /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -593,7 +601,7 @@
 			);
 			mainGroup = 54EE32D92707B813004A54C9;
 			packageReferences = (
-				544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */,
+				544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */,
 			);
 			productRefGroup = 54EE32E32707B813004A54C9 /* Products */;
 			projectDirPath = "";
@@ -825,7 +833,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "wearablePart WatchKit Extension/wearablePart WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "wearablePart WatchKit Extension/Info.plist";
@@ -858,7 +866,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "wearablePart WatchKit Extension/wearablePart WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "wearablePart WatchKit Extension/Info.plist";
@@ -892,7 +900,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = wearablePart_WatchKit_Extension;
@@ -918,7 +926,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = wearablePart_WatchKit_Extension;
@@ -1062,7 +1070,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WellnessScout/WellnessScout.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WellnessScout/Info.plist;
@@ -1111,7 +1119,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WellnessScout/WellnessScout.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WellnessScout/Info.plist;
@@ -1192,7 +1200,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+		544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
 			requirement = {
@@ -1205,17 +1213,17 @@
 /* Begin XCSwiftPackageProductDependency section */
 		544ABE762762A26700950E4C /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
+			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */;
 			productName = Collections;
 		};
 		544ABE782762A26700950E4C /* DequeModule */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
+			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */;
 			productName = DequeModule;
 		};
 		544ABE7A2762A26700950E4C /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
+			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */;
 			productName = OrderedCollections;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -154,11 +154,12 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     //set
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
+    let amplifySessions = AmplifySessionManager()
     // MARK: View Controller Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         healthStore.requestAuthorization()
         self.performQuery()
@@ -420,13 +421,9 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //        tabBarController.view.frame = biggerFrame ;
 //        backCameraVideoPreviewLayer!.bounds.size.width = blurredUiView.bounds.size.width
     }
-    
-//    //fires when the device is low on memory
-//    override func didReceiveMemoryWarning() {
-//        DispatchQueue.main.async {
-//            self.presentAlert(withTitle: "Memory Low", message: "The device is low on memory, this will lead to unexpected behavior",  actions: ["OK" : UIAlertAction.Style.default])
-//        }
-//    }
+  
+
+
     
     override func viewWillDisappear(_ animated: Bool) {
         sessionQueue.async {

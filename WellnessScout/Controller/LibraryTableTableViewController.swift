@@ -61,6 +61,9 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         self.tableView.reloadData()
         //set the intital values for the table
         tableView.allowsSelection = false
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 600
     }
     override func viewWillAppear(_ animated: Bool) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -94,9 +97,18 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         selectedUrlIndex = sender.tag
         //perform segue to the preview
         if let fileN = URLOfData[selectedUrlIndex].initiaLHealthData{
+            
             if let fileU = localFileManager.getfile(fileName: fileN){
-                fileURL = fileU
-                showCsvFile()
+                if FileManager.default.fileExists(atPath: fileU.path) {
+                    fileURL = fileU
+                    showCsvFile()
+                }else{
+                    DispatchQueue.main.async {
+                        self.presentAlert(withTitle: "File Error", message: "Initial Health data has been uploaded already and has been deleted.", actions: ["OK" : UIAlertAction.Style.default])
+                        
+                    }
+                }
+               
             }else{
                 DispatchQueue.main.async {
                     self.presentAlert(withTitle: "File Error", message: "Initial Health data file is unavailable.", actions: ["OK" : UIAlertAction.Style.default])
@@ -119,9 +131,17 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         selectedUrlIndex = sender.tag
         //perform segue to the preview
         if let fileN = URLOfData[selectedUrlIndex].initialVehicleData{
+            
             if let fileU = localFileManager.getfile(fileName: fileN){
-                fileURL = fileU
-                showCsvFile()
+                if FileManager.default.fileExists(atPath: fileU.path) {
+                    fileURL = fileU
+                    showCsvFile()
+                }else{
+                    DispatchQueue.main.async {
+                        self.presentAlert(withTitle: "File Error", message: "Initial CAN BUS data has been uploaded already and has been deleted.", actions: ["OK" : UIAlertAction.Style.default])
+                        
+                    }
+                }
             }else{
                 DispatchQueue.main.async {
                     self.presentAlert(withTitle: "File Error", message: "Initial CAN BUS data file is unavailable.", actions: ["OK" : UIAlertAction.Style.default])
@@ -145,8 +165,15 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         //perform segue to the preview
         if let fileN = URLOfData[selectedUrlIndex].sensorDataURL{
             if let fileU = localFileManager.getfile(fileName: fileN){
-                fileURL = fileU
-                showCsvFile()
+                if FileManager.default.fileExists(atPath: fileU.path) {
+                    fileURL = fileU
+                    showCsvFile()
+                }else{
+                    DispatchQueue.main.async {
+                        self.presentAlert(withTitle: "File Error", message: "Initial Sensor data has been uploaded already and has been deleted.", actions: ["OK" : UIAlertAction.Style.default])
+                        
+                    }
+                }
             }else{
                 DispatchQueue.main.async {
                     self.presentAlert(withTitle: "File Error", message: "Sensor data file is unavailable.", actions: ["OK" : UIAlertAction.Style.default])
@@ -179,9 +206,17 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         selectedUrlIndex = sender.tag
         print(selectedUrlIndex as Any)
         if let fileN = URLOfData[selectedUrlIndex].driverMonitorURL{
-            if localFileManager.retriveVid(fileName: fileN) != nil{
-                performSegue(withIdentifier: "goToPreview", sender: self)
-                print("Preview button pressed")
+            if let fileU = localFileManager.retriveVid(fileName: fileN){
+                if FileManager.default.fileExists(atPath: fileU.path) {
+                    performSegue(withIdentifier: "goToPreview", sender: self)
+                    print("Preview button pressed")
+                }else{
+                    DispatchQueue.main.async {
+                        self.presentAlert(withTitle: "File Error", message: "DriverMonitor video data has been uploaded already and has been deleted.", actions: ["OK" : UIAlertAction.Style.default])
+                        
+                    }
+                }
+                
             }else{
                 DispatchQueue.main.async {
                     self.presentAlert(withTitle: "File Error", message: "Video file is unavailable.", actions: ["OK" : UIAlertAction.Style.default])
@@ -206,9 +241,17 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         selectedUrlIndex = sender.tag
         print(selectedUrlIndex as Any)
         if let fileN = URLOfData[selectedUrlIndex].roadViewURL{
-            if localFileManager.retriveVid(fileName: fileN) != nil{
-                performSegue(withIdentifier: "goToPreview", sender: self)
-                print("Preview button pressed")
+            if let fileU = localFileManager.retriveVid(fileName: fileN){
+                if FileManager.default.fileExists(atPath: fileU.path) {
+                    performSegue(withIdentifier: "goToPreview", sender: self)
+                    print("Preview button pressed")
+                }else{
+                    DispatchQueue.main.async {
+                        self.presentAlert(withTitle: "File Error", message: "RoadView video data has been uploaded already and has been deleted.", actions: ["OK" : UIAlertAction.Style.default])
+                        
+                    }
+                }
+                
             }else{
                 DispatchQueue.main.async {
                     self.presentAlert(withTitle: "File Error", message: "Video file is unavailable.", actions: ["OK" : UIAlertAction.Style.default])
@@ -285,8 +328,8 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
     @objc func uploadButtonPressed(sender: UIButton!){
         selectedUrlIndex = sender.tag
         if let fileN1 = URLOfData[selectedUrlIndex].driverMonitorURL,let fileN2 = URLOfData[selectedUrlIndex].roadViewURL,let fileN3 = URLOfData[selectedUrlIndex].initiaLHealthData,let fileN4 = URLOfData[selectedUrlIndex].initialVehicleData,let fileN5 = URLOfData[selectedUrlIndex].sensorDataURL,let fileN6 = URLOfData[selectedUrlIndex].dateStored{
-            
             AllData.shared.dateStoredId = URLOfData[selectedUrlIndex].id
+            print("This is the id : \(URLOfData[selectedUrlIndex].id)")
             let fileU1 = localFileManager.retriveVid(fileName: fileN1)
             let fileU2 = localFileManager.retriveVid(fileName: fileN2)
             let fileU3 = localFileManager.retriveVid(fileName: fileN3)
@@ -418,22 +461,137 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
                 cell.deleteButton.addTarget(self, action: #selector(deleteButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
                 cell.uploadButton.addTarget(self, action: #selector(uploadButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
         
+        let fileU1 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].driverMonitorURL ?? "")
+        let fileU2 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].roadViewURL ?? "")
+        let fileU3 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].initiaLHealthData ?? "")
+        let fileU4 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].initialVehicleData ?? "")
+        let fileU5 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].sensorDataURL ?? "")
+//
+//        if FileManager.default.fileExists(atPath: fileU1!.path) &&  FileManager.default.fileExists(atPath: fileU2!.path) && FileManager.default.fileExists(atPath: fileU3!.path) && FileManager.default.fileExists(atPath: fileU4!.path) && FileManager.default.fileExists(atPath: fileU5!.path){
+//         //        //set the upload tag
+//                 cell.uploadButton.tag = indexPath.row
+//         //        //set the delete tag
+//                 cell.deleteButton.tag = indexPath.row
+//         //        set the preview tag
+//                 cell.previewButton.tag = indexPath.row
+//                 cell.driverMOnitorPreButtonOulet.tag = indexPath.row
+//                 cell.sensorDataButOpenLabel.tag = indexPath.row
+//                 cell.healthDataButtonLabel.tag = indexPath.row
+//                 cell.obdDataOpenButtonLabel.tag = indexPath.row
+//                 cell.uploadButton.setTitle("Upload", for: .normal)
+//                 cell.uploadButton.isEnabled = true
+//                 cell.sizeOfVideoLabel.isHidden = true
+//        }else if  FileManager.default.fileExists(atPath: fileU1!.path) ||  FileManager.default.fileExists(atPath: fileU2!.path) || FileManager.default.fileExists(atPath: fileU3!.path) || FileManager.default.fileExists(atPath: fileU4!.path) || FileManager.default.fileExists(atPath: fileU5!.path){
+//            if FileManager.default.fileExists(atPath: fileU1!.path){
+//                cell.driverMOnitorPreButtonOulet.tag = indexPath.row
+//                cell.uploadButton.tag = indexPath.row
+//                cell.sizeOfVideoLabel.isHidden = true
+//                print("drivermonitor exists")
+//            }else{
+//                cell.driverMonitorVideoLabel.isHidden = true
+//                cell.driverMOnitorPreButtonOulet.isHidden = true
+//                cell.sizeOfVideoLabel.isHidden = true
+//            }
+//            if FileManager.default.fileExists(atPath: fileU2!.path){
+//                cell.previewButton.tag = indexPath.row
+//                cell.uploadButton.tag = indexPath.row
+//                cell.sizeOfVideoLabel.isHidden = true
+//                print("roadview exists")
+//            }else{
+//                cell.previewButton.isHidden = true
+//                cell.nameOfVideoLabel.isHidden = true
+//                cell.sizeOfVideoLabel.isHidden = true
+//            }
+//            if FileManager.default.fileExists(atPath: fileU3!.path){
+//                cell.healthDataButtonLabel.tag = indexPath.row
+//                cell.uploadButton.tag = indexPath.row
+//                cell.sizeOfVideoLabel.isHidden = true
+//                print("healthdata exists")
+//            }else{
+//                cell.healthDataButtonLabel.isHidden = true
+//                cell.healthDataLabel.isHidden = true
+//                cell.sizeOfVideoLabel.isHidden = true
+//            }
+//            if FileManager.default.fileExists(atPath: fileU4!.path){
+//                cell.obdDataOpenButtonLabel.tag = indexPath.row
+//                cell.uploadButton.tag = indexPath.row
+//                cell.sizeOfVideoLabel.isHidden = true
+//                print("obd data exists")
+//            }else{
+//                cell.obdDataOpenButtonLabel.isHidden = true
+//                cell.obdDataLabel.isHidden = true
+//                cell.sizeOfVideoLabel.isHidden = true
+//            }
+//            if FileManager.default.fileExists(atPath: fileU5!.path){
+//                cell.sensorDataButOpenLabel.tag = indexPath.row
+//                cell.uploadButton.tag = indexPath.row
+//                cell.sizeOfVideoLabel.isHidden = true
+//                print("sensor data exists")
+//            }else{
+//                cell.sensorDataLabel.isHidden = true
+//                cell.sensorDataButOpenLabel.isHidden = true
+//                cell.sizeOfVideoLabel.isHidden = true
+//            }
+//        }else{
+//            amplifyVidUpload.deleteWallet(id: URLOfData[indexPath.row].id)
+//        }
         
-        if URLOfData[indexPath.row].uploadStatus != nil {
+        
+//        if URLOfData[indexPath.row].uploadStatus != nil {
+
 //            print(uploadtStat)
             //        //set the upload tag
+
             cell.uploadButton.tag = indexPath.row
     //        //set the delete tag
             cell.deleteButton.tag = indexPath.row
     //        set the preview tag
             cell.previewButton.tag = indexPath.row
+            
             cell.driverMOnitorPreButtonOulet.tag = indexPath.row
             cell.sensorDataButOpenLabel.tag = indexPath.row
             cell.healthDataButtonLabel.tag = indexPath.row
             cell.obdDataOpenButtonLabel.tag = indexPath.row
-            cell.uploadButton.setTitle("Upload", for: .normal)
-            cell.uploadButton.isEnabled = true
+//            cell.uploadButton.setTitle("Upload", for: .normal)
+//            cell.uploadButton.isEnabled = true
             cell.sizeOfVideoLabel.isHidden = true
+        
+        
+                if !FileManager.default.fileExists(atPath: fileU1!.path) &&  !FileManager.default.fileExists(atPath: fileU2!.path) && !FileManager.default.fileExists(atPath: fileU3!.path) && !FileManager.default.fileExists(atPath: fileU4!.path) && !FileManager.default.fileExists(atPath: fileU5!.path){
+                    amplifyVidUpload.deleteWallet(id: URLOfData[indexPath.row].id)
+                    URLOfData.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }else{
+                    if !FileManager.default.fileExists(atPath: fileU1!.path){
+                        cell.driverMonitorVideoLabel.isHidden = true
+                        cell.driverMOnitorPreButtonOulet.isHidden = true
+                    }
+                    if !FileManager.default.fileExists(atPath: fileU2!.path){
+                        cell.previewButton.isHidden = true
+                        cell.nameOfVideoLabel.isHidden = true
+                        
+                    }
+                    if !FileManager.default.fileExists(atPath: fileU3!.path){
+                        cell.healthDataButtonLabel.isHidden = true
+                        cell.healthDataLabel.isHidden = true
+                        
+                    }
+                    if !FileManager.default.fileExists(atPath: fileU4!.path){
+                        cell.obdDataOpenButtonLabel.isHidden = true
+                        cell.obdDataLabel.isHidden = true
+                        
+                    }
+                    if !FileManager.default.fileExists(atPath: fileU5!.path){
+                        cell.sensorDataLabel.isHidden = true
+                        cell.sensorDataButOpenLabel.isHidden = true
+                    }
+                }
+        
+        
+
+        
+       
+        
 //            let dataUrl = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].driverMonitorURL!)
 //            if FileManager.default.fileExists(atPath: dataUrl!.path) {
 //                cell.previewButton.tag = indexPath.row
@@ -445,24 +603,24 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
 //            if let fileU1 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].driverMonitorURL!){
 //                cell.sizeOfVideoLabel.text = localFileManager.getFileSize(fileUrl: fileU1) + " MB"
 //            }
-            
+
 //            cell.uploadButton.titleLabel?.text = "Uploaded"
-        }else{
-//            print("upload")
-    //        //set the upload tag
-            cell.uploadButton.tag = indexPath.row
-    //        //set the delete tag
-            cell.deleteButton.tag = indexPath.row
-    //        set the preview tag
-            cell.previewButton.tag = indexPath.row
-            cell.driverMOnitorPreButtonOulet.tag = indexPath.row
-            cell.sensorDataButOpenLabel.tag = indexPath.row
-            cell.healthDataButtonLabel.tag = indexPath.row
-            cell.obdDataOpenButtonLabel.tag = indexPath.row
-            cell.uploadButton.setTitle("Upload", for: .normal)
-            cell.uploadButton.isEnabled = true
-            cell.sizeOfVideoLabel.isHidden = true
-        }
+////        }else{
+////            print("upload")
+//    //        //set the upload tag
+//            cell.uploadButton.tag = indexPath.row
+//    //        //set the delete tag
+//            cell.deleteButton.tag = indexPath.row
+//    //        set the preview tag
+//            cell.previewButton.tag = indexPath.row
+//            cell.driverMOnitorPreButtonOulet.tag = indexPath.row
+//            cell.sensorDataButOpenLabel.tag = indexPath.row
+//            cell.healthDataButtonLabel.tag = indexPath.row
+//            cell.obdDataOpenButtonLabel.tag = indexPath.row
+//            cell.uploadButton.setTitle("Upload", for: .normal)
+//            cell.uploadButton.isEnabled = true
+//            cell.sizeOfVideoLabel.isHidden = true
+//        }
         
     
         

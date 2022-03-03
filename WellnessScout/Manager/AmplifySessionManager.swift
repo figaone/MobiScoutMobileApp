@@ -9,6 +9,7 @@ import Foundation
 import Amplify
 import UIKit
 import SwiftUI
+import Combine
 
 enum AuthState {
     case signUp
@@ -17,12 +18,15 @@ enum AuthState {
     case session
 }
 
+
+
 final class AmplifySessionManager: ObservableObject {
     @Published var authState: AuthState = .login
     var window: UIWindow?
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     
     static let shared = AmplifySessionManager()
+    var sink: AnyCancellable?
     
     func getCurrentAuthUser(){
         //if aplify has user login, then we add user,if not user is shown a login to log
@@ -145,11 +149,18 @@ final class AmplifySessionManager: ObservableObject {
         _ = Amplify.Hub.listen(to: .auth) { [weak self] result in
             switch result.eventName {
             case HubPayload.EventName.Auth.signedIn:
+                print("kojo is signed in")
                 DispatchQueue.main.async {
+                    print("kojo is signed in")
                     self?.authState = .session
                 }
-            case HubPayload.EventName.Auth.signedOut,
-                 HubPayload.EventName.Auth.sessionExpired:
+            case HubPayload.EventName.Auth.signedOut:
+                print("kojo is signed out")
+                DispatchQueue.main.async {
+                    self?.authState = .login
+                }
+            case HubPayload.EventName.Auth.sessionExpired:
+                print("kojo's sessionExpired")
                 DispatchQueue.main.async {
                     self?.authState = .login
                 }
@@ -160,6 +171,27 @@ final class AmplifySessionManager: ObservableObject {
         }
     }
     
+    func ObserveToken(){
+        sink = Amplify.Hub
+               .publisher(for: .auth)
+               .sink { payload in
+                   switch payload.eventName {
+                   case HubPayload.EventName.Auth.signedIn:
+                       print("User signed in")
+                       // Update UI
+
+                   case HubPayload.EventName.Auth.sessionExpired:
+                       print("Session expired")
+                       // Re-authenticate the user
+
+                   case HubPayload.EventName.Auth.signedOut:
+                       print("User signed out")
+                       // Update UI
+                   default:
+                       break
+                   }
+               }
+    }
     
     
 }

@@ -16,8 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        sessionManager.getCurrentAuthUser()
         sessionManager.observeAuthEvents()
+        sessionManager.ObserveToken()
+        sessionManager.getCurrentAuthUser()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         switch sessionManager.authState {
         case .login:

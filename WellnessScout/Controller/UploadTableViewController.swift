@@ -114,22 +114,23 @@ class UploadTableViewController: UITableViewController {
                                     }
                                 }, receiveValue: { print("File successfully uploaded: \($0)")
                                     // clean up after uploading file
-                                if FileManager.default.fileExists(atPath: progress.request.local.path) {
-                                        do {
-                                            try FileManager.default.removeItem(atPath: progress.request.local.path)
-                                        } catch {
-                                            print("Could not remove file at url: \(progress.request.local.path)")
-                                        }
+//                                if FileManager.default.fileExists(atPath: progress.request.local.path) {
+//                                        do {
+//                                            try FileManager.default.removeItem(atPath: progress.request.local.path)
+//                                        } catch {
+//                                            print("Could not remove file at url: \(progress.request.local.path)")
+//                                        }
+//                                    }
+                                    if AllData.shared.storageTaskArray2.isEmpty{
+                                        self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
+//                                        self.amplifyUpload.deleteWallet(id: AllData.shared.dateStoredId)
+                                        print("this the data id sent",AllData.shared.dateStoredId)
                                     }
-                                    
                                     self.removeFinishedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
             //                        print("this the data id sent",AllData.shared.dateStoredId)
             //                        self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
             //                        cell.videoNameLabel.text = $0
-                                    if AllData.shared.storageTaskArray2.isEmpty{
-                                        self.amplifyUpload.updateDataStore(id: AllData.shared.dateStoredId)
-                                        print("this the data id sent",AllData.shared.dateStoredId)
-                                    }
+                                   
                                 }
                             )
                 }
@@ -343,14 +344,14 @@ class UploadTableViewController: UITableViewController {
                     }, receiveValue: { print("File successfully uploaded: \($0)")
                         
             
-                        // clean up after uploading file
-                    if FileManager.default.fileExists(atPath: progress.request.local.path) {
-                            do {
-                                try FileManager.default.removeItem(atPath: progress.request.local.path)
-                            } catch {
-                                print("Could not remove file at url: \(progress.request.local.path)")
-                            }
-                        }
+//                        // clean up after uploading file
+//                    if FileManager.default.fileExists(atPath: progress.request.local.path) {
+//                            do {
+//                                try FileManager.default.removeItem(atPath: progress.request.local.path)
+//                            } catch {
+//                                print("Could not remove file at url: \(progress.request.local.path)")
+//                            }
+//                        }
                         
                         self.removeFinishedTasks(uploadTaskArray: AllData.shared.storageTaskArray2)
 //                        print("this the data id sent",AllData.shared.dateStoredId)
