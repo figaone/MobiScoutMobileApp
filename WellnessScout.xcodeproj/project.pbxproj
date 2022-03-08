@@ -16,6 +16,8 @@
 		540A2085279669A3007F5A60 /* StyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A2084279669A3007F5A60 /* StyleKit.swift */; };
 		540A208727966A1E007F5A60 /* RecordButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A208627966A1E007F5A60 /* RecordButtonView.swift */; };
 		540A208927966E0F007F5A60 /* ViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A208827966E0F007F5A60 /* ViewPreview.swift */; };
+		540CBCC427D7F1B000837337 /* LibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540CBCC227D7F1AD00837337 /* LibraryCell.swift */; };
+		540CBCC527D7F1B000837337 /* LibraryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 540CBCC327D7F1AD00837337 /* LibraryCell.xib */; };
 		5415C40B277F628200A26B23 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5415C40A277F628200A26B23 /* LocationManager.swift */; };
 		541683EE27419B95005C4869 /* AmplifySessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541683ED27419B95005C4869 /* AmplifySessionManager.swift */; };
 		541683F02741AA3A005C4869 /* ConfirmationViewOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541683EF2741AA3A005C4869 /* ConfirmationViewOne.swift */; };
@@ -160,6 +162,8 @@
 		540A2084279669A3007F5A60 /* StyleKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleKit.swift; sourceTree = "<group>"; };
 		540A208627966A1E007F5A60 /* RecordButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButtonView.swift; sourceTree = "<group>"; };
 		540A208827966E0F007F5A60 /* ViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPreview.swift; sourceTree = "<group>"; };
+		540CBCC227D7F1AD00837337 /* LibraryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCell.swift; sourceTree = "<group>"; };
+		540CBCC327D7F1AD00837337 /* LibraryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LibraryCell.xib; sourceTree = "<group>"; };
 		5415C40A277F628200A26B23 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		541683ED27419B95005C4869 /* AmplifySessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplifySessionManager.swift; sourceTree = "<group>"; };
 		541683EF2741AA3A005C4869 /* ConfirmationViewOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewOne.swift; sourceTree = "<group>"; };
@@ -301,6 +305,8 @@
 			isa = PBXGroup;
 			children = (
 				54EE32EB2707B813004A54C9 /* Main.storyboard */,
+				540CBCC227D7F1AD00837337 /* LibraryCell.swift */,
+				540CBCC327D7F1AD00837337 /* LibraryCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -601,7 +607,7 @@
 			);
 			mainGroup = 54EE32D92707B813004A54C9;
 			packageReferences = (
-				544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */,
+				544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 54EE32E32707B813004A54C9 /* Products */;
 			projectDirPath = "";
@@ -638,6 +644,7 @@
 			files = (
 				5419A694278D775F00E77807 /* Mobiscoutjp2.jpg in Resources */,
 				54EE32F22707B815004A54C9 /* LaunchScreen.storyboard in Resources */,
+				540CBCC527D7F1B000837337 /* LibraryCell.xib in Resources */,
 				54072CEE2718C7CD0067AE5D /* GoogleService-Info.plist in Resources */,
 				544ABE2F27577E4900950E4C /* awsconfiguration.json in Resources */,
 				544ABE2E27577E4900950E4C /* amplifyconfiguration.json in Resources */,
@@ -719,6 +726,7 @@
 				5440008227703F7100B14BE3 /* MobileAppUser.swift in Sources */,
 				540305CB2712B0AE00EB7FC3 /* APIFetcher.swift in Sources */,
 				5440008427703F7100B14BE3 /* MainSensorData+Schema.swift in Sources */,
+				540CBCC427D7F1B000837337 /* LibraryCell.swift in Sources */,
 				5440008127703F7100B14BE3 /* InitialVehicleData.swift in Sources */,
 				541E8D23271061B100FB456F /* SensorManager.swift in Sources */,
 				542BE8A22791C7AF00E21911 /* VehicleInfoModel.swift in Sources */,
@@ -1200,7 +1208,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */ = {
+		544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
 			requirement = {
@@ -1213,17 +1221,17 @@
 /* Begin XCSwiftPackageProductDependency section */
 		544ABE762762A26700950E4C /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */;
+			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = Collections;
 		};
 		544ABE782762A26700950E4C /* DequeModule */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */;
+			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = DequeModule;
 		};
 		544ABE7A2762A26700950E4C /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections.git" */;
+			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -43,12 +43,12 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.dataSource = self
         observeData()
-        self.tableView.reloadData()
-        //loadURLS from dataStore
         
+        //loadURLS from dataStore
+//        tableView.register(UINib(nibName: "LibraryTableViewCell", bundle: nil), forCellReuseIdentifier: "libraryCell")
         loadDataFromDataStore(){ totalData in
-            self.URLOfData = totalData
             print(totalData)
         }
        
@@ -58,22 +58,27 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         //load the url array with the saved urls in the document dir
         urlArray = localFileManager.getURLArray()
         //after loading reload the table view
-        self.tableView.reloadData()
         //set the intital values for the table
         tableView.allowsSelection = false
         
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 600
+//        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.estimatedRowHeight = 600
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.shouldRotate = true // or false to disable rotation
         loadDataFromDataStore(){ totalData in
-            self.URLOfData = totalData
-            self.tableView.reloadData()
+           print("success")
         }
     }
-   
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadDataFromDataStore(){ totalData in
+            print("success")
+        }
+    }
     
 //    override func viewDidAppear(_ animated: Bool) {
 //        //load the url array with the saved urls in the document dir
@@ -86,9 +91,6 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
 ////        tableView.reloadData()
 //    }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        print("disappeared")
-    }
     
     //Code that executes when the preview button is pressed for each cell
     @objc func openInitHealthButtonPressed(sender: UIButton!){
@@ -353,12 +355,8 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
             //remove file from amplifyDataStore
 //            amplifyVidUpload.deleteWallet(id: URLOfData[selectedUrlIndex].id)
             loadDataFromDataStore(){ totalData in
-                self.URLOfData = totalData
-                print("this is data after upload", totalData)
-                self.tableView.dataSource = self
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.presentAlert(withTitle: "Upload Started", message: "Video upload and data upload has been started, navigate to the upload tab to monitor the progress.", actions: ["OK" : UIAlertAction.Style.default])
+                    self.presentAlert(withTitle: "Upload Started", message: "Video upload and data upload has been started", actions: ["OK" : UIAlertAction.Style.default])
                 }
             }
             DispatchQueue.main.async {
@@ -408,13 +406,12 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
             localFileManager.deleteFile(fileUrl: fileU5!)
             //remove file from amplifyDataStore
             amplifyVidUpload.deleteWallet(id: URLOfData[selectedUrlIndex].id)
-            loadDataFromDataStore(){ totalData in
-                self.URLOfData = totalData
-                print("this is data after upload", totalData)
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.loadDataFromDataStore(){ totalData in
                 self.presentAlert(withTitle: "File Deleted", message: "File deleted succesfully.", actions: ["OK" : UIAlertAction.Style.default])
+                }
             }
+            
             
         }else{
             DispatchQueue.main.async {
@@ -451,21 +448,90 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //gets the cell and sets it to the custom cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "libraryCell", for: indexPath) as! LibraryTableViewCell
-        
-        //        //Adds a target for when the buttons are pressed, the selector is going to another function
-                cell.previewButton.addTarget(self, action: #selector(previewButtonPressed3(sender:)), for: UIControl.Event.touchUpInside)
-                cell.driverMOnitorPreButtonOulet.addTarget(self, action: #selector(previewButtonPressed2(sender:)), for: UIControl.Event.touchUpInside)
-                cell.sensorDataButOpenLabel.addTarget(self, action: #selector(openSensorButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
-                cell.healthDataButtonLabel.addTarget(self, action: #selector(openInitHealthButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
-                cell.obdDataOpenButtonLabel.addTarget(self, action: #selector(openInitVehicleButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
-                cell.deleteButton.addTarget(self, action: #selector(deleteButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
-                cell.uploadButton.addTarget(self, action: #selector(uploadButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
-        
+    
         let fileU1 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].driverMonitorURL ?? "")
         let fileU2 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].roadViewURL ?? "")
         let fileU3 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].initiaLHealthData ?? "")
         let fileU4 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].initialVehicleData ?? "")
         let fileU5 = localFileManager.retriveVid(fileName: URLOfData[indexPath.row].sensorDataURL ?? "")
+        
+ //        //set the upload tag
+         cell.uploadButton.tag = indexPath.row
+ //        //set the delete tag
+         cell.deleteButton.tag = indexPath.row
+ //        set the preview tag
+         cell.previewButton.tag = indexPath.row
+         cell.driverMOnitorPreButtonOulet.tag = indexPath.row
+         cell.sensorDataButOpenLabel.tag = indexPath.row
+         cell.healthDataButtonLabel.tag = indexPath.row
+         cell.obdDataOpenButtonLabel.tag = indexPath.row
+        
+        
+        if !FileManager.default.fileExists(atPath: fileU1!.path) &&  !FileManager.default.fileExists(atPath: fileU2!.path) && !FileManager.default.fileExists(atPath: fileU3!.path) && !FileManager.default.fileExists(atPath: fileU4!.path) && !FileManager.default.fileExists(atPath: fileU5!.path){
+            amplifyVidUpload.deleteWallet(id: URLOfData[indexPath.row].id)
+            URLOfData.remove(at: indexPath.row)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            self.tableView.reloadData()
+        }else{
+            if !FileManager.default.fileExists(atPath: fileU1!.path){
+                DispatchQueue.main.async {
+//                            cell.driverMonitorVideoLabel.isHidden = true
+//                            cell.driverMOnitorPreButtonOulet.isHidden = true
+                    cell.driverMonitorStackCell.tag = indexPath.row
+                    cell.driverMonitorStackCell.isHidden = true
+                }
+            }else{
+                cell.driverMonitorStackCell.isHidden = false
+            }
+            if !FileManager.default.fileExists(atPath: fileU2!.path){
+                DispatchQueue.main.async {
+//                            cell.previewButton.isHidden = true
+//                            cell.nameOfVideoLabel.isHidden = true
+                    cell.roadViewStackCell.isHidden = true
+                }
+            }else{
+                cell.roadViewStackCell.isHidden = false
+            }
+            if !FileManager.default.fileExists(atPath: fileU3!.path){
+                DispatchQueue.main.async {
+//                            cell.healthDataButtonLabel.isHidden = true
+//                            cell.healthDataLabel.isHidden = true
+                    cell.healthDataStackCell.isHidden = true
+                }
+            }else{
+                cell.healthDataStackCell.isHidden = false
+            }
+            if !FileManager.default.fileExists(atPath: fileU4!.path){
+                DispatchQueue.main.async {
+//                            cell.obdDataOpenButtonLabel.isHidden = true
+//                            cell.obdDataLabel.isHidden = true
+                    cell.obdDataStackCell.isHidden = true
+                }
+            }else{
+                cell.obdDataStackCell.isHidden = false
+            }
+            if !FileManager.default.fileExists(atPath: fileU5!.path){
+                DispatchQueue.main.async {
+//                            cell.sensorDataLabel.isHidden = true
+//                            cell.sensorDataButOpenLabel.isHidden = true
+                    cell.sensorDataStackCell.isHidden = true
+                }
+            }else{
+                cell.sensorDataStackCell.isHidden = false
+            }
+        }
+//        //Adds a target for when the buttons are pressed, the selector is going to another function
+        cell.previewButton.addTarget(self, action: #selector(previewButtonPressed3(sender:)), for: UIControl.Event.touchUpInside)
+        cell.driverMOnitorPreButtonOulet.addTarget(self, action: #selector(previewButtonPressed2(sender:)), for: UIControl.Event.touchUpInside)
+        cell.sensorDataButOpenLabel.addTarget(self, action: #selector(openSensorButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
+        cell.healthDataButtonLabel.addTarget(self, action: #selector(openInitHealthButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
+        cell.obdDataOpenButtonLabel.addTarget(self, action: #selector(openInitVehicleButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
+        cell.deleteButton.addTarget(self, action: #selector(deleteButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
+        cell.uploadButton.addTarget(self, action: #selector(uploadButtonPressed(sender:)), for: UIControl.Event.touchUpInside)
+        
+        
 //
 //        if FileManager.default.fileExists(atPath: fileU1!.path) &&  FileManager.default.fileExists(atPath: fileU2!.path) && FileManager.default.fileExists(atPath: fileU3!.path) && FileManager.default.fileExists(atPath: fileU4!.path) && FileManager.default.fileExists(atPath: fileU5!.path){
 //         //        //set the upload tag
@@ -542,50 +608,22 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
 //            print(uploadtStat)
             //        //set the upload tag
 
-            cell.uploadButton.tag = indexPath.row
-    //        //set the delete tag
-            cell.deleteButton.tag = indexPath.row
-    //        set the preview tag
-            cell.previewButton.tag = indexPath.row
-            
-            cell.driverMOnitorPreButtonOulet.tag = indexPath.row
-            cell.sensorDataButOpenLabel.tag = indexPath.row
-            cell.healthDataButtonLabel.tag = indexPath.row
-            cell.obdDataOpenButtonLabel.tag = indexPath.row
-//            cell.uploadButton.setTitle("Upload", for: .normal)
-//            cell.uploadButton.isEnabled = true
-            cell.sizeOfVideoLabel.isHidden = true
+//            cell.uploadButton.tag = indexPath.row
+//    //        //set the delete tag
+//            cell.deleteButton.tag = indexPath.row
+//    //        set the preview tag
+//            cell.previewButton.tag = indexPath.row
+//
+//            cell.driverMOnitorPreButtonOulet.tag = indexPath.row
+//            cell.sensorDataButOpenLabel.tag = indexPath.row
+//            cell.healthDataButtonLabel.tag = indexPath.row
+//            cell.obdDataOpenButtonLabel.tag = indexPath.row
+////            cell.uploadButton.setTitle("Upload", for: .normal)
+////            cell.uploadButton.isEnabled = true
+//        cell.sizeOfVideoLabel.tag = indexPath.row
         
         
-                if !FileManager.default.fileExists(atPath: fileU1!.path) &&  !FileManager.default.fileExists(atPath: fileU2!.path) && !FileManager.default.fileExists(atPath: fileU3!.path) && !FileManager.default.fileExists(atPath: fileU4!.path) && !FileManager.default.fileExists(atPath: fileU5!.path){
-                    amplifyVidUpload.deleteWallet(id: URLOfData[indexPath.row].id)
-                    URLOfData.remove(at: indexPath.row)
-                    self.tableView.reloadData()
-                }else{
-                    if !FileManager.default.fileExists(atPath: fileU1!.path){
-                        cell.driverMonitorVideoLabel.isHidden = true
-                        cell.driverMOnitorPreButtonOulet.isHidden = true
-                    }
-                    if !FileManager.default.fileExists(atPath: fileU2!.path){
-                        cell.previewButton.isHidden = true
-                        cell.nameOfVideoLabel.isHidden = true
-                        
-                    }
-                    if !FileManager.default.fileExists(atPath: fileU3!.path){
-                        cell.healthDataButtonLabel.isHidden = true
-                        cell.healthDataLabel.isHidden = true
-                        
-                    }
-                    if !FileManager.default.fileExists(atPath: fileU4!.path){
-                        cell.obdDataOpenButtonLabel.isHidden = true
-                        cell.obdDataLabel.isHidden = true
-                        
-                    }
-                    if !FileManager.default.fileExists(atPath: fileU5!.path){
-                        cell.sensorDataLabel.isHidden = true
-                        cell.sensorDataButOpenLabel.isHidden = true
-                    }
-                }
+                
         
         
 
@@ -638,9 +676,9 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 530
-    }
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 530
+//    }
     
 //    func loadLocalData()->[DateStored]{
 //
@@ -648,10 +686,18 @@ class LibraryTableTableViewController: UITableViewController,QLPreviewController
 
     func loadDataFromDataStore(completion: @escaping ([DateStored]) -> Void){
         Amplify.DataStore.query(DateStored.self, sort: .descending(DateStored.keys.createdAt)) {
+            self.URLOfData = []
             switch $0 {
             case .success(let result):
+                for data in result{
+                    self.URLOfData.append(data)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        let indexPath = IndexPath(row: self.URLOfData.count - 1, section: 0)
+                        self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+                    }
+                }
                 
-//                self.URLOfData = result
                 print("this is the data")
                 print(result)
                 completion(result)

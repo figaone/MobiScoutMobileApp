@@ -47,6 +47,15 @@ class LibraryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var deleteButton: UIButton!
     
+//    horizontal stack cells
+    
+    @IBOutlet weak var driverMonitorStackCell: UIStackView!
+    @IBOutlet weak var roadViewStackCell: UIStackView!
+    @IBOutlet weak var sensorDataStackCell: UIStackView!
+    @IBOutlet weak var healthDataStackCell: UIStackView!
+    @IBOutlet weak var obdDataStackCell: UIStackView!
+    @IBOutlet weak var uploadButtonStackCell: UIStackView!
+    @IBOutlet weak var deleteButtonStackCell: UIStackView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

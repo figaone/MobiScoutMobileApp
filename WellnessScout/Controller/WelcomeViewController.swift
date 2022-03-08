@@ -351,7 +351,10 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate {
                 } catch {
                     print ("Sign in failed \(error)")
                     DispatchQueue.main.async { [weak self] in
+                        self?.sessionManager.getCurrentAuthUser()
+                        self?.activitySpinner.startAnimating()
                         self?.presentAlert(withTitle: "Sign in failed", message: "\(error)", actions: ["OK" : UIAlertAction.Style.default])
+                        self?.activitySpinner.stopAnimating()
                     }
                     
                 }
