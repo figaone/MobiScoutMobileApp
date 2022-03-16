@@ -9,9 +9,10 @@ import Foundation
 import Combine
 import CoreLocation
 import CoreMedia
+import MapKit
 
 
-class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
+class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, MKMapViewDelegate {
     
     var startLocation: CLLocation!
     var lastLocation: CLLocation!
@@ -86,6 +87,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
             }
             lastLocation = locations.last
     }
+    
+    
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         headingPublisher.send(cardinalValue(from: newHeading.trueHeading))

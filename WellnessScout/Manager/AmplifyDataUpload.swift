@@ -10,11 +10,13 @@ import Amplify
 import AWSS3
 import Combine
 var resultSink: AnyCancellable?
+var observationToken: AnyCancellable?
 public class AmplifyDataUpload{
     var fileStatus:String = ""
     
     let allData = AllData.shared
-    
+//    let tabBarController = TabBarViewController()
+    var URLOfData : [DateStored] = []
     
     func uploadFile() {
         let fileKey = "testFile.txt"
@@ -249,6 +251,113 @@ public class AmplifyDataUpload{
         }
     }
     
+    func observeDataStore(){
+        observationToken = Amplify.DataStore.publisher(for: DateStored.self).sink(receiveCompletion: { completion in
+            if case .failure(let error) = completion{
+                print(error)
+            }
+        }, receiveValue: { changes in
+            guard let dataStored = try? changes.decodeModel(as: DateStored.self) else {return}
+            
+            switch changes.mutationType {
+            case "create":
+                print("data was created")
+//                DispatchQueue.main.async {
+//                    if let items = tabBarController?.tabBar.items as NSArray? {
+//                        self.loadDataFromDataStore(){ totalData in
+//                            let tabItem1 = items.object(at: 1) as! UITabBarItem
+//                            let tabItem2 = items.object(at: 2) as! UITabBarItem
+//                            tabItem1.badgeValue = "34"
+//                            if self.URLOfData.count > 0{
+//                                tabItem1.badgeValue = "\(self.URLOfData.count)"
+//                            }else{
+//                                tabItem1.badgeValue = nil
+//                            }
+//
+//                            if AllData.shared.storageTaskArray2.count > 0{
+//                                tabItem2.badgeValue = "\(AllData.shared.storageTaskArray2.count)"
+//                            }else{
+//                                tabItem2.badgeValue = nil
+//                            }
+//
+//                        }
+//
+//                    }
+//                }
+               
+            case "delete":
+                print("data was deleted")
+//                DispatchQueue.main.async {
+//                    if let items = self.tabBarController.tabBarController?.tabBar.items as NSArray? {
+//                        self.loadDataFromDataStore(){ totalData in
+//                            let tabItem1 = items.object(at: 1) as! UITabBarItem
+//                            let tabItem2 = items.object(at: 2) as! UITabBarItem
+//                            tabItem1.badgeValue = "34"
+//                            if self.URLOfData.count > 0{
+//                                tabItem1.badgeValue = "\(self.URLOfData.count)"
+//                            }else{
+//                                tabItem1.badgeValue = nil
+//                            }
+//
+//                            if AllData.shared.storageTaskArray2.count > 0{
+//                                tabItem2.badgeValue = "\(AllData.shared.storageTaskArray2.count)"
+//                            }else{
+//                                tabItem2.badgeValue = nil
+//                            }
+//
+//                        }
+//
+//                    }
+//                }
+                
+            default:
+                break
+            }
+        })
+    }
+    
+//    func changeBadge(){
+//        loadDataFromDataStore(){ totalData in
+//           print("success")
+//            if let tabBarItem = (self.tabBar.items) {
+//                if self.URLOfData.count > 0{
+//                    tabBarItem[1].badgeValue = "\(self.URLOfData.count)"
+//                }else{
+//                    tabBarItem[1].badgeValue = nil
+//                }
+//
+//                if AllData.shared.storageTaskArray2.count > 0{
+//                    tabBarItem[2].badgeValue = "\(AllData.shared.storageTaskArray2.count)"
+//                }else{
+//                    tabBarItem[2].badgeValue = nil
+//                }
+//
+
+                  //seting color of bage optional by default red
+    //              tabBarItem.badgeColor = UIColor.red //
+    //              //setting atribute , optional
+    //                    tabBarItem.setBadgeTextAttributes([NSAttributedStringKey.foregroundColor.rawValue: UIColor.red], for: .normal)
+//            }
+//        }
+//    }
+    
+    func loadDataFromDataStore(completion: @escaping ([DateStored]) -> Void){
+        Amplify.DataStore.query(DateStored.self, sort: .descending(DateStored.keys.createdAt)) {
+            self.URLOfData = []
+            switch $0 {
+            case .success(let result):
+                for data in result{
+                    self.URLOfData.append(data)
+                    
+                }
+                print("this is the data")
+                print(result)
+                completion(result)
+            case .failure(let error):
+                print("Error listing posts - \(error.localizedDescription)")
+            }
+        }
+    }
 //    func uploadData(key: String, data: Data) {
 //        let options = StorageUploadDataRequest.Options(accessLevel: .protected)
 //        Amplify.Storage.uploadData(key: key, data: data, options:.init(accessLevel: <#T##StorageAccessLevel#>, targetIdentityId: <#T##String?#>, metadata: <#T##[String : String]?#>, contentType: <#T##String?#>, pluginOptions: <#T##Any?#>)) { progress in

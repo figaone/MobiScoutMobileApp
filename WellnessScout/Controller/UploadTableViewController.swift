@@ -274,14 +274,17 @@ class UploadTableViewController: UITableViewController {
     //Code that executes when the cancel button is pressed for each cell
     @objc func cancelButtonPressed(sender: UIButton!){
         //cancel the upload and remove it
-        AllData.shared.storageTaskArray2[sender.tag].cancel()
-        //remove the item from the table view
-        AllData.shared.storageTaskArray2.remove(at: sender.tag)
-        //reload the data
-        tableView.reloadData()
-        //remove temp files if cancel button was pressed
-//        FileManager.default.clearTmpDirectory()
-        print("Cancel button pressed")
+        if AllData.shared.storageTaskArray2.count > 0{
+            AllData.shared.storageTaskArray2[sender.tag].cancel()
+            //remove the item from the table view
+            AllData.shared.storageTaskArray2.remove(at: sender.tag)
+            //reload the data
+            tableView.reloadData()
+            //remove temp files if cancel button was pressed
+    //        FileManager.default.clearTmpDirectory()
+            print("Cancel button pressed")
+        }
+        
     }
     
     /*
@@ -296,6 +299,12 @@ class UploadTableViewController: UITableViewController {
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        
+        if AllData.shared.storageTaskArray2.count == 0 {
+                self.tableView.setEmptyMessage("No Upload")
+            } else {
+                self.tableView.restore()
+            }
         return AllData.shared.storageTaskArray2.count
     }
     
@@ -418,6 +427,8 @@ class UploadTableViewController: UITableViewController {
 
     
 }
+
+
 
 //extension UploadTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
 //

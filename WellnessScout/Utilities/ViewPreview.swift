@@ -14,7 +14,7 @@ class ViewPreview: UIView {
             fatalError("Expected `AVCaptureVideoPreviewLayer` type for layer. Check PreviewView.layerClass implementation.")
         }
         
-        layer.videoGravity = .resizeAspectFill
+//        layer.videoGravity = .resizeAspectFill
         
         return layer
     }

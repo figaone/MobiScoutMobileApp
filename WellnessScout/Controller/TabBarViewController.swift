@@ -7,6 +7,7 @@
 
 import UIKit
 import Amplify
+import AmplifyPlugins
 
 class TabBarViewController: UITabBarController {
     var window: UIWindow?
@@ -14,6 +15,7 @@ class TabBarViewController: UITabBarController {
     
     let sessionManager = AmplifySessionManager()
     let authshared = AmplifySessionManager.shared
+    var URLOfData : [DateStored] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +24,38 @@ class TabBarViewController: UITabBarController {
 //        title = "🏎WellnessScout"
 //        hide back button of navigation bar
         navigationItem.hidesBackButton = true
+        loadDataFromDataStore(){ totalData in
+           print("success")
+            self.changeBadge()
+        }
+        
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        changeBadge()
+       
+//        if let barItem = self.tabBar.items{
+//            let barItem1 = barItem[1]
+//            let barItem2 = barItem[2]
+//            barItem2.badgeValue = "\(AllData.shared.storageTaskArray2.count)"
+//            if self.URLOfData.count > 0{
+//                barItem1.badgeValue = "\(self.URLOfData.count)"
+//            }else{
+//                barItem1.badgeValue = nil
+//            }
+//            if AllData.shared.storageTaskArray2.count > 0{
+//                barItem2.badgeValue = "\(AllData.shared.storageTaskArray2.count)"
+//            }else{
+//                barItem2.badgeValue = nil
+//            }
+//
+//        }
+        changeBadge()
+    }
+    
+    
 //    @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
 //    }
     @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
@@ -40,7 +72,7 @@ class TabBarViewController: UITabBarController {
             return
         }
         
-            
+      
        
             
        
@@ -61,6 +93,35 @@ class TabBarViewController: UITabBarController {
 //      print("Error signing out: %@", signOutError)
 //    }
 }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+            changeBadge()
+        }
+    
+    func changeBadge(){
+        loadDataFromDataStore(){ totalData in
+           print("success")
+            if let tabBarItem = (self.tabBar.items) {
+                if self.URLOfData.count > 0{
+                    tabBarItem[1].badgeValue = "\(self.URLOfData.count)"
+                }else{
+                    tabBarItem[1].badgeValue = nil
+                }
+                
+                if AllData.shared.storageTaskArray2.count > 0{
+                    tabBarItem[2].badgeValue = "\(AllData.shared.storageTaskArray2.count)"
+                }else{
+                    tabBarItem[2].badgeValue = nil
+                }
+                
+                
+                  //seting color of bage optional by default red
+    //              tabBarItem.badgeColor = UIColor.red //
+    //              //setting atribute , optional
+    //                    tabBarItem.setBadgeTextAttributes([NSAttributedStringKey.foregroundColor.rawValue: UIColor.red], for: .normal)
+            }
+        }
+    }
     
     func signOutLocally() {
         Amplify.Auth.signOut() {[weak self] result in
@@ -96,6 +157,36 @@ class TabBarViewController: UITabBarController {
         } else {
             print("user is not sign in")
             self.navigationController?.popToRootViewController( animated: true)
+        }
+    }
+    
+    func loadDataFromDataStore(completion: @escaping ([DateStored]) -> Void){
+        Amplify.DataStore.query(DateStored.self, sort: .descending(DateStored.keys.createdAt)) {
+            self.URLOfData = []
+            switch $0 {
+            case .success(let result):
+                for data in result{
+                    self.URLOfData.append(data)
+                    
+                }
+                print("this is the data")
+                print(result)
+                completion(result)
+            case .failure(let error):
+                print("Error listing posts - \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func dataStoreEventListener(){
+        let hubEventListener = Amplify.Hub.listen(to: .dataStore) { event in
+            if event.eventName == HubPayload.EventName.DataStore.networkStatus {
+                guard let networkStatus = event.data as? NetworkStatusEvent else {
+                    print("Failed to cast data as NetworkStatusEvent")
+                    return
+                }
+                print("User receives a network connection status: \(networkStatus.active)")
+            }
         }
     }
     

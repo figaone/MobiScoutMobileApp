@@ -165,6 +165,7 @@ extension WatchKitConnection: WCSessionDelegate {
         }
         print(heartReate)
         heartDouble = heartReateDouble
+        AllData.shared.heartRateArray.append(heartReateDouble)
         heartPublisher.send( heartReateDouble)
         
         

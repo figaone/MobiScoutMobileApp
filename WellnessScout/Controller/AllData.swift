@@ -91,7 +91,7 @@ class AllData{
     var dateStoredId : String = ""
     // heart rate variable
     var heartRate : Double = 0
-   
+    var heartRateArray = [Double]()
     
     //MARK: Objects used for location
 //    var mangaer = CLLocationManager()

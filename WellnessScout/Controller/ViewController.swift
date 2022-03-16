@@ -12,8 +12,12 @@ import HealthKit
 import CoreMotion
 import CoreLocation
 import Amplify
+import AmplifyPlugins
 import OrderedCollections
 import Combine
+import MapKit
+import CareKit
+import Charts
 
 var start = "true"
 var AvSpeed : Any = 0
@@ -49,7 +53,7 @@ var camState: cameraType = .backcam
 
 
 @available(iOS 14.0, *)
-class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, CLLocationManagerDelegate{
+class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, CLLocationManagerDelegate,MKMapViewDelegate{
        
     var existingPost: DateStored = DateStored()
     var frntcm : String = ""
@@ -67,14 +71,21 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     var avgSpeedLabel : String!
     var distanceLabel : String!
     
-   
+    @IBOutlet weak var graphView: LineChartView!
+    
+    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var heartRateImage: UIImageView!
     @IBOutlet weak var heartRateValue: UILabel!
+    @IBOutlet weak var carImageView: UIImageView!
+    @IBOutlet weak var doubleTapToExit: UILabel!
+    
     
     @IBOutlet weak var speedometerTextField: UILabel!
     @IBOutlet weak var watchConnectionIcon: UIImageView!
     @IBOutlet weak var adaptorStatusLabel: UILabel!
+    @IBOutlet weak var obdAdaptorButtonOutlet: UIButton!
     
+    @IBOutlet weak var videoStackView: UIStackView!
     @IBOutlet weak var accelerationInZ: UILabel!
     //instance of the defaults manager
     let csvParser = CSVparser()
@@ -89,6 +100,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     let localFileManager = LocalFileManager()
     //instance of the video manager class
     let videoManager = VideoManager()
+    let graphManager = GraphManager()
     //instance of locationmanager
     var deviceLocationService = LocationManager.shared
     // instance of Obd main manager
@@ -160,14 +172,18 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        deviceOri()
         
         healthStore.requestAuthorization()
         self.performQuery()
         
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.mapType = MKMapType(rawValue: 0)!
+        mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
+       
         
-            
-                
-        
+        amplifyVidUpload.observeDataStore()
 //        healthStore.requestHealthDataAccessIfNeeded(dataTypes: mobilityContent) { (success) in
 //            if success {
 //                self.performQuery()
@@ -290,9 +306,9 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //        }
         
         // Allow users to double tap to switch between the front and back cameras being in a PiP
-        let togglePiPDoubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(togglePiP))
-        togglePiPDoubleTapGestureRecognizer.numberOfTapsRequired = 2
-        view.addGestureRecognizer(togglePiPDoubleTapGestureRecognizer)
+//        let togglePiPDoubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(togglePiP))
+//        togglePiPDoubleTapGestureRecognizer.numberOfTapsRequired = 2
+//        view.addGestureRecognizer(togglePiPDoubleTapGestureRecognizer)
        
         
 //        DispatchQueue.main.async {
@@ -342,14 +358,58 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         print("this the max frame rate",getMaxFrameRateValue())
         print("this the set frame rate",self.backCameraDeviceInput?.device.activeVideoMaxFrameDuration as Any)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+    
     }
+    
+    deinit {
+       NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    @objc func rotated() {
+        if UIDevice.current.orientation.isLandscape {
+
+            watchConnectionIcon.transform = CGAffineTransform(rotationAngle: .pi / 2)
+            heartRateImage.transform = CGAffineTransform(rotationAngle: .pi / 2)
+            heartRateValue.transform = CGAffineTransform(rotationAngle: .pi / 2)
+            speedometerTextField.transform = CGAffineTransform(rotationAngle: .pi / 2)
+            graphView.transform = CGAffineTransform(rotationAngle: .pi / 2)
+            carImageView.frame.size.width = 100
+            carImageView.transform = CGAffineTransform(rotationAngle: .pi / 2)
+            driverActive.transform = CGAffineTransform(rotationAngle: .pi / 2)
+            recordButton.transform = CGAffineTransform(rotationAngle: .pi / 2)
+        
+            print("Landscape")
+        } else {
+
+            watchConnectionIcon.transform = .identity
+            heartRateImage.transform = .identity
+            heartRateValue.transform = .identity
+            speedometerTextField.transform = .identity
+            graphView.transform = .identity
+            carImageView.transform = .identity
+            driverActive.transform = .identity
+            recordButton.transform = .identity
+            print("Portrait")
+        }
+    }
+    
+//    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+//        if fromInterfaceOrientation == .portrait || fromInterfaceOrientation == .portraitUpsideDown{
+//            print("phone is in portrait mode")
+//        }else{
+//            print("phone is in landscape mode")
+//        }
+//    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        amplifyVidUpload.observeDataStore()
         WatchKitConnection.shared.startWatchApp()
         userData = defaultsManager.getUserDefaults()
         
-        
+        AllData.shared.graphTimer = Timer.scheduledTimer( timeInterval: 0.1, target: self, selector: #selector(updateGraph), userInfo: nil, repeats: true)
         appDelegate.shouldRotate = false // or false to disable rotation
         
         sessionQueue.async {
@@ -415,15 +475,34 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     override func viewDidAppear(_ animated: Bool) {
         appDelegate.shouldRotate = false
+        deviceOri()
 //        self.backCameraVideoPreviewLayer?.frame.size.width = self.view.frame.width + 100
 //        CGRect biggerFrame = tabBarController.view.frame;
 //        biggerFrame.size.height += tabBarController.tabBar.frame.size.height;
 //        tabBarController.view.frame = biggerFrame ;
 //        backCameraVideoPreviewLayer!.bounds.size.width = blurredUiView.bounds.size.width
     }
-  
-
-
+    
+    
+    
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransition(to: size, with: coordinator)
+//        determineMyDeviceOrientation()
+//    }
+//
+//    func determineMyDeviceOrientation()
+//       {
+//           if UIDevice.current.orientation.isLandscape {
+//               print("Device is in landscape mode")
+//           } else {
+//               print("Device is in portrait mode")
+//           }
+//       }
+    
+    func deviceOri(){
+//        print("This is in landscape: \(UIDevice.current.orientation.isLandscape)")
+//        print("This is in portrait: \(UIDevice.current.orientation.isPortrait)")
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         sessionQueue.async {
@@ -433,7 +512,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 self.removeObservers()
             }
         }
-        
+        //stop the timer
+        AllData.shared.graphTimer.invalidate()
         super.viewWillDisappear(animated)
     }
     
@@ -529,29 +609,29 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     @IBOutlet weak var driverActive: UILabel!
     
-    @objc // Expose to Objective-C for use with #selector()
-    private func togglePiP() {
-        // Disable animations so the views move immediately
-        CATransaction.begin()
-        UIView.setAnimationsEnabled(false)
-        CATransaction.setDisableActions(true)
-        
-        if pipDevicePosition == .front {
-            NSLayoutConstraint.deactivate(frontCameraPiPConstraints)
-            NSLayoutConstraint.activate(backCameraPiPConstraints)
-            view.sendSubviewToBack(frontCameraVideoPreviewView)
-            pipDevicePosition = .back
-        } else {
-            NSLayoutConstraint.deactivate(backCameraPiPConstraints)
-            NSLayoutConstraint.activate(frontCameraPiPConstraints)
-            view.sendSubviewToBack(backCameraVideoPreviewView)
-            pipDevicePosition = .front
-        }
-        
-        CATransaction.commit()
-        UIView.setAnimationsEnabled(true)
-        CATransaction.setDisableActions(false)
-    }
+//    @objc // Expose to Objective-C for use with #selector()
+//    private func togglePiP() {
+//        // Disable animations so the views move immediately
+//        CATransaction.begin()
+//        UIView.setAnimationsEnabled(false)
+//        CATransaction.setDisableActions(true)
+//
+//        if pipDevicePosition == .front {
+////            NSLayoutConstraint.deactivate(frontCameraPiPConstraints)
+////            NSLayoutConstraint.activate(backCameraPiPConstraints)
+//            view.sendSubviewToBack(frontCameraVideoPreviewView)
+//            pipDevicePosition = .back
+//        } else {
+////            NSLayoutConstraint.deactivate(backCameraPiPConstraints)
+////            NSLayoutConstraint.activate(frontCameraPiPConstraints)
+//            view.sendSubviewToBack(backCameraVideoPreviewView)
+//            pipDevicePosition = .front
+//        }
+//
+//        CATransaction.commit()
+//        UIView.setAnimationsEnabled(true)
+//        CATransaction.setDisableActions(false)
+//    }
     @objc func exitBlurred(){
         blurredUiView.isHidden = true
     }
@@ -559,8 +639,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     private func updateNormalizedPiPFrame() {
         let fullScreenVideoPreviewView: PreviewView
         let pipVideoPreviewView: PreviewView
-        
-        
+
+
         if pipDevicePosition == .back {
             fullScreenVideoPreviewView = frontCameraVideoPreviewView
             pipVideoPreviewView = backCameraVideoPreviewView
@@ -570,14 +650,16 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         } else {
             fatalError("Unexpected pip device position: \(pipDevicePosition)")
         }
-        
-        
+
+
         let pipFrameInFullScreenVideoPreview = pipVideoPreviewView.convert(pipVideoPreviewView.bounds, to: fullScreenVideoPreviewView)
         let normalizedTransform = CGAffineTransform(scaleX: 1.0 / fullScreenVideoPreviewView.frame.width, y: 1.0 / fullScreenVideoPreviewView.frame.height)
         normalizedPipFrame = pipFrameInFullScreenVideoPreview.applying(normalizedTransform)
     }
     
     // MARK: Capture Session Management
+    
+    
     
     @IBOutlet private var resumeButton: UIButton!
     
@@ -607,7 +689,12 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     private let backCameraVideoDataOutput = AVCaptureVideoDataOutput()
     
-    @IBOutlet private var backCameraVideoPreviewView: PreviewView!
+    //    @IBOutlet private var backCameraVideoPreviewView: PreviewView!
+    // @IBOutlet weak var backCameraVideoPreviewView: PreviewView!
+    
+   
+    @IBOutlet weak var backCameraVideoPreviewView: PreviewView!
+    
     
     private weak var backCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?
     
@@ -615,7 +702,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     private let frontCameraVideoDataOutput = AVCaptureVideoDataOutput()
     
-    @IBOutlet private var frontCameraVideoPreviewView: PreviewView!
+    // @IBOutlet weak var frontCameraVideoPreviewView: PreviewView!
+    //    @IBOutlet private var frontCameraVideoPreviewView: PreviewView!
+    
+//    @IBOutlet weak var frontCameraVideoPreviewView: PreviewView!
+    @IBOutlet weak var frontCameraVideoPreviewView: PreviewView!
     
     private weak var frontCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?
     
@@ -2221,7 +2312,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 
             let roundedValue1 = NSDecimalNumber(value: data.accelerationZ ?? 0).rounding(accordingToBehavior: behavior)
 
-            self.accelerationInZ.text = String(Double(truncating: roundedValue1))
+//            self.accelerationInZ.text = String(Double(truncating: roundedValue1))
         }
         
 
@@ -2264,6 +2355,25 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         recordedDataDictionary["savelocationID"]?.append(data.savelocationID as Any)
         
     
+    }
+    
+    func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!){
+        if let oldLocationNew = oldLocation as CLLocation?{
+             let oldCoordinates = oldLocationNew.coordinate
+             let newCoordinates = newLocation.coordinate
+             var area = [oldCoordinates, newCoordinates]
+             let polyline = MKPolyline(coordinates: &area, count: area.count)
+             mapView.addOverlay(polyline)
+         }
+    }
+    private func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if (overlay is MKPolyline) {
+            let pr = MKPolylineRenderer(overlay: overlay)
+            pr.strokeColor = UIColor.red
+            pr.lineWidth = 5
+            return pr
+        }
+        return nil
     }
     
     //function to observe location updates
@@ -2391,7 +2501,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
             } receiveValue: { heartrate in
                 self.watchConnectionIcon.image = UIImage(systemName: "applewatch")
                 self.heartRateMain = heartrate
-                self.heartRateValue.text = String(heartrate)
+                self.heartRateValue.text = String(heartrate) + "bpm"
                 
             }
             .store(in: &tokens)
@@ -2486,6 +2596,10 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
             .store(in: &tokens)
     }
     //reconnect obd adaptor
+    
+    func updateObdButtonColor(){
+        obdAdaptorButtonOutlet.backgroundColor = UIColor.green
+    }
     @IBAction func reconnectOBDAdaptor(_ sender: UIButton) {
 //        obdConnectButtonLabel
         self.instanceOfCustomObject.onDisconnectAdapterClicked()
@@ -2504,10 +2618,13 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     func changeAdpatorButtonLanbel(){
         if adaptorStatusLabel.text == "OBD2AdapterStateGone"{
+            obdAdaptorButtonOutlet.backgroundColor = UIColor.red
             self.obdConnectButtonLabel.titleLabel?.text = "connect"
         }else if adaptorStatusLabel.text == "OBD2AdapterStateConnected"{
             self.obdConnectButtonLabel.titleLabel?.text = "disconnect"
+            obdAdaptorButtonOutlet.backgroundColor = UIColor.green
         }else if adaptorStatusLabel.text == "OBD2AdapterStateUnsupportedProtocol"{
+            obdAdaptorButtonOutlet.backgroundColor = UIColor.red
             self.obdConnectButtonLabel.titleLabel?.text = "reconnect"
         }else{
             self.obdConnectButtonLabel.titleLabel?.text = "reconnect"
@@ -2974,10 +3091,45 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 let mphSpeed = kphSpeed.converted(to: .milesPerHour)
                 self?.speedometerTextField.text = String(format: "%.0f", mphSpeed.value)
             }
-            self?.adaptorStatusLabel.text = self?.instanceOfCustomObject.adapterStatusLabel as? String
+            if self?.instanceOfCustomObject.adapterStatusLabel as! String == "OBD2AdapterStateGone"{
+                self?.obdAdaptorButtonOutlet.backgroundColor = nil
+               
+            }else if self?.instanceOfCustomObject.adapterStatusLabel as? String  == "OBD2AdapterStateConnected"{
+                self?.obdAdaptorButtonOutlet.backgroundColor = UIColor.green
+            }else if self?.instanceOfCustomObject.adapterStatusLabel as? String  == "OBD2AdapterStateUnsupportedProtocol"{
+                self?.obdAdaptorButtonOutlet.backgroundColor = nil
+            }else{
+                self?.obdAdaptorButtonOutlet.backgroundColor = nil
+            }
+//            self?.adaptorStatusLabel.text = self?.instanceOfCustomObject.adapterStatusLabel as? String
         }
        
     }
+//    if adaptorStatusLabel.text == "OBD2AdapterStateGone"{
+//        obdAdaptorButtonOutlet.backgroundColor = UIColor.red
+//        self.obdConnectButtonLabel.titleLabel?.text = "connect"
+//    }else if adaptorStatusLabel.text == "OBD2AdapterStateConnected"{
+//        self.obdConnectButtonLabel.titleLabel?.text = "disconnect"
+//        obdAdaptorButtonOutlet.backgroundColor = UIColor.green
+//    }else if adaptorStatusLabel.text == "OBD2AdapterStateUnsupportedProtocol"{
+//        obdAdaptorButtonOutlet.backgroundColor = UIColor.red
+//        self.obdConnectButtonLabel.titleLabel?.text = "reconnect"
+//    }else{
+//        self.obdConnectButtonLabel.titleLabel?.text = "reconnect"
+//    }
+    @objc func updateGraph(){
+        //checks to make sure that the sensors init
+        if AllData.shared.motionManager.isAccelerometerActive == true{
+            //start updating the graph and input the data
+            graphManager.startUpdating(lineChartView: graphView, graphData: AllData.shared.heartRateArray, manger: AllData.shared.motionManager)
+            //update the graph and get the new data here
+            sensorManager.saveGraphData(motionManager: AllData.shared.motionManager)
+            //sets the graph to be a rolling graph
+            graphManager.setRollingGraph(maxDataPoints: 100, graphData: AllData.shared.graphData)
+        }
+    }
+    
+    
     
     
 }

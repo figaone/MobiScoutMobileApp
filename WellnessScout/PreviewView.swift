@@ -13,7 +13,9 @@ class PreviewView: UIView {
         guard let layer = layer as? AVCaptureVideoPreviewLayer else {
             fatalError("Expected `AVCaptureVideoPreviewLayer` type for layer. Check PreviewView.layerClass implementation.")
         }
-        
+        layer.videoGravity = .resizeAspect
+//        layer.frame = self.bounds
+//        self.videoPreviewLayer.frame = self.bounds
         return layer
     }
     

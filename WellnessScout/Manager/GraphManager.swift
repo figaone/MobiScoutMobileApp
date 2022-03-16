@@ -22,21 +22,21 @@ class GraphManager {
     
     
     //MARK: Used to create the graph
-    func updateGraphData(lineChartView : LineChartView, graphData : [GraphData], manger : CMMotionManager){
+    func updateGraphData(lineChartView : LineChartView, graphData : [Double], manger : CMMotionManager){
         var chartEntry = [ChartDataEntry]()
         //confirm that we have data
-        if graphData.count > 0 && sensorManager.checkIfActive(motionManager: manger) == true && sensorManager.checkData(motionManager: manger) == true{
+        if graphData.count > 0 {
         //loop thru the values
         for i in 0..<graphData.count {
             //create the value
-            let value = ChartDataEntry(x: Double(i), y: graphData[i].accelerometerZ ?? 0)
+            let value = ChartDataEntry(x: Double(i), y: graphData[i] ?? 0)
             //append the data here
             chartEntry.append(value)
         }
         //set the dataset and label it
-        let lineChartData = LineChartDataSet(entries: chartEntry, label: "Acceleration Z")
+        let lineChartData = LineChartDataSet(entries: chartEntry, label: "Heart Rate")
         //set the colors for the first graph
-        lineChartData.colors = [UIColor.green]
+            lineChartData.colors = [UIColor.red]
         lineChartData.circleRadius = 0
         lineChartData.drawValuesEnabled = false
         //chart data
@@ -73,12 +73,12 @@ class GraphManager {
         lineChartView.layer.cornerRadius = 10
         lineChartView.layer.masksToBounds = true
         }else{
-            print("We dont have data from the sensors yet, ERROR")
+            return
         }
     }
     
     //function used to start updating the graph
-    func startUpdating(lineChartView : LineChartView, graphData : [GraphData], manger : CMMotionManager){
+    func startUpdating(lineChartView : LineChartView, graphData : [Double], manger : CMMotionManager){
         //call the function to update the graph
         updateGraphData(lineChartView: lineChartView, graphData: graphData, manger: manger)
     }
