@@ -61,7 +61,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     var heartRt = [[Double]]()
     var distancewlk = [[Double]]()
     var hasRequestedHealthData: Bool = false
-    
+
     var startDate: Date!
     var traveledDistance: Double = 0
     var arrayMPH: [Double]! = []
@@ -87,6 +87,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     @IBOutlet weak var videoStackView: UIStackView!
     @IBOutlet weak var accelerationInZ: UILabel!
+    
+    let tabBarControl = TabBarViewController()
     //instance of the defaults manager
     let csvParser = CSVparser()
     let sot = SourceOfTruth()
@@ -367,20 +369,33 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     }
     
     @objc func rotated() {
-        if UIDevice.current.orientation.isLandscape {
-
+        if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft {
+            var constraints = [NSLayoutConstraint]()
             watchConnectionIcon.transform = CGAffineTransform(rotationAngle: .pi / 2)
             heartRateImage.transform = CGAffineTransform(rotationAngle: .pi / 2)
-            heartRateValue.transform = CGAffineTransform(rotationAngle: .pi / 2)
+            constraints.append(heartRateImage.widthAnchor.constraint(equalTo: heartRateImage.widthAnchor, multiplier: 0.2))
+            NSLayoutConstraint.activate(constraints)
+//            heartRateValue.transform = CGAffineTransform(rotationAngle: .pi / 2)
             speedometerTextField.transform = CGAffineTransform(rotationAngle: .pi / 2)
             graphView.transform = CGAffineTransform(rotationAngle: .pi / 2)
-            carImageView.frame.size.width = 100
             carImageView.transform = CGAffineTransform(rotationAngle: .pi / 2)
             driverActive.transform = CGAffineTransform(rotationAngle: .pi / 2)
             recordButton.transform = CGAffineTransform(rotationAngle: .pi / 2)
         
-            print("Landscape")
-        } else {
+            print("Landscape left")
+        } else if(UIDevice.current.orientation == UIDeviceOrientation.landscapeRight) {
+            watchConnectionIcon.transform = CGAffineTransform(rotationAngle: .pi / -2)
+            heartRateImage.transform = CGAffineTransform(rotationAngle: .pi / -2)
+//            heartRateValue.transform = CGAffineTransform(rotationAngle: .pi / -2)
+            speedometerTextField.transform = CGAffineTransform(rotationAngle: .pi / -2)
+            graphView.transform = CGAffineTransform(rotationAngle: .pi / -2)
+            carImageView.frame.size.width = 100
+            carImageView.transform = CGAffineTransform(rotationAngle: .pi / -2)
+            driverActive.transform = CGAffineTransform(rotationAngle: .pi / -2)
+            recordButton.transform = CGAffineTransform(rotationAngle: .pi / -2)
+            print("Landscape right")
+        }
+        else  {
 
             watchConnectionIcon.transform = .identity
             heartRateImage.transform = .identity
@@ -1385,6 +1400,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                             }
                         }
                     }
+                    print("Kojo KONADU")
+                    tabBarControl.changeBadge()
                     self.frntcm = String(describing: movieURL)
                 }
             }

@@ -52,7 +52,7 @@ class TabBarViewController: UITabBarController {
 //            }
 //
 //        }
-        changeBadge()
+        
     }
     
     
@@ -101,25 +101,28 @@ class TabBarViewController: UITabBarController {
     func changeBadge(){
         loadDataFromDataStore(){ totalData in
            print("success")
-            if let tabBarItem = (self.tabBar.items) {
-                if self.URLOfData.count > 0{
-                    tabBarItem[1].badgeValue = "\(self.URLOfData.count)"
-                }else{
-                    tabBarItem[1].badgeValue = nil
+            DispatchQueue.main.async {
+                if let tabBarItem = (self.tabBar.items) {
+                    if self.URLOfData.count > 0{
+                        tabBarItem[1].badgeValue = "\(self.URLOfData.count)"
+                    }else{
+                        tabBarItem[1].badgeValue = nil
+                    }
+                    
+                    if AllData.shared.storageTaskArray2.count > 0{
+                        tabBarItem[2].badgeValue = "\(AllData.shared.storageTaskArray2.count)"
+                    }else{
+                        tabBarItem[2].badgeValue = nil
+                    }
+                    
+                    
+                      //seting color of bage optional by default red
+        //              tabBarItem.badgeColor = UIColor.red //
+        //              //setting atribute , optional
+        //                    tabBarItem.setBadgeTextAttributes([NSAttributedStringKey.foregroundColor.rawValue: UIColor.red], for: .normal)
                 }
-                
-                if AllData.shared.storageTaskArray2.count > 0{
-                    tabBarItem[2].badgeValue = "\(AllData.shared.storageTaskArray2.count)"
-                }else{
-                    tabBarItem[2].badgeValue = nil
-                }
-                
-                
-                  //seting color of bage optional by default red
-    //              tabBarItem.badgeColor = UIColor.red //
-    //              //setting atribute , optional
-    //                    tabBarItem.setBadgeTextAttributes([NSAttributedStringKey.foregroundColor.rawValue: UIColor.red], for: .normal)
             }
+            
         }
     }
     

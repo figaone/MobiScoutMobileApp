@@ -74,7 +74,7 @@ class AllData{
     //array of sensor data
     var sensorDataArray : [SensorData] = []
     //the rate to record the sensor data 1/t = hz
-    var sensorFrequency = 1.00
+    var sensorFrequency = 0.033
     //sensor data obj
     var sensorDataOBJ = SensorData()
     //date tat the user starts recording
