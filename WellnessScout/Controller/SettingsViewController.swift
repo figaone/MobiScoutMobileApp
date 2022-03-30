@@ -117,30 +117,30 @@ class SettingsViewController: UIViewController {
     
     //function used tio update the view when values are changed
     func reloadValues(){
-        //get the current user defaults and set it to the local variable to be used later
-        userData = defaultManager.getUserDefaults()
-        //set the current frame rate and frequency labels
-        videoFrameRateLabel.text = "Current Video Frame Rate: \(userData.frameRate ?? 0) FPS"
-        //set the sensor frequency label
-        sensorFrequencyLabel.text = "Current Sensor Frequency Rate: \(Int(userData.frequency) ?? Int(sensorManager.getSensorRate(motionManager: AllData.shared.motionManager))) Hz"
-        //load the default frame rate here
-        fpsRangeLabel.text = "Supported FPS Range: \(videoManager.printSupportedFPSRanges()) FPS"
-        //set the autosave time
-//        autoSaveTimeLabel.text = "Auto Save Time: \(userData.autoSaveTime) seconds"
-        //set the default values for the sliders
-        videoFrameRateSlider.value = Float(userData.frameRate ?? vidManager.getMaxFrameRateValue())
-        //set the frequency slider value
-        frequencySlider.value = Float(Int(userData.frequency) ?? Int(sensorManager.getSensorRate(motionManager: AllData.shared.motionManager)))
-        //init the intial slider values
-            sliderFrequencyLabel.text = "Sensor Frequency is : \(frequencySlider.value) Hz"
-       
-        sliderVideoFrameRateLabel.text = "Video Frame rate is : \(videoFrameRateSlider.value) FPS"
-        //set the values for the swithes
-        saveVideoToPhotos.isOn = userData.automaticUpload
-        //think of it as show views not hide all views
-//        hideAllViews.isOn = userData.hideAllViews ?? true
-        //set the multi cam to on or off
-//        multiCamera.isOn = userData.multiCameraViewEnabled ?? false
+//        //get the current user defaults and set it to the local variable to be used later
+//        userData = defaultManager.getUserDefaults()
+//        //set the current frame rate and frequency labels
+//        videoFrameRateLabel.text = "Current Video Frame Rate: \(userData.frameRate ?? 0) FPS"
+//        //set the sensor frequency label
+//        sensorFrequencyLabel.text = "Current Sensor Frequency Rate: \(Int(userData.frequency) ?? Int(sensorManager.getSensorRate(motionManager: AllData.shared.motionManager))) Hz"
+//        //load the default frame rate here
+//        fpsRangeLabel.text = "Supported FPS Range: \(videoManager.printSupportedFPSRanges()) FPS"
+//        //set the autosave time
+////        autoSaveTimeLabel.text = "Auto Save Time: \(userData.autoSaveTime) seconds"
+//        //set the default values for the sliders
+//        videoFrameRateSlider.value = Float(userData.frameRate ?? vidManager.getMaxFrameRateValue())
+//        //set the frequency slider value
+//        frequencySlider.value = Float(Int(userData.frequency) ?? Int(sensorManager.getSensorRate(motionManager: AllData.shared.motionManager)))
+//        //init the intial slider values
+//            sliderFrequencyLabel.text = "Sensor Frequency is : \(frequencySlider.value) Hz"
+//       
+//        sliderVideoFrameRateLabel.text = "Video Frame rate is : \(videoFrameRateSlider.value) FPS"
+//        //set the values for the swithes
+//        saveVideoToPhotos.isOn = userData.automaticUpload
+//        //think of it as show views not hide all views
+////        hideAllViews.isOn = userData.hideAllViews ?? true
+//        //set the multi cam to on or off
+////        multiCamera.isOn = userData.multiCameraViewEnabled ?? false
     }
 
 //    //fires when the user confirms the new values via sliders
@@ -156,6 +156,7 @@ class SettingsViewController: UIViewController {
                     //videoManager.setFrameRate(SingeltonData.shared.backCamera, frameRate: Int32(videoFrameRateSlider.value))
                     //set the new frequency to measure sensor data at
                     sensorManager.setTimeInterval(motionManager: AllData.shared.motionManager, updateInterval: TimeInterval(1/frequencySlider.value))
+                    //let data update interval equal to 80 percent the sensor frequency
                     AllData.shared.sensorFrequency = Double((1/frequencySlider.value) * 0.80)
                     //save the data so iot persists
                     //set the new default values

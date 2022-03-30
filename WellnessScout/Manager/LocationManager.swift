@@ -24,7 +24,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, MK
     var headingPublisher = PassthroughSubject<String, Error>()
     var altitudePublisher = PassthroughSubject<CLLocationDistance, Error>()
     
-    
+    var deniedLocationAccuracyAuthPublisher = PassthroughSubject<String, Error>()
     var deniedLocationAccessPublisher = PassthroughSubject<Void, Never>()
     private override init(){
         super.init()
@@ -34,11 +34,15 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, MK
     
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        manager.distanceFilter = kCLDistanceFilterNone
         manager.delegate = self
         return manager
     }()
     func requestLocationUpdates(){
+        
+        
+        
         switch locationManager.authorizationStatus{
             
         case .notDetermined:
@@ -50,6 +54,15 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, MK
             
         default:
             deniedLocationAccessPublisher.send()
+        }
+        switch locationManager.accuracyAuthorization{
+            
+        case .fullAccuracy:
+            print("full Accuracy")
+        case .reducedAccuracy:
+            deniedLocationAccuracyAuthPublisher.send("Please navigate to the Ios app settings and switch to precise location")
+        @unknown default:
+            print("unkown fault")
         }
     }
     

@@ -31,7 +31,7 @@ var dtaURLS = DateStored()
 //Dictionary for health data
 var firstdat : OrderedDictionary<String, [Any]> = ["Date":[],"StepCount":[],"DistanceWalkingRunning":[],"HeadphoneAudioExposure":[],"HeartRate":[]]
 var obdData : OrderedDictionary<String, [Any]> = [:]
-var recordedDataDictionary : OrderedDictionary<String, [Any]> = ["id":[],"latitude":[],"longitude":[],"accelerationX":[],"accelerationY":[],"accelerationZ":[],"gyrodataX":[],"gyrodataY":[],"gyrodataZ":[],"pitchData":[],"rollData":[],"yawData":[],"quarternionX":[],"quarternionY":[],"quarternionZ":[],"quarternionW":[],"userAccelerationX":[],"userAccelerationY":[],"userAccelerationZ":[],"timeStamp":[],"unixTimeStamp":[],"heartRateWearablePart":[],"speedMobileDevice(mph)":[],"speedVehicleOBD(kph)":[],"rpmVehicleOBD(rpm)":[],"temperatureVehicleOBD(C)":[],"videoName":[],"videoID":[],"traveledDistanceInMetres":[],"straightDistanceInMetres":[],"altitudeInMetres":[],"header":[],"savelocationID":[]]
+var recordedDataDictionary : OrderedDictionary<String, [Any]> = ["id":[],"latitude":[],"longitude":[],"accelerationX":[],"accelerationY":[],"accelerationZ":[],"gyrodataX":[],"gyrodataY":[],"gyrodataZ":[],"pitchData":[],"rollData":[],"yawData":[],"quarternionX":[],"quarternionY":[],"quarternionZ":[],"quarternionW":[],"userAccelerationX":[],"userAccelerationY":[],"userAccelerationZ":[],"timeStamp":[],"unixTimeStamp":[],"heartRateWearablePart":[],"speedMobileDevice(mph)":[],"speedVehicleOBD(kph)":[],"rpmVehicleOBD(rpm)":[],"temperatureVehicleOBD(C)":[],"videoName":[],"videoID":[],"traveledDistanceInMiles":[],"straightDistanceInMiles":[],"altitudeInMetres":[],"header":[],"savelocationID":[]]
 var DataArraySensor : [MainSensorData] = []
 var stepC = [Double].self
 var heartRt = [Double].self
@@ -53,7 +53,7 @@ var camState: cameraType = .backcam
 
 
 @available(iOS 14.0, *)
-class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, CLLocationManagerDelegate,MKMapViewDelegate{
+class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, CLLocationManagerDelegate,MKMapViewDelegate{
        
     var existingPost: DateStored = DateStored()
     var frntcm : String = ""
@@ -138,12 +138,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     let healthStore = WearableDeviceManager()
     
-    /// The HealthKit data types we will request to read.
-//    let readTypes = Set(WearableDeviceManager.readDataTypes)
-//    /// The HealthKit data types we will request to share and have write access.
-//    let shareTypes = Set(WearableDeviceManager.shareDataTypes)
-    
-//    var hasRequestedHealthData: Bool = false
+   
     let calendar: Calendar = .current
     
     var mobilityContent: [String] = [
@@ -174,51 +169,19 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        deviceOri()
         
         healthStore.requestAuthorization()
         self.performQuery()
         
+        // initialize the map view
         mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.mapType = MKMapType(rawValue: 0)!
         mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
        
-        
+        //start observing data appended to amplify local data store
         amplifyVidUpload.observeDataStore()
-//        healthStore.requestHealthDataAccessIfNeeded(dataTypes: mobilityContent) { (success) in
-//            if success {
-//                self.performQuery()
-//            }
-//        }
-//        DispatchQueue.main.async {
-//            self.performQuery()
-//        }
-//        healthStore1.requestAuthorization(toShare: shareTypes, read: readTypes){(success, error) in
-//            if let error = error{
-//                print(error)
-//            }
-//            self.performQuery()
-//        }
-//        getHealthAuthorizationRequestStatus()
-//        WearableDeviceManager.requestHealthDataAccessIfNeeded(dataTypes: mobilityContent) { (success) in
-//            if success {
-//                self.performQuery()
-//            }
-//        }
 
-//        let allTypes = Set([HKObjectType.workoutType(),
-//                            HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
-//                            HKObjectType.quantityType(forIdentifier: .distanceCycling)!,
-//                            HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning)!,
-//                            HKObjectType.quantityType(forIdentifier: .heartRate)!])
-//
-//        healthStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
-//            if !success {
-//                // Handle the error here.
-//                print(error as Any)
-//            }
-//        }
         
         recordButton.layer.cornerRadius = recordButton.frame.width / 2
         recordButton.layer.masksToBounds = true
@@ -276,13 +239,6 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         //set the vehicle info manager delegate
         vehicleInfoManager.delegate = self
         
-//        //start observing OBD Data
-//        observeObdSpeed()
-//        observeObdRpm()
-//        observeObdTemp()
-//        observeObdAdaptorStat()
-//        //start obd adaptor connection
-//        obdDeviceService.getObdData()
         
         //start OBD connection
         instanceOfCustomObject.onStartup()
@@ -291,32 +247,14 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         
         
         data = mobilityContent.map { ($0, []) }
-        // Request authorization.
-    
-//        print("Requesting HealthKit authorization...")
-//        self.healthStore.requestAuthorization(toShare: shareTypes, read: readTypes) { (success, error) in
-//            if success {
-//                self.performQuery()
-//            }
-//        }
-        
-//        getHealthAuthorizationRequestStatus()
-//        WearableDeviceManager.requestHealthDataAccessIfNeeded(dataTypes: mobilityContent) { (success) in
-//            if success {
-//                self.performQuery()
-//            }
-//        }
+     
         
         // Allow users to double tap to switch between the front and back cameras being in a PiP
 //        let togglePiPDoubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(togglePiP))
 //        togglePiPDoubleTapGestureRecognizer.numberOfTapsRequired = 2
 //        view.addGestureRecognizer(togglePiPDoubleTapGestureRecognizer)
        
-        
-//        DispatchQueue.main.async {
-//            print(type(of: firstdat))
-//        }
-            
+ 
         
         
         localFileManager.createDirectory()
@@ -364,10 +302,13 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     }
     
+    //remove device orientation notification
+    
     deinit {
        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
+    //check device orientation and rotate ui icons
     @objc func rotated() {
         if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft {
             var constraints = [NSLayoutConstraint]()
@@ -409,13 +350,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         }
     }
     
-//    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-//        if fromInterfaceOrientation == .portrait || fromInterfaceOrientation == .portraitUpsideDown{
-//            print("phone is in portrait mode")
-//        }else{
-//            print("phone is in landscape mode")
-//        }
-//    }
+
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -489,35 +424,16 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         appDelegate.shouldRotate = false
-        deviceOri()
-//        self.backCameraVideoPreviewLayer?.frame.size.width = self.view.frame.width + 100
-//        CGRect biggerFrame = tabBarController.view.frame;
-//        biggerFrame.size.height += tabBarController.tabBar.frame.size.height;
-//        tabBarController.view.frame = biggerFrame ;
-//        backCameraVideoPreviewLayer!.bounds.size.width = blurredUiView.bounds.size.width
+        observeLocationAccuracySettings()
     }
     
     
     
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        super.viewWillTransition(to: size, with: coordinator)
-//        determineMyDeviceOrientation()
-//    }
-//
-//    func determineMyDeviceOrientation()
-//       {
-//           if UIDevice.current.orientation.isLandscape {
-//               print("Device is in landscape mode")
-//           } else {
-//               print("Device is in portrait mode")
-//           }
-//       }
+
     
-    func deviceOri(){
-//        print("This is in landscape: \(UIDevice.current.orientation.isLandscape)")
-//        print("This is in portrait: \(UIDevice.current.orientation.isPortrait)")
-    }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         sessionQueue.async {
@@ -1240,18 +1156,6 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     }
                 }
                 
-//                AllData.shared.recordDataTimer = Timer.scheduledTimer(timeInterval: AllData.shared.sensorFrequency, target: self, selector: #selector(logSensorData), userInfo: nil, repeats: true)
-                
-
-//                AllData.shared.recordDataTimer.fire()
-                //timer used to auto save the video and restart as needed so the file size stays low, logs every 10 mins
-//                AllData.shared.saveDataTimer = Timer.scheduledTimer(timeInterval: userData.autoSaveTime + 2, target: self, selector: #selector(saveVideoData), userInfo: nil, repeats: true)
-                //show the auto save timer so the user has an idea of when the next file will be saved
-//                autoSaveView.isHidden = false
-                //set the recording start date, this is 10 minutes
-//                AllData.shared.recordingStartDate = Date().addingTimeInterval(userData.autoSaveTime)
-                //call the function to update the auto save view
-//                updateAutoSaveTimer(endDate: SingeltonData.shared.recordingStartDate, currentDate: Date(), view: autoSaveView)
             } else {
                 
                 AllData.shared.saveDataTimer.invalidate()
@@ -1288,6 +1192,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         AllData.shared.dateStoredId = existingPost.id
                     }
                 }
+                
+                // convert health data to csv
                 csvParser.createCsv(firstdat, "initialHealth\(AllData.shared.name).csv"){ sensorUrl in
                     existingPost.initiaLHealthData = String(describing: sensorUrl.lastPathComponent)
                     amplifyVidUpload.saveDataURLlocally(dataURLS: existingPost)
@@ -1296,6 +1202,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                         uploadSensordataAWS(sensor: sensorUrl)
                     }
                 }
+                
+                // convert obd to csv
                 csvParser.createCsv(obdData, "obdData\(AllData.shared.name).csv"){ sensorUrl in
                     allData.initialVehicleData = String(describing: sensorUrl)
                     existingPost.initialVehicleData = String(describing: sensorUrl.lastPathComponent)
@@ -1536,47 +1444,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         AllData.shared.videoURL = fileURL.lastPathComponent
     }
     
-    //fires when we finish recording
-    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        print("We finished Recording")
-        if error == nil{
-            //create the url to the video we just recorded
-            let videoRecorded = outputFileURL as URL
-            //save the data to firebase to refrence back, the create and id
-            if userData.automaticUpload == true{
-                //saves the video to the device instead of uploading
-                //copy the video to the user dir for storage
-                localFileManager.saveVideoToDocumentsDirectory(srcURL: videoRecorded, dstURL: (localFileManager.pathForDocumentDirectoryAsUrl()?.appendingPathComponent("DI", isDirectory: true).appendingPathComponent(outputFileURL.lastPathComponent))!){ sensorUrl in
-                    switch camState {
-                    case .frontcam:
-                       print("front")
-                    case .backcam:
-                        print("back")
-                    }
-                    
-                }
-                //copy the sensor data
-                defaultsManager.setSensorDataArray(sensorDataArray: AllData.shared.sensorDataArray, videoName: outputFileURL.lastPathComponent)
-                //remove the sensor data obj
-                AllData.shared.sensorDataArray.removeAll()
-            } else if userData.automaticUpload == false {
-                //if the user is actually uploading the files now over cellular and not later
-//                let nameString = outputFileURL.lastPathComponent
-                //generate the name of the file based on date
-//                let name = "\(Int(Date().timeIntervalSince1970))"
-                //saves the video to firebase
-                //create the progress view
-//                let progressView = UIProgressView()
-                //save the video to firebase and pass the data
-//                firebaseManager.saveVideo(url: outputFileURL, videoName: nameString, progressView: progressView)
-                //save all of the data as the video uploads otherwise as its collected
-            }
-        }else{
-            //fires when an error occurs
-            print("Error")
-//            print(error)
-        }
-    }
+    
     
     
     private func saveMovieToPhotoLibrary(_ movieURL: URL) {
@@ -1656,26 +1524,20 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         var pipSampleBuffer: CMSampleBuffer?
         
         if pipDevicePosition == .back && videoDataOutput == backCameraVideoDataOutput {
-//            pipSampleBuffer = sampleBuffer
             movieRecorder?.recordVideo(sampleBuffer: sampleBuffer)
         } else if pipDevicePosition == .back && videoDataOutput == frontCameraVideoDataOutput {
-//            fullScreenSampleBuffer = sampleBuffer
             movieRecorderpip?.recordVideo(sampleBuffer: sampleBuffer)
         } else if pipDevicePosition == .front && videoDataOutput == backCameraVideoDataOutput {
-//            fullScreenSampleBuffer = sampleBuffer
             movieRecorder?.recordVideo(sampleBuffer: sampleBuffer)
         } else if pipDevicePosition == .front && videoDataOutput == frontCameraVideoDataOutput {
-//            pipSampleBuffer = sampleBuffer
+
             movieRecorderpip?.recordVideo(sampleBuffer: sampleBuffer)
         }
         
         if let fullScreenSampleBuffer = fullScreenSampleBuffer {
             processFullScreenSampleBuffer(fullScreenSampleBuffer)
         }
-        
-//        if let pipSampleBuffer = pipSampleBuffer {
-//            processPiPSampleBuffer(pipSampleBuffer)
-//        }
+ 
     }
     
     private func processFullScreenSampleBuffer(_ fullScreenSampleBuffer: CMSampleBuffer) {
@@ -1699,14 +1561,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         
         videoMixer.pipFrame = normalizedPipFrame
         
-        // Mix the full screen pixel buffer with the pip pixel buffer
-        // When the PIP is the back camera, the primaryPixelBuffer is the front camera
-//        guard let mixedPixelBuffer = videoMixer.mix(fullScreenPixelBuffer: fullScreenPixelBuffer,
-//                                                    pipPixelBuffer: pipPixelBuffer,
-//                                                    fullScreenPixelBufferIsFrontCamera: pipDevicePosition == .back) else {
-//                                                        print("Unable to combine video")
-//                                                        return
-//        }
+        
         
         // If we're recording, append this buffer to the movie
         if let recorder = movieRecorder,
@@ -2090,7 +1945,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
             print(backCamera.activeFormat.videoSupportedFrameRateRanges)
 
     
-            //checks for errors in the camera
+       
        
     }
     
@@ -2098,145 +1953,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
     
     
     
-    //HealthKitFunctions
     
-//    func requestHealthAuthorization() {
-//        print("Requesting HealthKit authorization...")
-//
-//        if !HKHealthStore.isHealthDataAvailable() {
-//            presentHealthDataNotAvailableError()
-//
-//            return
-//        }
-//
-//        healthStore.requestAuthorization(toShare: shareTypes, read: readTypes) { (success, error) in
-//            var status: String = ""
-//
-//            if let error = error {
-//                status = "HealthKit Authorization Error: \(error.localizedDescription)"
-//            } else {
-//                if success {
-//                    if self.hasRequestedHealthData {
-//                        status = "You've already requested access to health data. "
-//                    } else {
-//                        status = "HealthKit authorization request was successful! "
-//                    }
-//
-//                    status += self.createAuthorizationStatusDescription(for: self.shareTypes)
-//
-//                    self.hasRequestedHealthData = true
-//                } else {
-//                    status = "HealthKit authorization did not complete successfully."
-//                }
-//            }
-//
-//            print(status)
-//
-//            // Results come back on a background thread. Dispatch UI updates to the main thread.
-////            DispatchQueue.main.async {
-////                self.descriptionLabel.text = status
-////            }
-//        }
-//    }
-//
-//    func getHealthAuthorizationRequestStatus() {
-//        print("Checking HealthKit authorization status...")
-//
-//        if !HKHealthStore.isHealthDataAvailable() {
-//            presentHealthDataNotAvailableError()
-//
-//            return
-//        }
-//
-//        healthStore.getRequestStatusForAuthorization(toShare: shareTypes, read: readTypes) { (authorizationRequestStatus, error) in
-//
-//            var status: String = ""
-//            if let error = error {
-//                status = "HealthKit Authorization Error: \(error.localizedDescription)"
-//            } else {
-//                switch authorizationRequestStatus {
-//                case .shouldRequest:
-//                    self.hasRequestedHealthData = false
-//
-//                    status = "The application has not yet requested authorization for all of the specified data types."
-//                case .unknown:
-//                    status = "The authorization request status could not be determined because an error occurred."
-//                case .unnecessary:
-//                    self.hasRequestedHealthData = true
-//
-//                    status = "The application has already requested authorization for the specified data types. "
-//                    status += self.createAuthorizationStatusDescription(for: self.shareTypes)
-//                    default:
-//                    break
-//                }
-//            }
-//
-//            DispatchQueue.main.async {
-//                print(status)
-//            }
-//
-//
-//            // Results come back on a background thread. Dispatch UI updates to the main thread.
-////            DispatchQueue.main.async {
-////                self.descriptionLabel.text = status
-////            }
-//        }
-//    }
-//
-//    private func createAuthorizationStatusDescription(for types: Set<HKObjectType>) -> String {
-//        var dictionary = [HKAuthorizationStatus: Int]()
-//
-//        for type in types {
-//            let status = healthStore.authorizationStatus(for: type)
-//
-//            if let existingValue = dictionary[status] {
-//                dictionary[status] = existingValue + 1
-//            } else {
-//                dictionary[status] = 1
-//            }
-//        }
-//
-//        var descriptionArray: [String] = []
-//
-//        if let numberOfAuthorizedTypes = dictionary[.sharingAuthorized] {
-//            let format = NSLocalizedString("AUTHORIZED_NUMBER_OF_TYPES", comment: "")
-//            let formattedString = String(format: format, locale: .current, arguments: [numberOfAuthorizedTypes])
-//
-//            descriptionArray.append(formattedString)
-//        }
-//        if let numberOfDeniedTypes = dictionary[.sharingDenied] {
-//            let format = NSLocalizedString("DENIED_NUMBER_OF_TYPES", comment: "")
-//            let formattedString = String(format: format, locale: .current, arguments: [numberOfDeniedTypes])
-//
-//            descriptionArray.append(formattedString)
-//        }
-//        if let numberOfUndeterminedTypes = dictionary[.notDetermined] {
-//            let format = NSLocalizedString("UNDETERMINED_NUMBER_OF_TYPES", comment: "")
-//            let formattedString = String(format: format, locale: .current, arguments: [numberOfUndeterminedTypes])
-//
-//            descriptionArray.append(formattedString)
-//        }
-//
-//        // Format the sentence for grammar if there are multiple clauses.
-//        if let lastDescription = descriptionArray.last, descriptionArray.count > 1 {
-//            descriptionArray[descriptionArray.count - 1] = "and \(lastDescription)"
-//        }
-//
-//        let description = "Sharing is " + descriptionArray.joined(separator: ", ") + "."
-//
-//        return description
-//    }
-//
-//    private func presentHealthDataNotAvailableError() {
-//        let title = "Health Data Unavailable"
-//        let message = "Aw, shucks! We are unable to access health data on this device. Make sure you are using device with HealthKit capabilities."
-//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-//        let action = UIAlertAction(title: "Dismiss", style: .default)
-//
-//        alertController.addAction(action)
-//
-//        present(alertController, animated: true)
-//    }
     
     func performQuery() {
         // Create a query for each data type.
@@ -2258,7 +1975,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 var dateCollected: [Date] = []
                 
                 
-                //["heartRate":[],"stepCount":[],"distanceWalking":[],"HeadphoneAudioExposure":[]]
+                
                 
                 statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
                     let statisticsQuantity = getStatisticsQuantity(for: statistics, with: statisticsOptions)
@@ -2270,16 +1987,12 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                 
                     firstdat["Date"] = dateCollected as [Date]
                     if item.dataTypeIdentifier == "HKQuantityTypeIdentifierStepCount"{
-//                        firstdat.updateValue(values as [Double], forKey: "StepCount")
                         firstdat["StepCount"] = values as [Double]
                     }else if item.dataTypeIdentifier == "HKQuantityTypeIdentifierDistanceWalkingRunning"{
-//                        firstdat.updateValue(values as [Double], forKey: "DistanceWalkingRunning")
                         firstdat["DistanceWalkingRunning"] = values as [Double]
                     }else if item.dataTypeIdentifier == "HKQuantityTypeIdentifierHeadphoneAudioExposure"{
-//                        firstdat.updateValue(values as [Double], forKey: "HeadphoneAudioExposure")
                         firstdat["HeadphoneAudioExposure"] = values as [Double]
                     }else if item.dataTypeIdentifier == "HKQuantityTypeIdentifierHeartRate"{
-//                        firstdat.updateValue(values as [Double], forKey: "HeartRate")
                         firstdat["HeartRate"] = values as [Double]
                     }
                     
@@ -2288,21 +2001,10 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     
                 }
                 
-//                for healthdata in firstdat.keys{
-//                    print(healthdata)
-//                }
+
                 print(firstdat)
                 
-//                var x = [String:[Double]]()
-//                let dict = Dictionary(uniqueKeysWithValues: zip(item, self.data[index].values))
-                
-            
-//                self.data[index].values = values
 
-//                print(self.data)
-//               print(self.stepC)
-//                print(firstdat["HeartRate"] ?? [])
-               
             }
             
 //            var fbdatabase = [String:Double]()
@@ -2322,15 +2024,7 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         _ = Amplify.Auth.getCurrentUser()?.userId
         let data = MainSensorData(latitude: self.coordinates.lat, longitude: self.coordinates.lon, accelerationX: AllData.shared.motionManager.accelerometerData!.acceleration.x, accelerationY: AllData.shared.motionManager.accelerometerData!.acceleration.y, accelerationZ: AllData.shared.motionManager.accelerometerData!.acceleration.z, gyrodataX: AllData.shared.motionManager.gyroData?.rotationRate.x, gyrodataY: AllData.shared.motionManager.gyroData?.rotationRate.y, gyrodataZ: AllData.shared.motionManager.gyroData?.rotationRate.z, pitchData: AllData.shared.motionManager.deviceMotion?.attitude.pitch, rollData: AllData.shared.motionManager.deviceMotion?.attitude.roll, yawData: AllData.shared.motionManager.deviceMotion?.attitude.yaw, quarternionX: AllData.shared.motionManager.deviceMotion?.attitude.quaternion.x, quarternionY: AllData.shared.motionManager.deviceMotion?.attitude.quaternion.y, quarternionZ: AllData.shared.motionManager.deviceMotion?.attitude.quaternion.z, quarternionW: AllData.shared.motionManager.deviceMotion?.attitude.quaternion.w, userAccelerationX: AllData.shared.motionManager.accelerometerData?.acceleration.x, userAccelerationY: AllData.shared.motionManager.accelerometerData?.acceleration.y, userAccelerationZ: AllData.shared.motionManager.accelerometerData?.acceleration.z, timeStamp: AllData.shared.motionManager.deviceMotion?.timestamp, unixTimeStamp: Date().timeIntervalSince1970, heartRateWearablePart: self.heartRateMain ,speedMobileDevice: self.speedMain, speedVehicleOBD: self.obdSpeedMain , rpmVehicleOBD: self.obdRpmMain , temperatureVehicleOBD: self.obdTempMain , videoName: AllData.shared.name, videoID: AllData.shared.name, traveledDistanceInMetres:  self.distanceMain, straightDistanceInMetres: self.StraightdistanceMain, header: self.headerMain, altitude: self.altitudeMain ,savelocationID: AllData.shared.name)
         
-        DispatchQueue.main.async {
-            let scale: Int16 = 2
-
-            let behavior = NSDecimalNumberHandler(roundingMode: .plain, scale: scale, raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: true)
-
-            let roundedValue1 = NSDecimalNumber(value: data.accelerationZ ?? 0).rounding(accordingToBehavior: behavior)
-
-//            self.accelerationInZ.text = String(Double(truncating: roundedValue1))
-        }
+        
         
 
         recordedDataDictionary["id"]?.append(data.id)
@@ -2356,17 +2050,13 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
         recordedDataDictionary["unixTimeStamp"]?.append(data.unixTimeStamp as Any)
         recordedDataDictionary["heartRateWearablePart"]?.append(data.heartRateWearablePart as Any)
         recordedDataDictionary["speedMobileDevice(mph)"]?.append(data.speedMobileDevice as Any)
-//        if let doubleValue = instanceOfCustomObject.speedLabel as? Double {
-//            print(doubleValue)
-//            recordedDataDictionary["speedVehicleOBD(mph)"]?.append(String(format: "%.0f",doubleValue * 0.621371) as Any)
-//        }
         recordedDataDictionary["speedVehicleOBD(kph)"]?.append(instanceOfCustomObject.speedLabel as Any)
         recordedDataDictionary["rpmVehicleOBD(rpm)"]?.append(instanceOfCustomObject.rpmLabel as Any)
         recordedDataDictionary["temperatureVehicleOBD(C)"]?.append(instanceOfCustomObject.tempLabel as Any)
         recordedDataDictionary["videoName"]?.append(data.videoName as Any)
         recordedDataDictionary["videoID"]?.append(data.videoID as Any)
-        recordedDataDictionary["traveledDistanceInMetres"]?.append(data.traveledDistanceInMetres as Any)
-        recordedDataDictionary["straightDistanceInMetres"]?.append(data.straightDistanceInMetres as Any)
+        recordedDataDictionary["traveledDistanceInMiles"]?.append(data.traveledDistanceInMetres as Any)
+        recordedDataDictionary["straightDistanceInMiles"]?.append(data.straightDistanceInMetres as Any)
         recordedDataDictionary["header"]?.append(data.header as Any)
         recordedDataDictionary["altitudeInMetres"]?.append(data.altitude as Any)
         recordedDataDictionary["savelocationID"]?.append(data.savelocationID as Any)
@@ -2402,11 +2092,11 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     print(error)
                 }
             } receiveValue: { coordinates in
-//                print(coordinates)
                 self.coordinates = (coordinates.latitude, coordinates.longitude)
             }
             .store(in: &tokens)
     }
+    
     //function to observe travelling speed
     func observeSpeed(){
         deviceLocationService.speedPublisher
@@ -2418,17 +2108,13 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
             } receiveValue: { speed in
                 //convert to mph
                 let speedToMPH = (speed * 2.23694)
-//                print(speedToMPH)
+                
+                //collect speed only if speed is greater than zero
                 if speedToMPH > 0 {
-                    //return the speed since we are moving
-//                    print(String(format: "%.0f mph", speedToMPH))
                     self.speedMain = (String(format: "%.0f", speedToMPH))
-
                 } else {
                     //since the data is invalid return 0
-                    
                     self.speedMain = "0"
-//                    print(self.speedMain)
                 }
             }
             .store(in: &tokens)
@@ -2443,8 +2129,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     print(error)
                 }
             } receiveValue: { distance in
-//                print(distance)
-                self.distanceMain = distance
+                let distanceInMiles = distance * 0.000621371192
+                self.distanceMain = Double(String(format:"%.2f", distanceInMiles)) ?? distanceInMiles
             }
             .store(in: &tokens)
     }
@@ -2458,8 +2144,8 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
                     print(error)
                 }
             } receiveValue: { distance in
-//                print(distance)
-                self.StraightdistanceMain = distance
+                let distanceInMiles = distance * 0.000621371192
+                self.StraightdistanceMain = Double(String(format:"%.2f", distanceInMiles)) ?? distanceInMiles
             }
             .store(in: &tokens)
     }
@@ -2505,6 +2191,41 @@ class ViewController: UIViewController,AVCaptureFileOutputRecordingDelegate, AVC
 //                self.presentAlert(withTitle: "Location", message: "User Location Access Denied", actions: ["OK" : UIAlertAction.Style.default])
             }
             .store(in: &tokens)
+    }
+    
+    func observeLocationAccuracySettings() {
+        deviceLocationService.deniedLocationAccuracyAuthPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case .failure(let error) = completion{
+                    print(error)
+                }
+            } receiveValue: { locationAcc in
+                self.alertUserToAppSettings(message:locationAcc)
+            }
+            .store(in: &tokens)
+    }
+    
+    func alertUserToAppSettings(message:String){
+        let alertController = UIAlertController (title: "Location Accuracy", message: message, preferredStyle: .alert)
+
+            let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                    return
+                }
+
+                if UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                        print("Settings opened: \(success)") // Prints true
+                    })
+                }
+            }
+            alertController.addAction(settingsAction)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            alertController.addAction(cancelAction)
+
+            present(alertController, animated: true, completion: nil)
     }
     
     //observe heartrate from watch extension

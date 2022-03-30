@@ -47,6 +47,14 @@
 		541E8D2D271062D900FB456F /* AllData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541E8D2C271062D900FB456F /* AllData.swift */; };
 		541E8D30271063AC00FB456F /* HealthDataTypeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541E8D2F271063AC00FB456F /* HealthDataTypeValue.swift */; };
 		541E8D32271063E100FB456F /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541E8D31271063E100FB456F /* SensorData.swift */; };
+		54256F3B27E8E983002DBA9B /* MainSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F3A27E8E983002DBA9B /* MainSettingsViewController.swift */; };
+		54256F3D27E8F292002DBA9B /* MainSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F3C27E8F292002DBA9B /* MainSettingsTableViewCell.swift */; };
+		54256F3F27E90B8F002DBA9B /* MainSettingsSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F3E27E90B8F002DBA9B /* MainSettingsSwitchTableViewCell.swift */; };
+		54256F4127E90E72002DBA9B /* MainSettingsSliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F4027E90E72002DBA9B /* MainSettingsSliderTableViewCell.swift */; };
+		54256F4327E92119002DBA9B /* MainsettingsVideoFrameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F4227E92119002DBA9B /* MainsettingsVideoFrameTableViewCell.swift */; };
+		54256F4527E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F4427E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift */; };
+		54256F6127EBC94E002DBA9B /* CurrentVideoFrameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F6027EBC94E002DBA9B /* CurrentVideoFrameTableViewCell.swift */; };
+		54256F6327EBC969002DBA9B /* CurrentUploadLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F6227EBC969002DBA9B /* CurrentUploadLabelTableViewCell.swift */; };
 		542BE89E2791C75C00E21911 /* VehicleInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542BE89D2791C75B00E21911 /* VehicleInfoManager.swift */; };
 		542BE8A02791C77400E21911 /* VehicleInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542BE89F2791C77400E21911 /* VehicleInfoData.swift */; };
 		542BE8A22791C7AF00E21911 /* VehicleInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542BE8A12791C7AF00E21911 /* VehicleInfoModel.swift */; };
@@ -195,6 +203,14 @@
 		541E8D2C271062D900FB456F /* AllData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllData.swift; sourceTree = "<group>"; };
 		541E8D2F271063AC00FB456F /* HealthDataTypeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataTypeValue.swift; sourceTree = "<group>"; };
 		541E8D31271063E100FB456F /* SensorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorData.swift; sourceTree = "<group>"; };
+		54256F3A27E8E983002DBA9B /* MainSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsViewController.swift; sourceTree = "<group>"; };
+		54256F3C27E8F292002DBA9B /* MainSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsTableViewCell.swift; sourceTree = "<group>"; };
+		54256F3E27E90B8F002DBA9B /* MainSettingsSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		54256F4027E90E72002DBA9B /* MainSettingsSliderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsSliderTableViewCell.swift; sourceTree = "<group>"; };
+		54256F4227E92119002DBA9B /* MainsettingsVideoFrameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainsettingsVideoFrameTableViewCell.swift; sourceTree = "<group>"; };
+		54256F4427E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsButtonTableViewCell.swift; sourceTree = "<group>"; };
+		54256F6027EBC94E002DBA9B /* CurrentVideoFrameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentVideoFrameTableViewCell.swift; sourceTree = "<group>"; };
+		54256F6227EBC969002DBA9B /* CurrentUploadLabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUploadLabelTableViewCell.swift; sourceTree = "<group>"; };
 		542BE89D2791C75B00E21911 /* VehicleInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoManager.swift; sourceTree = "<group>"; };
 		542BE89F2791C77400E21911 /* VehicleInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoData.swift; sourceTree = "<group>"; };
 		542BE8A12791C7AF00E21911 /* VehicleInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoModel.swift; sourceTree = "<group>"; };
@@ -314,6 +330,13 @@
 				540CBCC227D7F1AD00837337 /* LibraryCell.swift */,
 				540CBCC327D7F1AD00837337 /* LibraryCell.xib */,
 				540CBCED27DF86F100837337 /* CardView.swift */,
+				54256F3C27E8F292002DBA9B /* MainSettingsTableViewCell.swift */,
+				54256F6027EBC94E002DBA9B /* CurrentVideoFrameTableViewCell.swift */,
+				54256F6227EBC969002DBA9B /* CurrentUploadLabelTableViewCell.swift */,
+				54256F3E27E90B8F002DBA9B /* MainSettingsSwitchTableViewCell.swift */,
+				54256F4027E90E72002DBA9B /* MainSettingsSliderTableViewCell.swift */,
+				54256F4227E92119002DBA9B /* MainsettingsVideoFrameTableViewCell.swift */,
+				54256F4427E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -337,6 +360,7 @@
 				541683EF2741AA3A005C4869 /* ConfirmationViewOne.swift */,
 				541C9EBA274D8051001BA986 /* ConfirmViewController.swift */,
 				549B4F2627B6CD2C00A26F2A /* ViewControllertwo.swift */,
+				54256F3A27E8E983002DBA9B /* MainSettingsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -751,15 +775,18 @@
 				5440008827703F7100B14BE3 /* InitialHealthData+Schema.swift in Sources */,
 				541E8D212710618100FB456F /* WearableDeviceManager.swift in Sources */,
 				543A8F3F2725BBC4007D7DF2 /* UploadTableViewCell.swift in Sources */,
+				54256F3F27E90B8F002DBA9B /* MainSettingsSwitchTableViewCell.swift in Sources */,
 				54D71DBA273313C8001A6FE5 /* TermsOfUseViewController.swift in Sources */,
 				543A8F3127250196007D7DF2 /* VideoPlaybackViewController.swift in Sources */,
 				541E8D1A271060A200FB456F /* Utilities.swift in Sources */,
 				541E8D1C271060C100FB456F /* PiPVideoMixer.swift in Sources */,
 				543A8F352725103D007D7DF2 /* LibraryTableTableViewController.swift in Sources */,
+				54256F6127EBC94E002DBA9B /* CurrentVideoFrameTableViewCell.swift in Sources */,
 				540A2085279669A3007F5A60 /* StyleKit.swift in Sources */,
 				541E8D162710601A00FB456F /* PreviewView.swift in Sources */,
 				541E8D27271061FE00FB456F /* WatchTests.swift in Sources */,
 				548C8E4D27270866007B17A7 /* HealthData.swift in Sources */,
+				54256F4327E92119002DBA9B /* MainsettingsVideoFrameTableViewCell.swift in Sources */,
 				54EE32E82707B813004A54C9 /* SceneDelegate.swift in Sources */,
 				54A946DE27149F870093A7C0 /* OBDManager.swift in Sources */,
 				543A8F3D2725BB73007D7DF2 /* UploadTableViewController.swift in Sources */,
@@ -777,6 +804,7 @@
 				541686B62788C51600CC5DBB /* CustomObject.m in Sources */,
 				540305C72712B04500EB7FC3 /* WatchKitConnection.swift in Sources */,
 				5440008727703F7100B14BE3 /* MobileAppUser+Schema.swift in Sources */,
+				54256F4527E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift in Sources */,
 				540A208927966E0F007F5A60 /* ViewPreview.swift in Sources */,
 				5440008527703F7100B14BE3 /* SaveLocation+Schema.swift in Sources */,
 				543A8F3927251C4A007D7DF2 /* LocalFileManager.swift in Sources */,
@@ -785,10 +813,12 @@
 				541686B92788C95A00CC5DBB /* ObdMainManager.swift in Sources */,
 				5440008027703F7100B14BE3 /* AmplifyModels.swift in Sources */,
 				541683F02741AA3A005C4869 /* ConfirmationViewOne.swift in Sources */,
+				54256F4127E90E72002DBA9B /* MainSettingsSliderTableViewCell.swift in Sources */,
 				5440008327703F7100B14BE3 /* InitialHealthData.swift in Sources */,
 				543A8F37272510A2007D7DF2 /* LibraryTableViewCell.swift in Sources */,
 				5440007F27703F7100B14BE3 /* InitialVehicleData+Schema.swift in Sources */,
 				542BE89E2791C75C00E21911 /* VehicleInfoManager.swift in Sources */,
+				54256F3B27E8E983002DBA9B /* MainSettingsViewController.swift in Sources */,
 				541683F22741B53E005C4869 /* AmplifyDataUpload.swift in Sources */,
 				542BE8A02791C77400E21911 /* VehicleInfoData.swift in Sources */,
 				540305C92712B08200EB7FC3 /* LocalNotificationHelper.swift in Sources */,
@@ -800,6 +830,8 @@
 				548C8E472725F885007B17A7 /* GraphData.swift in Sources */,
 				544ABE74275A69A300950E4C /* CSVparser.swift in Sources */,
 				543A8F412725C92D007D7DF2 /* SettingsViewController.swift in Sources */,
+				54256F3D27E8F292002DBA9B /* MainSettingsTableViewCell.swift in Sources */,
+				54256F6327EBC969002DBA9B /* CurrentUploadLabelTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
