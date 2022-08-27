@@ -92,7 +92,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, MK
             startLocation = locations.first
             } else if let location = locations.last{
                 altitudePublisher.send(location.altitude)
-                speedPublisher.send(location.speed)
+                speedPublisher.send(location.speed * 2.23694)
                 coordinatesPublisher.send(location.coordinate)
                 traveledDistance += lastLocation.distance(from: location)
                 traveledDistancedistancePublisher.send(traveledDistance)

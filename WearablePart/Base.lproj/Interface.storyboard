@@ -11,7 +11,7 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="MainInterfaceController" customModule="wearablePart_WatchKit_Extension">
                     <items>
-                        <label alignment="left" text="WearablePart" textAlignment="center" id="hJI-KI-XEu"/>
+                        <label alignment="left" text="MobiScoiut" textAlignment="center" id="hJI-KI-XEu"/>
                         <label alignment="left" text="Heart Rate" id="ds6-xx-Y7S"/>
                         <label alignment="left" text="Step Count" id="hlq-fJ-dZs"/>
                         <button width="1" alignment="left" title="Start" id="EvF-jU-yHO">
@@ -54,14 +54,14 @@
         <!--Notification Controller-->
         <scene sceneID="ZPc-GJ-vnh">
             <objects>
-                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="wearablePart" customModuleProvider="target"/>
+                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="MobiScout" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="468" y="643"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="Niz-AI-uX2">
             <objects>
-                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="wearablePart" customModuleProvider="target"/>
+                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="MobiScout" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="468" y="345"/>
         </scene>

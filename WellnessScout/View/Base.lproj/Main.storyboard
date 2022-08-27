@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6sB-Oe-jUR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6sB-Oe-jUR">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -221,7 +221,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G6N-XH-KtD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1370" y="-675"/>
+            <point key="canvasLocation" x="-957" y="-1352"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="Hwc-2H-Pgv">
@@ -409,7 +409,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YQQ-Cu-7QS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="623" y="-1329"/>
+            <point key="canvasLocation" x="458" y="-1352"/>
         </scene>
         <!--Confirm View Controller-->
         <scene sceneID="eYZ-Db-bi7">
@@ -513,7 +513,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tgn-Ub-dIw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1371" y="-1329"/>
+            <point key="canvasLocation" x="343" y="-510"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="GOe-ZX-gex">
@@ -759,7 +759,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PuY-FR-GV6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1587" y="-1128"/>
+            <point key="canvasLocation" x="-3338" y="-1160"/>
         </scene>
         <!--Terms Of Use View Controller-->
         <scene sceneID="K5N-SB-OQT">
@@ -914,7 +914,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AsX-Yj-vdi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-93" y="-1328"/>
+            <point key="canvasLocation" x="-255" y="-1352"/>
         </scene>
         <!--Monitor-->
         <scene sceneID="L60-Yu-lvl">
@@ -942,7 +942,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uUc-9k-FrM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2346" y="-1017"/>
+            <point key="canvasLocation" x="1241" y="-644"/>
         </scene>
         <!--Library-->
         <scene sceneID="lvy-Vr-V9C">
@@ -974,7 +974,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nnW-kB-JeB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3048" y="-923"/>
+            <point key="canvasLocation" x="1945" y="113"/>
         </scene>
         <!--Library-->
         <scene sceneID="HcW-r3-ryg">
@@ -990,7 +990,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4OZ-IL-2b5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3641" y="-1724"/>
+            <point key="canvasLocation" x="2732" y="-2031"/>
         </scene>
         <!--Video Playback View Controller-->
         <scene sceneID="P3k-qY-fmG">
@@ -1022,7 +1022,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cVy-Fv-Blv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3709" y="-546"/>
+            <point key="canvasLocation" x="1914" y="-644"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Bnp-XY-vwx">
@@ -1191,7 +1191,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rdF-dA-PnK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4299" y="-1724"/>
+            <point key="canvasLocation" x="3181" y="-644"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Vep-Gn-mop">
@@ -1380,7 +1380,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1w2-6s-V1w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3906" y="98"/>
+            <point key="canvasLocation" x="3357" y="113"/>
         </scene>
         <!--MoreSettings-->
         <scene sceneID="zyQ-kQ-DrC">
@@ -1396,7 +1396,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E63-UL-d6w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4259" y="-976"/>
+            <point key="canvasLocation" x="2536" y="-644"/>
         </scene>
         <!--Settings-->
         <scene sceneID="s3V-oi-zl0">
@@ -1603,7 +1603,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2em-Ia-CnY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3222" y="98"/>
+            <point key="canvasLocation" x="2636" y="113"/>
         </scene>
         <!--Monitoring-->
         <scene sceneID="ngw-Sq-HV3">
@@ -1862,7 +1862,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EXr-c0-mKg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="535" y="-675"/>
+            <point key="canvasLocation" x="-801" y="-424"/>
         </scene>
         <!--Confirmation View One-->
         <scene sceneID="dNn-TV-Nco">
@@ -1971,7 +1971,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xil-Xv-Oru" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1370" y="46"/>
+            <point key="canvasLocation" x="-162" y="62"/>
         </scene>
         <!--Monitor-->
         <scene sceneID="H0G-8x-jnh">
@@ -2465,7 +2465,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4yu-Ap-VvA" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2436" y="517"/>
+            <point key="canvasLocation" x="1241" y="113"/>
         </scene>
     </scenes>
     <resources>

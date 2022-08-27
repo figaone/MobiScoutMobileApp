@@ -27,8 +27,6 @@
 		541683F22741B53E005C4869 /* AmplifyDataUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541683F12741B53E005C4869 /* AmplifyDataUpload.swift */; };
 		541686B62788C51600CC5DBB /* CustomObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 541686B52788C51600CC5DBB /* CustomObject.m */; };
 		541686B92788C95A00CC5DBB /* ObdMainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541686B82788C95A00CC5DBB /* ObdMainManager.swift */; };
-		5419A692278D753C00E77807 /* Mobiscoutjp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5419A691278D753C00E77807 /* Mobiscoutjp.jpg */; };
-		5419A694278D775F00E77807 /* Mobiscoutjp2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5419A693278D775F00E77807 /* Mobiscoutjp2.jpg */; };
 		541C9EBB274D8051001BA986 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541C9EBA274D8051001BA986 /* ConfirmViewController.swift */; };
 		541C9EC3274EF1A7001BA986 /* AuthenticatedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541C9EC2274EF1A6001BA986 /* AuthenticatedApp.swift */; };
 		541E8D0C27105BD100FB456F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541E8D0B27105BD100FB456F /* RegisterViewController.swift */; };
@@ -83,7 +81,6 @@
 		5440008A27711AFE00B14BE3 /* DateDataSave+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440008927711AFE00B14BE3 /* DateDataSave+Extension.swift */; };
 		544ABE2E27577E4900950E4C /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 544ABE2C27577E4900950E4C /* amplifyconfiguration.json */; };
 		544ABE2F27577E4900950E4C /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 544ABE2D27577E4900950E4C /* awsconfiguration.json */; };
-		544ABE72275A692300950E4C /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 544ABE71275A692300950E4C /* CHCSVParser.m */; };
 		544ABE74275A69A300950E4C /* CSVparser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544ABE73275A69A300950E4C /* CSVparser.swift */; };
 		544ABE772762A26700950E4C /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 544ABE762762A26700950E4C /* Collections */; };
 		544ABE792762A26700950E4C /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 544ABE782762A26700950E4C /* DequeModule */; };
@@ -116,6 +113,12 @@
 		54EE32EF2707B815004A54C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EE32EE2707B815004A54C9 /* Assets.xcassets */; };
 		54EE32F22707B815004A54C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54EE32F02707B815004A54C9 /* LaunchScreen.storyboard */; };
 		54F245C627547D940040F404 /* SourceOfTruth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F245C527547D940040F404 /* SourceOfTruth.swift */; };
+		6242A3092859979C00E0A986 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 6242A3082859979C00E0A986 /* Collections */; };
+		6242A30B2859979C00E0A986 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 6242A30A2859979C00E0A986 /* DequeModule */; };
+		6242A30D2859979C00E0A986 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 6242A30C2859979C00E0A986 /* OrderedCollections */; };
+		6242A31028599ADC00E0A986 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6242A30E28599ADB00E0A986 /* CHCSVParser.m */; };
+		624FB74128B87CB500CBC3B1 /* Mobiscoutjp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 624FB74028B87CB400CBC3B1 /* Mobiscoutjp.jpg */; };
+		624FB74328B87CD100CBC3B1 /* Mobiscoutjp2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 624FB74228B87CD100CBC3B1 /* Mobiscoutjp2.jpg */; };
 		BE3D438D3D7CDAF9B8C32BF4 /* Pods_WellnessScout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B372783774DE5C040D04CA /* Pods_WellnessScout.framework */; };
 /* End PBXBuildFile section */
 
@@ -183,8 +186,6 @@
 		541686B52788C51600CC5DBB /* CustomObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomObject.m; sourceTree = "<group>"; };
 		541686B72788C53A00CC5DBB /* CustomObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomObject.h; sourceTree = "<group>"; };
 		541686B82788C95A00CC5DBB /* ObdMainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObdMainManager.swift; sourceTree = "<group>"; };
-		5419A691278D753C00E77807 /* Mobiscoutjp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Mobiscoutjp.jpg; path = ../../../Downloads/Mobiscoutjp.jpg; sourceTree = "<group>"; };
-		5419A693278D775F00E77807 /* Mobiscoutjp2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Mobiscoutjp2.jpg; path = ../../../Downloads/Mobiscoutjp2.jpg; sourceTree = "<group>"; };
 		541C9EBA274D8051001BA986 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
 		541C9EC2274EF1A6001BA986 /* AuthenticatedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedApp.swift; sourceTree = "<group>"; };
 		541E8D0B27105BD100FB456F /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -240,8 +241,6 @@
 		544ABE2C27577E4900950E4C /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = SOURCE_ROOT; };
 		544ABE2D27577E4900950E4C /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		544ABE6F275A692200950E4C /* WellnessScout-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WellnessScout-Bridging-Header.h"; sourceTree = "<group>"; };
-		544ABE70275A692300950E4C /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHCSVParser.h; path = "../../../../Downloads/CHCSVParser-master/CHCSVParser/CHCSVParser/CHCSVParser.h"; sourceTree = "<group>"; };
-		544ABE71275A692300950E4C /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHCSVParser.m; path = "../../../../Downloads/CHCSVParser-master/CHCSVParser/CHCSVParser/CHCSVParser.m"; sourceTree = "<group>"; };
 		544ABE73275A69A300950E4C /* CSVparser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVparser.swift; sourceTree = "<group>"; };
 		545883C82713641A003A8B26 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		548C8E462725F885007B17A7 /* GraphData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphData.swift; sourceTree = "<group>"; };
@@ -277,6 +276,10 @@
 		54EE32F12707B815004A54C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54EE32F32707B815004A54C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54F245C527547D940040F404 /* SourceOfTruth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceOfTruth.swift; sourceTree = "<group>"; };
+		6242A30E28599ADB00E0A986 /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
+		6242A30F28599ADB00E0A986 /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
+		624FB74028B87CB400CBC3B1 /* Mobiscoutjp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Mobiscoutjp.jpg; sourceTree = "<group>"; };
+		624FB74228B87CD100CBC3B1 /* Mobiscoutjp2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Mobiscoutjp2.jpg; sourceTree = "<group>"; };
 		D2843FE49ED5888388B4C0BC /* Pods-WellnessScout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WellnessScout.release.xcconfig"; path = "Target Support Files/Pods-WellnessScout/Pods-WellnessScout.release.xcconfig"; sourceTree = "<group>"; };
 		ED4D383A8A852E9902B318F8 /* Pods-WellnessScout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WellnessScout.debug.xcconfig"; path = "Target Support Files/Pods-WellnessScout/Pods-WellnessScout.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -294,10 +297,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6242A30D2859979C00E0A986 /* OrderedCollections in Frameworks */,
 				540CBCC827DBA60700837337 /* CareKit in Frameworks */,
 				544ABE7B2762A26700950E4C /* OrderedCollections in Frameworks */,
+				6242A3092859979C00E0A986 /* Collections in Frameworks */,
 				544ABE772762A26700950E4C /* Collections in Frameworks */,
 				544ABE792762A26700950E4C /* DequeModule in Frameworks */,
+				6242A30B2859979C00E0A986 /* DequeModule in Frameworks */,
 				BE3D438D3D7CDAF9B8C32BF4 /* Pods_WellnessScout.framework in Frameworks */,
 				540CBCCA27DBA60700837337 /* CareKitUI in Frameworks */,
 				5403059C27128EF700EB7FC3 /* HealthKit.framework in Frameworks */,
@@ -473,8 +479,8 @@
 		54EE32D92707B813004A54C9 = {
 			isa = PBXGroup;
 			children = (
-				5419A691278D753C00E77807 /* Mobiscoutjp.jpg */,
-				5419A693278D775F00E77807 /* Mobiscoutjp2.jpg */,
+				624FB74028B87CB400CBC3B1 /* Mobiscoutjp.jpg */,
+				624FB74228B87CD100CBC3B1 /* Mobiscoutjp2.jpg */,
 				54EE32E42707B813004A54C9 /* WellnessScout */,
 				54A61A292793D19F006D9AB6 /* wearablePart */,
 				54A61A372793D1A2006D9AB6 /* wearablePart WatchKit Extension */,
@@ -497,8 +503,7 @@
 		54EE32E42707B813004A54C9 /* WellnessScout */ = {
 			isa = PBXGroup;
 			children = (
-				544ABE70275A692300950E4C /* CHCSVParser.h */,
-				544ABE71275A692300950E4C /* CHCSVParser.m */,
+				6242A30F28599ADB00E0A986 /* CHCSVParser.h */,
 				5440006E27703F7100B14BE3 /* Model */,
 				5494280C271BF40D0000472C /* shared */,
 				5403059A27128EF700EB7FC3 /* WellnessScout.entitlements */,
@@ -517,6 +522,7 @@
 				54072CED2718C7CD0067AE5D /* GoogleService-Info.plist */,
 				541E8D1327105FD200FB456F /* Constants.swift */,
 				541E8D152710601A00FB456F /* PreviewView.swift */,
+				6242A30E28599ADB00E0A986 /* CHCSVParser.m */,
 				541E8D172710605600FB456F /* MovieRecorder.swift */,
 				541E8D19271060A200FB456F /* Utilities.swift */,
 				541E8D1B271060C100FB456F /* PiPVideoMixer.swift */,
@@ -603,6 +609,9 @@
 				544ABE7A2762A26700950E4C /* OrderedCollections */,
 				540CBCC727DBA60700837337 /* CareKit */,
 				540CBCC927DBA60700837337 /* CareKitUI */,
+				6242A3082859979C00E0A986 /* Collections */,
+				6242A30A2859979C00E0A986 /* DequeModule */,
+				6242A30C2859979C00E0A986 /* OrderedCollections */,
 			);
 			productName = WellnessScout;
 			productReference = 54EE32E22707B813004A54C9 /* WellnessScout.app */;
@@ -642,6 +651,7 @@
 			packageReferences = (
 				544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */,
 				540CBCC627DBA60300837337 /* XCRemoteSwiftPackageReference "CareKit" */,
+				6242A3072859979C00E0A986 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 54EE32E32707B813004A54C9 /* Products */;
 			projectDirPath = "";
@@ -676,15 +686,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5419A694278D775F00E77807 /* Mobiscoutjp2.jpg in Resources */,
 				54EE32F22707B815004A54C9 /* LaunchScreen.storyboard in Resources */,
+				624FB74328B87CD100CBC3B1 /* Mobiscoutjp2.jpg in Resources */,
 				540CBCC527D7F1B000837337 /* LibraryCell.xib in Resources */,
+				624FB74128B87CB500CBC3B1 /* Mobiscoutjp.jpg in Resources */,
 				54072CEE2718C7CD0067AE5D /* GoogleService-Info.plist in Resources */,
 				544ABE2F27577E4900950E4C /* awsconfiguration.json in Resources */,
 				544ABE2E27577E4900950E4C /* amplifyconfiguration.json in Resources */,
 				54EE32EF2707B815004A54C9 /* Assets.xcassets in Resources */,
 				54EE32ED2707B813004A54C9 /* Main.storyboard in Resources */,
-				5419A692278D753C00E77807 /* Mobiscoutjp.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,7 +777,6 @@
 				5440008627703F7100B14BE3 /* SaveLocation.swift in Sources */,
 				5415C40B277F628200A26B23 /* LocationManager.swift in Sources */,
 				548C8E492725F8FE007B17A7 /* Cell.swift in Sources */,
-				544ABE72275A692300950E4C /* CHCSVParser.m in Sources */,
 				541C9EBB274D8051001BA986 /* ConfirmViewController.swift in Sources */,
 				541E8D30271063AC00FB456F /* HealthDataTypeValue.swift in Sources */,
 				541683EE27419B95005C4869 /* AmplifySessionManager.swift in Sources */,
@@ -811,6 +820,7 @@
 				541E8D0C27105BD100FB456F /* RegisterViewController.swift in Sources */,
 				5494280E271BF4260000472C /* shared.swift in Sources */,
 				541686B92788C95A00CC5DBB /* ObdMainManager.swift in Sources */,
+				6242A31028599ADC00E0A986 /* CHCSVParser.m in Sources */,
 				5440008027703F7100B14BE3 /* AmplifyModels.swift in Sources */,
 				541683F02741AA3A005C4869 /* ConfirmationViewOne.swift in Sources */,
 				54256F4127E90E72002DBA9B /* MainSettingsSliderTableViewCell.swift in Sources */,
@@ -884,7 +894,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "wearablePart WatchKit Extension/wearablePart WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "wearablePart WatchKit Extension/Info.plist";
@@ -917,7 +927,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "wearablePart WatchKit Extension/wearablePart WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "wearablePart WatchKit Extension/Info.plist";
@@ -951,7 +961,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = wearablePart_WatchKit_Extension;
@@ -976,7 +986,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = wearablePart_WatchKit_Extension;
@@ -1119,7 +1129,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WellnessScout/WellnessScout.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WellnessScout/Info.plist;
@@ -1168,7 +1178,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WellnessScout/WellnessScout.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = J6D5FPVUW2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WellnessScout/Info.plist;
@@ -1265,6 +1275,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		6242A3072859979C00E0A986 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1289,6 +1307,21 @@
 			productName = DequeModule;
 		};
 		544ABE7A2762A26700950E4C /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+		6242A3082859979C00E0A986 /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		6242A30A2859979C00E0A986 /* DequeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = DequeModule;
+		};
+		6242A30C2859979C00E0A986 /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 544ABE752762A26000950E4C /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;

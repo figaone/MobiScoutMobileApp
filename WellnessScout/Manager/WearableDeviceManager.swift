@@ -29,7 +29,7 @@ public class WearableDeviceManager {
             HKQuantityTypeIdentifier.headphoneAudioExposure.rawValue,
             HKQuantityTypeIdentifier.heartRate.rawValue,
             HKQuantityTypeIdentifier.stepCount.rawValue,
-            HKQuantityTypeIdentifier.distanceWalkingRunning.rawValue,
+            HKQuantityTypeIdentifier.distanceWalkingRunning.rawValue
         ]
         
         return typeIdentifiers.map { getSampleType(for: $0)! }
