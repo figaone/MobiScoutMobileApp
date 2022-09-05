@@ -119,6 +119,9 @@
 		6242A31028599ADC00E0A986 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6242A30E28599ADB00E0A986 /* CHCSVParser.m */; };
 		624FB74128B87CB500CBC3B1 /* Mobiscoutjp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 624FB74028B87CB400CBC3B1 /* Mobiscoutjp.jpg */; };
 		624FB74328B87CD100CBC3B1 /* Mobiscoutjp2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 624FB74228B87CD100CBC3B1 /* Mobiscoutjp2.jpg */; };
+		62D526DD28C45300006CB309 /* UIImage+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D526DC28C452FF006CB309 /* UIImage+Helper.swift */; };
+		62D526E028C453B5006CB309 /* CoreGraphicsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D526DF28C453B5006CB309 /* CoreGraphicsExtensions.swift */; };
+		62D526E228C470EB006CB309 /* FaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D526E128C470EB006CB309 /* FaceView.swift */; };
 		BE3D438D3D7CDAF9B8C32BF4 /* Pods_WellnessScout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B372783774DE5C040D04CA /* Pods_WellnessScout.framework */; };
 /* End PBXBuildFile section */
 
@@ -280,6 +283,9 @@
 		6242A30F28599ADB00E0A986 /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
 		624FB74028B87CB400CBC3B1 /* Mobiscoutjp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Mobiscoutjp.jpg; sourceTree = "<group>"; };
 		624FB74228B87CD100CBC3B1 /* Mobiscoutjp2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Mobiscoutjp2.jpg; sourceTree = "<group>"; };
+		62D526DC28C452FF006CB309 /* UIImage+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Helper.swift"; sourceTree = "<group>"; };
+		62D526DF28C453B5006CB309 /* CoreGraphicsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphicsExtensions.swift; sourceTree = "<group>"; };
+		62D526E128C470EB006CB309 /* FaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceView.swift; sourceTree = "<group>"; };
 		D2843FE49ED5888388B4C0BC /* Pods-WellnessScout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WellnessScout.release.xcconfig"; path = "Target Support Files/Pods-WellnessScout/Pods-WellnessScout.release.xcconfig"; sourceTree = "<group>"; };
 		ED4D383A8A852E9902B318F8 /* Pods-WellnessScout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WellnessScout.debug.xcconfig"; path = "Target Support Files/Pods-WellnessScout/Pods-WellnessScout.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -503,6 +509,7 @@
 		54EE32E42707B813004A54C9 /* WellnessScout */ = {
 			isa = PBXGroup;
 			children = (
+				62D526DE28C4537E006CB309 /* Extensions */,
 				6242A30F28599ADB00E0A986 /* CHCSVParser.h */,
 				5440006E27703F7100B14BE3 /* Model */,
 				5494280C271BF40D0000472C /* shared */,
@@ -521,6 +528,7 @@
 				54EE32F32707B815004A54C9 /* Info.plist */,
 				54072CED2718C7CD0067AE5D /* GoogleService-Info.plist */,
 				541E8D1327105FD200FB456F /* Constants.swift */,
+				62D526E128C470EB006CB309 /* FaceView.swift */,
 				541E8D152710601A00FB456F /* PreviewView.swift */,
 				6242A30E28599ADB00E0A986 /* CHCSVParser.m */,
 				541E8D172710605600FB456F /* MovieRecorder.swift */,
@@ -533,6 +541,7 @@
 				544ABE6F275A692200950E4C /* WellnessScout-Bridging-Header.h */,
 				541686B52788C51600CC5DBB /* CustomObject.m */,
 				541686B72788C53A00CC5DBB /* CustomObject.h */,
+				62D526DC28C452FF006CB309 /* UIImage+Helper.swift */,
 			);
 			path = WellnessScout;
 			sourceTree = "<group>";
@@ -546,6 +555,14 @@
 				43B372783774DE5C040D04CA /* Pods_WellnessScout.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		62D526DE28C4537E006CB309 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				62D526DF28C453B5006CB309 /* CoreGraphicsExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -779,6 +796,7 @@
 				548C8E492725F8FE007B17A7 /* Cell.swift in Sources */,
 				541C9EBB274D8051001BA986 /* ConfirmViewController.swift in Sources */,
 				541E8D30271063AC00FB456F /* HealthDataTypeValue.swift in Sources */,
+				62D526E228C470EB006CB309 /* FaceView.swift in Sources */,
 				541683EE27419B95005C4869 /* AmplifySessionManager.swift in Sources */,
 				540A208727966A1E007F5A60 /* RecordButtonView.swift in Sources */,
 				5440008827703F7100B14BE3 /* InitialHealthData+Schema.swift in Sources */,
@@ -803,6 +821,7 @@
 				5440007C27703F7100B14BE3 /* DateStored.swift in Sources */,
 				541E8D1E271060FA00FB456F /* PiPMixer.metal in Sources */,
 				548C8E4B2725FA19007B17A7 /* GraphViewController.swift in Sources */,
+				62D526DD28C45300006CB309 /* UIImage+Helper.swift in Sources */,
 				541E8D2A2710623A00FB456F /* HealthKitSupport.swift in Sources */,
 				540CBCEE27DF86F400837337 /* CardView.swift in Sources */,
 				541E8D32271063E100FB456F /* SensorData.swift in Sources */,
@@ -812,6 +831,7 @@
 				54F245C627547D940040F404 /* SourceOfTruth.swift in Sources */,
 				541686B62788C51600CC5DBB /* CustomObject.m in Sources */,
 				540305C72712B04500EB7FC3 /* WatchKitConnection.swift in Sources */,
+				62D526E028C453B5006CB309 /* CoreGraphicsExtensions.swift in Sources */,
 				5440008727703F7100B14BE3 /* MobileAppUser+Schema.swift in Sources */,
 				54256F4527E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift in Sources */,
 				540A208927966E0F007F5A60 /* ViewPreview.swift in Sources */,

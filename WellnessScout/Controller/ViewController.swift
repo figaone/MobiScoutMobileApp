@@ -18,6 +18,7 @@ import Combine
 import MapKit
 import CareKit
 import Charts
+import Vision
 
 var start = "true"
 var AvSpeed : Any = 0
@@ -54,7 +55,9 @@ var camState: cameraType = .backcam
 
 @available(iOS 14.0, *)
 class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, CLLocationManagerDelegate,MKMapViewDelegate{
-       
+    
+    
+        
     var existingPost: DateStored = DateStored()
     var frntcm : String = ""
     var stepC = [[Double]]()
@@ -164,6 +167,12 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
     //set
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let amplifySessions = AmplifySessionManager()
+    
+    //Vision Variables
+    private var requests = [VNRequest]()
+    // VNRequest: Either Retangles or Landmarks
+    private var faceDetectionRequest: VNRequest!
+    
     // MARK: View Controller Life Cycle
     
     override func viewDidLoad() {
@@ -275,9 +284,13 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
         
         
         // Store the location of the pip's frame in relation to the full screen video preview
-        updateNormalizedPiPFrame()
+//        updateNormalizedPiPFrame()
         
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        
+        // Set up Vision Request
+        faceDetectionRequest = VNDetectFaceLandmarksRequest(completionHandler: handleFaceLandmarks) // Default
+        setupVision()
         
         /*
         Configure the capture session.
@@ -430,6 +443,15 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
     }
     
     
+    // Ensure that the interface stays locked in Portrait.
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
+    // Ensure that the interface stays locked in Portrait.
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+        return .portrait
+    }
     
 
     
@@ -567,26 +589,26 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
         blurredUiView.isHidden = true
     }
     
-    private func updateNormalizedPiPFrame() {
-        let fullScreenVideoPreviewView: PreviewView
-        let pipVideoPreviewView: PreviewView
-
-
-        if pipDevicePosition == .back {
-            fullScreenVideoPreviewView = frontCameraVideoPreviewView
-            pipVideoPreviewView = backCameraVideoPreviewView
-        } else if pipDevicePosition == .front {
-            fullScreenVideoPreviewView = backCameraVideoPreviewView
-            pipVideoPreviewView = frontCameraVideoPreviewView
-        } else {
-            fatalError("Unexpected pip device position: \(pipDevicePosition)")
-        }
-
-
-        let pipFrameInFullScreenVideoPreview = pipVideoPreviewView.convert(pipVideoPreviewView.bounds, to: fullScreenVideoPreviewView)
-        let normalizedTransform = CGAffineTransform(scaleX: 1.0 / fullScreenVideoPreviewView.frame.width, y: 1.0 / fullScreenVideoPreviewView.frame.height)
-        normalizedPipFrame = pipFrameInFullScreenVideoPreview.applying(normalizedTransform)
-    }
+//    private func updateNormalizedPiPFrame() {
+//        let fullScreenVideoPreviewView: PreviewView
+//        let pipVideoPreviewView: PreviewView
+//
+//
+//        if pipDevicePosition == .back {
+//            fullScreenVideoPreviewView = frontCameraVideoPreviewView
+//            pipVideoPreviewView = backCameraVideoPreviewView
+//        } else if pipDevicePosition == .front {
+//            fullScreenVideoPreviewView = backCameraVideoPreviewView
+//            pipVideoPreviewView = frontCameraVideoPreviewView
+//        } else {
+//            fatalError("Unexpected pip device position: \(pipDevicePosition)")
+//        }
+//
+//
+//        let pipFrameInFullScreenVideoPreview = pipVideoPreviewView.convert(pipVideoPreviewView.bounds, to: fullScreenVideoPreviewView)
+//        let normalizedTransform = CGAffineTransform(scaleX: 1.0 / fullScreenVideoPreviewView.frame.width, y: 1.0 / fullScreenVideoPreviewView.frame.height)
+//        normalizedPipFrame = pipFrameInFullScreenVideoPreview.applying(normalizedTransform)
+//    }
     
     // MARK: Capture Session Management
     
@@ -610,7 +632,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
     
     private var isSessionRunning = false
     
-    private let sessionQueue = DispatchQueue(label: "session queue") // Communicate with the session and other session objects on this queue.
+    private let sessionQueue = DispatchQueue(label: "session queue", attributes: [], target: nil) // Communicate with the session and other session objects on this queue.
     
     private let dataOutputQueue = DispatchQueue(label: "data output queue")
     
@@ -637,7 +659,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
     //    @IBOutlet private var frontCameraVideoPreviewView: PreviewView!
     
 //    @IBOutlet weak var frontCameraVideoPreviewView: PreviewView!
-    @IBOutlet weak var frontCameraVideoPreviewView: PreviewView!
+    @IBOutlet weak var frontCameraVideoPreviewView: FaceView!
     
     private weak var frontCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?
     
@@ -1268,6 +1290,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 
                     localFileManager.saveVideoToDocumentsDirectory(srcURL: movieURL, dstURL: documentURL){ sensorUrl in
                         
+                        print(sensorUrl)
                         // clean up after copying file
                         if FileManager.default.fileExists(atPath: movieURL.path) {
                             do {
@@ -1507,11 +1530,31 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         if let videoDataOutput = output as? AVCaptureVideoDataOutput {
             processVideoSampleBuffer(sampleBuffer, fromOutput: videoDataOutput)
+            
+            guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)else { return }
+            let exifOrientation = CGImagePropertyOrientation(rawValue: exifOrientationFromDeviceOrientation())
+            var requestOptions: [VNImageOption : Any] = [:]
+            
+            if let cameraIntrinsicData = CMGetAttachment(sampleBuffer, key: kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, attachmentModeOut: nil) {
+                requestOptions = [.cameraIntrinsics : cameraIntrinsicData]
+            }
+            
+            let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: exifOrientation!, options: requestOptions)
+            
+            do {
+                try imageRequestHandler.perform(requests)
+            }
+                
+            catch {
+                print(error)
+            }
+            
         } else if let audioDataOutput = output as? AVCaptureAudioDataOutput {
             processsAudioSampleBuffer(sampleBuffer, fromOutput: audioDataOutput)
         }
     }
-    
+        
+
     private func processVideoSampleBuffer(_ sampleBuffer: CMSampleBuffer, fromOutput videoDataOutput: AVCaptureVideoDataOutput) {
         if videoTrackSourceFormatDescription == nil {
             videoTrackSourceFormatDescription = CMSampleBufferGetFormatDescription( sampleBuffer )
@@ -1523,16 +1566,20 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
         var fullScreenSampleBuffer: CMSampleBuffer?
         var pipSampleBuffer: CMSampleBuffer?
         
-        if pipDevicePosition == .back && videoDataOutput == backCameraVideoDataOutput {
+//        if pipDevicePosition == .back && videoDataOutput == backCameraVideoDataOutput {
+//            movieRecorder?.recordVideo(sampleBuffer: sampleBuffer)
+//        }
+//        else if pipDevicePosition == .back && videoDataOutput == frontCameraVideoDataOutput {
+//            movieRecorderpip?.recordVideo(sampleBuffer: sampleBuffer)
+//        }
+        if pipDevicePosition == .front && videoDataOutput == backCameraVideoDataOutput {
             movieRecorder?.recordVideo(sampleBuffer: sampleBuffer)
-        } else if pipDevicePosition == .back && videoDataOutput == frontCameraVideoDataOutput {
-            movieRecorderpip?.recordVideo(sampleBuffer: sampleBuffer)
-        } else if pipDevicePosition == .front && videoDataOutput == backCameraVideoDataOutput {
-            movieRecorder?.recordVideo(sampleBuffer: sampleBuffer)
-        } else if pipDevicePosition == .front && videoDataOutput == frontCameraVideoDataOutput {
-
-            movieRecorderpip?.recordVideo(sampleBuffer: sampleBuffer)
         }
+        else if pipDevicePosition == .front && videoDataOutput == frontCameraVideoDataOutput {
+            movieRecorderpip?.recordVideo(sampleBuffer: sampleBuffer)
+            
+        }
+        
         
         if let fullScreenSampleBuffer = fullScreenSampleBuffer {
             processFullScreenSampleBuffer(fullScreenSampleBuffer)
@@ -2919,6 +2966,120 @@ extension ViewController: VehicleInfoManagerDelegate {
         print(error)
     }
 }
+
+
+// MARK: -- Helpers
+extension ViewController {
+    func setupVision() {
+        self.requests = [faceDetectionRequest]
+    }
+    
+    func handleFaces(request: VNRequest, error: Error?) {
+        DispatchQueue.main.async {
+            //perform all the UI updates on the main queue
+            guard let results = request.results as? [VNFaceObservation] else { return }
+            self.frontCameraVideoPreviewView.removeMask()
+            for face in results {
+                self.frontCameraVideoPreviewView.drawFaceboundingBox(face: face)
+            }
+        }
+    }
+    
+    func handleFaceLandmarks(request: VNRequest, error: Error?) {
+        DispatchQueue.main.async {
+            //perform all the UI updates on the main queue
+            guard let results = request.results as? [VNFaceObservation] else { return }
+            self.frontCameraVideoPreviewView.removeMask()
+            for face in results {
+                self.frontCameraVideoPreviewView.drawFaceWithLandmarks(face: face)
+            }
+        }
+    }
+
+}
+
+// Camera Settings & Orientation
+extension ViewController {
+    func availableSessionPresets() -> [String] {
+        let allSessionPresets = [AVCaptureMultiCamSession.Preset.photo,
+                                 AVCaptureMultiCamSession.Preset.low,
+                                 AVCaptureMultiCamSession.Preset.medium,
+                                 AVCaptureMultiCamSession.Preset.high,
+                                 AVCaptureMultiCamSession.Preset.cif352x288,
+                                 AVCaptureMultiCamSession.Preset.vga640x480,
+                                 AVCaptureMultiCamSession.Preset.hd1280x720,
+                                 AVCaptureMultiCamSession.Preset.iFrame960x540,
+                                 AVCaptureMultiCamSession.Preset.iFrame1280x720,
+                                 AVCaptureMultiCamSession.Preset.hd1920x1080,
+                                 AVCaptureMultiCamSession.Preset.hd4K3840x2160]
+        
+        var availableSessionPresets = [String]()
+        for sessionPreset in allSessionPresets {
+            if session.canSetSessionPreset(sessionPreset) {
+                availableSessionPresets.append(sessionPreset.rawValue)
+            }
+        }
+        
+        return availableSessionPresets
+    }
+    
+    fileprivate func radiansForDegrees(_ degrees: CGFloat) -> CGFloat {
+        return CGFloat(Double(degrees) * Double.pi / 180.0)
+    }
+    
+//    func exifOrientationForDeviceOrientation(_ deviceOrientation: UIDeviceOrientation) -> CGImagePropertyOrientation {
+//
+//        switch deviceOrientation {
+//        case .portraitUpsideDown:
+//            return .rightMirrored
+//
+//        case .landscapeLeft:
+//            return .downMirrored
+//
+//        case .landscapeRight:
+//            return .upMirrored
+//
+//        default:
+//            return .leftMirrored
+//        }
+//    }
+//
+//    func exifOrientationForCurrentDeviceOrientation() -> CGImagePropertyOrientation {
+//        return exifOrientationForDeviceOrientation(UIDevice.current.orientation)
+//    }
+    
+    
+    
+    func exifOrientationFromDeviceOrientation() -> UInt32 {
+        enum DeviceOrientation: UInt32 {
+            case top0ColLeft = 1
+            case top0ColRight = 2
+            case bottom0ColRight = 3
+            case bottom0ColLeft = 4
+            case left0ColTop = 5
+            case right0ColTop = 6
+            case right0ColBottom = 7
+            case left0ColBottom = 8
+        }
+        var exifOrientation: DeviceOrientation
+
+        switch UIDevice.current.orientation {
+        case .portraitUpsideDown:
+            exifOrientation = .left0ColBottom
+        case .landscapeLeft:
+            exifOrientation = pipDevicePosition == .front ? .top0ColLeft : .bottom0ColRight
+        case .landscapeRight:
+            exifOrientation = pipDevicePosition == .front ? .top0ColLeft : .bottom0ColRight
+        default:
+            exifOrientation = pipDevicePosition == .front ? .top0ColLeft : .left0ColTop
+        }
+        return exifOrientation.rawValue
+    }
+    
+    
+}
+
+
 
 //extension ViewController: WatchKitConnectionDelegate {
 //    func didFinishedActiveSession() {

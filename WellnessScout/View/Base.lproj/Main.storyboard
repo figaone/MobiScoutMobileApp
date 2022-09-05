@@ -2237,7 +2237,7 @@ It is your responsibility to periodically review these Terms of Use to stay info
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eN7-in-GVW" customClass="PreviewView" customModule="WellnessScout" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="205.5" height="464"/>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zFZ-YP-VSO" customClass="PreviewView" customModule="WellnessScout" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zFZ-YP-VSO" customClass="FaceView" customModule="WellnessScout" customModuleProvider="target">
                                         <rect key="frame" x="208.5" y="0.0" width="205.5" height="464"/>
                                     </view>
                                 </subviews>
