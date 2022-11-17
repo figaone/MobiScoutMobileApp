@@ -149,6 +149,40 @@ class CSVparser {
 //            }
 //
 //        }
+    
+//    func createExportString(_ initialvehHealth: OrderedDictionary<String, [Any]>) -> String {
+//        var export = "id, time, latitude, longitude, pitch, roll, yaw, quartanionX, quartanionY, quartanionZ, quartanionW, usergenaccelX, usergenaccelY, usergenaccelZ, rotationrateX, rotationrateY, rotationrateZ, gyroX, gyroY, gyroZ, accelX, accelY, accelZ, relativeAltitude, heading, speed, distanceTravelled, headingCardinalPoint,time \n"
+////        let data = self.driverData.sensor
+////        let sortedData = data.sorted{ $0.value < $1.value }
+//        for (_, sensor) in initialvehHealth.enumerated() {
+//            export += "\(sensor.id ?? UUID()),\(sensor.indexValues),\(sensor.latitude ?? "_"),\(sensor.longitude ?? "_"),\(sensor.pitch ?? "_"),\(sensor.roll ?? "_"),\(sensor.yaw ?? "_"),\(sensor.quartanionX ?? "_"),\(sensor.quartanionY ?? "_"),\(sensor.quartanionZ ?? "_"),\(sensor.quartanionW ?? "_"),\(sensor.usergenaccelX ?? "_"),\(sensor.usergenaccelY ?? "_"),\(sensor.usergenaccelZ ?? "_"),\(sensor.rotationrateX ?? "_"),\(sensor.rotationrateY ?? "_"),\(sensor.rotationrateZ ?? "_"),\(sensor.gyroX ?? "_"),\(sensor.gyroY ?? "_"),\(sensor.gyroZ ?? "_"),\(sensor.accelX ?? "_"),\(sensor.accelY ?? "_"),\(sensor.accelZ ?? "_"),\(sensor.relativeAltitude ?? "_"),\(sensor.heading ?? "_"),\(sensor.speed ?? "_"),\(sensor.distanceTravelled ?? "_"),\(sensor.headingCardinalPoint ?? "_"),\(sensor.time ?? "_")\n"
+//        }
+//        return export
+//    }
+//    
+//    func saveExport(export : String) -> URL{
+//        print(driverData.csvFileName as Any)
+//    
+//        let fileName = driverData.collectionTime
+//        let url = getDocumentsDirectory().appendingPathComponent("sensor\(fileName ?? "")data.csv")
+//        do {
+//            try export.write(to: url, atomically: true, encoding: .utf8)
+//            let input = try String(contentsOf: url)
+//            print(input)
+//        } catch {
+//            print(error.localizedDescription)
+//        }
+//        return url
+//    }
+//    
+//    func getDocumentsDirectory() -> URL {
+//        // find all possible documents directories for this user
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//
+//        // just send back the first one, which ought to be the only one
+//        return paths[0]
+//    }
+    
 }
 
 

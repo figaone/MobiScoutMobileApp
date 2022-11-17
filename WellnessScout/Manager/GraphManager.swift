@@ -42,7 +42,7 @@ class GraphManager {
         //chart data
         let data = LineChartData()
         //add the data set
-        data.addDataSet(lineChartData)
+        data.append(lineChartData)
         //add the data to the view
         lineChartView.data = data
         //attributes

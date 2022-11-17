@@ -22,6 +22,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, MK
     var traveledDistancedistancePublisher = PassthroughSubject<CLLocationDistance, Error>()
     var StraightDistancedistancePublisher = PassthroughSubject<CLLocationDistance, Error>()
     var headingPublisher = PassthroughSubject<String, Error>()
+    var headingDegPublisher = PassthroughSubject<CLLocationDirection, Error>()
     var altitudePublisher = PassthroughSubject<CLLocationDistance, Error>()
     
     var deniedLocationAccuracyAuthPublisher = PassthroughSubject<String, Error>()
@@ -105,6 +106,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, MK
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         headingPublisher.send(cardinalValue(from: newHeading.trueHeading))
+        headingDegPublisher.send(newHeading.trueHeading)
     }
     
     func cardinalValue(from heading: CLLocationDirection) -> String {

@@ -25,14 +25,14 @@ var AvSpeed : Any = 0
 var trvdistance : Any = 0
 var miSpeed : Any = 0
 var maxSpeed : Any = 0
-
+var time_cst : Any = 0
 //<String, Int>
 var dtaURLS = DateStored()
 //var realDat = DateStored()
 //Dictionary for health data
 var firstdat : OrderedDictionary<String, [Any]> = ["Date":[],"StepCount":[],"DistanceWalkingRunning":[],"HeadphoneAudioExposure":[],"HeartRate":[]]
 var obdData : OrderedDictionary<String, [Any]> = [:]
-var recordedDataDictionary : OrderedDictionary<String, [Any]> = ["id":[],"latitude":[],"longitude":[],"accelerationX":[],"accelerationY":[],"accelerationZ":[],"gyrodataX":[],"gyrodataY":[],"gyrodataZ":[],"pitchData":[],"rollData":[],"yawData":[],"quarternionX":[],"quarternionY":[],"quarternionZ":[],"quarternionW":[],"userAccelerationX":[],"userAccelerationY":[],"userAccelerationZ":[],"timeStamp":[],"unixTimeStamp":[],"heartRateWearablePart":[],"speedMobileDevice(mph)":[],"speedVehicleOBD(kph)":[],"rpmVehicleOBD(rpm)":[],"temperatureVehicleOBD(C)":[],"videoName":[],"videoID":[],"traveledDistanceInMiles":[],"straightDistanceInMiles":[],"altitudeInMetres":[],"header":[],"savelocationID":[]]
+var recordedDataDictionary : OrderedDictionary<String, [Any]> = ["id":[],"indexVal":[],"time_utc":[],"time_cst": [],"gps_lat":[],"gps_long":[],"accel_x":[],"accel_y":[],"accel_z":[],"gyro_x":[],"gyro_y":[],"gyro_z":[],"pitch":[],"roll":[],"yaw":[],"quarternionX":[],"quarternionY":[],"quarternionZ":[],"quarternionW":[],"userAccelerationX":[],"userAccelerationY":[],"userAccelerationZ":[],"timeStamp":[],"unixTimeStamp":[],"heartRateWearablePart":[],"speedMobileDevice(mph)":[],"speedVehicleOBD(mph)":[],"rpmVehicleOBD(rpm)":[],"temperatureVehicleOBD(C)":[],"videoName":[],"videoID":[],"distance_miles":[],"straightDistanceInMiles":[],"gps_elevation":[],"headingcardinal":[],"gps_heading":[],"savelocationID":[]]
 var DataArraySensor : [MainSensorData] = []
 var stepC = [Double].self
 var heartRt = [Double].self
@@ -121,6 +121,8 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
     var StraightdistanceMain: Double = 0
     //value for header
     var headerMain: String = ""
+    
+    var gpsHeading : Double = 0
     //value for altitude
     var altitudeMain: Double = 0
     //value for watch heart rate
@@ -1155,12 +1157,12 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
                 
                 AllData.shared.isRecording = true
                 //start the timer to log the data
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     AllData.shared.recordAwsTimer = Timer.scheduledTimer(timeInterval: AllData.shared.sensorFrequency, target: self, selector: #selector(awsSensordat), userInfo: nil, repeats: true)
                     AllData.shared.saveDataTimer = Timer.scheduledTimer(timeInterval: userData.autoSaveTime + 2, target: self, selector: #selector(saveRecordedData), userInfo: nil, repeats: true)
                 }
                
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     blurredUiView.isHidden = false
                     self.performQuery()
                     let togglePiPDoubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(exitBlurred))
@@ -1171,7 +1173,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
                 
                 
                 //fetch vehicle info using the VIN
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     if let vinNumber = instanceOfCustomObject.vinLabel{
                         print(vinNumber)
                         vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
@@ -1183,7 +1185,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
                 AllData.shared.saveDataTimer.invalidate()
                 AllData.shared.recordAwsTimer.invalidate()
                 recordTimerObd.invalidate()
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     if let vinNumber = instanceOfCustomObject.vinLabel{
                         print(vinNumber)
                         vehicleInfoManager.fecthVehicleInformation(vinNumber: vinNumber as! String)
@@ -2049,7 +2051,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
                 }
                 
 
-                print(firstdat)
+//                print(firstdat)
                 
 
             }
@@ -2066,26 +2068,46 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
         }
     }
     
-
+    var index = 0
+    
+    
+    func getCSTUTCTimeZone() -> (UTC : String, CST :String){
+        let dtFormatter = DateFormatter()
+        let dtFormatter2 = DateFormatter()
+        dtFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+        dtFormatter.dateFormat = "yyyy-MM-dd HH-mm-ss.SSS"
+        dtFormatter2.timeZone = NSTimeZone(name: "CST") as TimeZone?
+        dtFormatter2.dateFormat = "yyyy-MM-dd HH-mm-ss.SSS"
+        let formattedDateTimeCST = dtFormatter2.string(from: Date())
+        let formattedDateTimeUTC = dtFormatter.string(from: Date())
+        
+        return (formattedDateTimeUTC,formattedDateTimeCST)
+    }
+    
+        
     @objc func awsSensordat(){
+        
         _ = Amplify.Auth.getCurrentUser()?.userId
         let data = MainSensorData(latitude: self.coordinates.lat, longitude: self.coordinates.lon, accelerationX: AllData.shared.motionManager.accelerometerData!.acceleration.x, accelerationY: AllData.shared.motionManager.accelerometerData!.acceleration.y, accelerationZ: AllData.shared.motionManager.accelerometerData!.acceleration.z, gyrodataX: AllData.shared.motionManager.gyroData?.rotationRate.x, gyrodataY: AllData.shared.motionManager.gyroData?.rotationRate.y, gyrodataZ: AllData.shared.motionManager.gyroData?.rotationRate.z, pitchData: AllData.shared.motionManager.deviceMotion?.attitude.pitch, rollData: AllData.shared.motionManager.deviceMotion?.attitude.roll, yawData: AllData.shared.motionManager.deviceMotion?.attitude.yaw, quarternionX: AllData.shared.motionManager.deviceMotion?.attitude.quaternion.x, quarternionY: AllData.shared.motionManager.deviceMotion?.attitude.quaternion.y, quarternionZ: AllData.shared.motionManager.deviceMotion?.attitude.quaternion.z, quarternionW: AllData.shared.motionManager.deviceMotion?.attitude.quaternion.w, userAccelerationX: AllData.shared.motionManager.accelerometerData?.acceleration.x, userAccelerationY: AllData.shared.motionManager.accelerometerData?.acceleration.y, userAccelerationZ: AllData.shared.motionManager.accelerometerData?.acceleration.z, timeStamp: AllData.shared.motionManager.deviceMotion?.timestamp, unixTimeStamp: Date().timeIntervalSince1970, heartRateWearablePart: self.heartRateMain ,speedMobileDevice: self.speedMain, speedVehicleOBD: self.obdSpeedMain , rpmVehicleOBD: self.obdRpmMain , temperatureVehicleOBD: self.obdTempMain , videoName: AllData.shared.name, videoID: AllData.shared.name, traveledDistanceInMetres:  self.distanceMain, straightDistanceInMetres: self.StraightdistanceMain, header: self.headerMain, altitude: self.altitudeMain ,savelocationID: AllData.shared.name)
         
         
-        
+         
 
         recordedDataDictionary["id"]?.append(data.id)
-        recordedDataDictionary["latitude"]?.append(data.latitude as Any)
-        recordedDataDictionary["longitude"]?.append(data.longitude as Any)
-        recordedDataDictionary["accelerationX"]?.append(data.accelerationX as Any)
-        recordedDataDictionary["accelerationY"]?.append(data.accelerationY as Any)
-        recordedDataDictionary["accelerationZ"]?.append(data.accelerationZ as Any)
-        recordedDataDictionary["gyrodataX"]?.append(data.gyrodataX as Any)
-        recordedDataDictionary["gyrodataY"]?.append(data.gyrodataY as Any)
-        recordedDataDictionary["gyrodataZ"]?.append(data.gyrodataZ as Any)
-        recordedDataDictionary["pitchData"]?.append(data.pitchData as Any)
-        recordedDataDictionary["rollData"]?.append(data.rollData as Any)
-        recordedDataDictionary["yawData"]?.append(data.yawData as Any)
+        recordedDataDictionary["time_utc"]?.append(getCSTUTCTimeZone().UTC)
+        recordedDataDictionary["time_cst"]?.append(getCSTUTCTimeZone().CST)
+        recordedDataDictionary["indexVal"]?.append(index)
+        recordedDataDictionary["gps_lat"]?.append(data.latitude as Any)
+        recordedDataDictionary["gps_long"]?.append(data.longitude as Any)
+        recordedDataDictionary["accel_x"]?.append(data.accelerationX as Any)
+        recordedDataDictionary["accel_y"]?.append(data.accelerationY as Any)
+        recordedDataDictionary["accel_z"]?.append(data.accelerationZ as Any)
+        recordedDataDictionary["gyro_x"]?.append(data.gyrodataX as Any)
+        recordedDataDictionary["gyro_y"]?.append(data.gyrodataY as Any)
+        recordedDataDictionary["gyro_z"]?.append(data.gyrodataZ as Any)
+        recordedDataDictionary["pitch"]?.append(data.pitchData as Any)
+        recordedDataDictionary["roll"]?.append(data.rollData as Any)
+        recordedDataDictionary["yaw"]?.append(data.yawData as Any)
         recordedDataDictionary["quarternionX"]?.append(data.quarternionX as Any)
         recordedDataDictionary["quarternionY"]?.append(data.quarternionY as Any)
         recordedDataDictionary["quarternionZ"]?.append(data.quarternionZ as Any)
@@ -2097,18 +2119,26 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
         recordedDataDictionary["unixTimeStamp"]?.append(data.unixTimeStamp as Any)
         recordedDataDictionary["heartRateWearablePart"]?.append(data.heartRateWearablePart as Any)
         recordedDataDictionary["speedMobileDevice(mph)"]?.append(data.speedMobileDevice as Any)
-        recordedDataDictionary["speedVehicleOBD(kph)"]?.append(instanceOfCustomObject.speedLabel as Any)
+        if let speedMph = instanceOfCustomObject.speedLabel as? Double {
+            let speedtoMph = speedMph / 1.609
+            recordedDataDictionary["speedVehicleOBD(mph)"]?.append(speedtoMph)
+        }else{
+            recordedDataDictionary["speedVehicleOBD(mph)"]?.append("")
+        }
+        
         recordedDataDictionary["rpmVehicleOBD(rpm)"]?.append(instanceOfCustomObject.rpmLabel as Any)
         recordedDataDictionary["temperatureVehicleOBD(C)"]?.append(instanceOfCustomObject.tempLabel as Any)
         recordedDataDictionary["videoName"]?.append(data.videoName as Any)
         recordedDataDictionary["videoID"]?.append(data.videoID as Any)
-        recordedDataDictionary["traveledDistanceInMiles"]?.append(data.traveledDistanceInMetres as Any)
+        recordedDataDictionary["distance_miles"]?.append(data.traveledDistanceInMetres as Any)
         recordedDataDictionary["straightDistanceInMiles"]?.append(data.straightDistanceInMetres as Any)
-        recordedDataDictionary["header"]?.append(data.header as Any)
-        recordedDataDictionary["altitudeInMetres"]?.append(data.altitude as Any)
+        recordedDataDictionary["gps_elevation"]?.append(data.altitude as Any)
+        recordedDataDictionary["headingcardinal"]?.append(data.header as Any)
+        recordedDataDictionary["gps_heading"]?.append(self.gpsHeading as Any)
         recordedDataDictionary["savelocationID"]?.append(data.savelocationID as Any)
         
-    
+        index += 1
+        
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!){
@@ -2160,8 +2190,8 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
                 if speedToMPH > 0 {
                     self.speedMain = (String(format: "%.0f", speedToMPH))
                 } else {
-                    //since the data is invalid return 0
-                    self.speedMain = "0"
+                    //since the data is invalid return nil
+                    self.speedMain = ""
                 }
             }
             .store(in: &tokens)
@@ -2211,6 +2241,21 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
             }
             .store(in: &tokens)
     }
+    
+    func observeGPSHeaderInfo(){
+        deviceLocationService.headingDegPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print(error)
+                }
+            } receiveValue: { header in
+//                print( header )
+                self.gpsHeading = header
+            }
+            .store(in: &tokens)
+    }
+    
     func observeAltitude(){
         deviceLocationService.altitudePublisher
             .receive(on: DispatchQueue.main)
@@ -2287,6 +2332,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
                 self.watchConnectionIcon.image = UIImage(systemName: "applewatch")
                 self.heartRateMain = heartrate
                 self.heartRateValue.text = String(heartrate) + "bpm"
+                
                 
             }
             .store(in: &tokens)

@@ -9,6 +9,8 @@ import UIKit
 import Amplify
 import AmplifyPlugins
 import SwiftUI
+import GoogleMaps
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate{
@@ -25,8 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         configureAmplify()
         fetchCurrentAuthSession()
         
-        
-            
+    GMSServices.provideAPIKey("AIzaSyAMgqGO7acGIacLTGpbdAJLMNkPBtqDkXM")
         
         return true
     }

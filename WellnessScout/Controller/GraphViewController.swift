@@ -100,7 +100,7 @@ class GraphViewController: UIViewController {
          */
         let data = LineChartData()
         //add the data set
-        data.addDataSet(lineChartData)
+        data.append(lineChartData)
         //data.addDataSet(lineChartData2)
         //data.addDataSet(lineChartData3)
         

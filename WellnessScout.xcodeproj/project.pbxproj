@@ -11,7 +11,6 @@
 		540305C72712B04500EB7FC3 /* WatchKitConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540305C62712B04500EB7FC3 /* WatchKitConnection.swift */; };
 		540305C92712B08200EB7FC3 /* LocalNotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540305C82712B08200EB7FC3 /* LocalNotificationHelper.swift */; };
 		540305CB2712B0AE00EB7FC3 /* APIFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540305CA2712B0AE00EB7FC3 /* APIFetcher.swift */; };
-		54072CEC2718A8E40067AE5D /* UserDefaultsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54072CEB2718A8E30067AE5D /* UserDefaultsData.swift */; };
 		54072CEE2718C7CD0067AE5D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54072CED2718C7CD0067AE5D /* GoogleService-Info.plist */; };
 		540A2085279669A3007F5A60 /* StyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A2084279669A3007F5A60 /* StyleKit.swift */; };
 		540A208727966A1E007F5A60 /* RecordButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A208627966A1E007F5A60 /* RecordButtonView.swift */; };
@@ -43,8 +42,6 @@
 		541E8D27271061FE00FB456F /* WatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541E8D26271061FE00FB456F /* WatchTests.swift */; };
 		541E8D2A2710623A00FB456F /* HealthKitSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541E8D292710623A00FB456F /* HealthKitSupport.swift */; };
 		541E8D2D271062D900FB456F /* AllData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541E8D2C271062D900FB456F /* AllData.swift */; };
-		541E8D30271063AC00FB456F /* HealthDataTypeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541E8D2F271063AC00FB456F /* HealthDataTypeValue.swift */; };
-		541E8D32271063E100FB456F /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541E8D31271063E100FB456F /* SensorData.swift */; };
 		54256F3B27E8E983002DBA9B /* MainSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F3A27E8E983002DBA9B /* MainSettingsViewController.swift */; };
 		54256F3D27E8F292002DBA9B /* MainSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F3C27E8F292002DBA9B /* MainSettingsTableViewCell.swift */; };
 		54256F3F27E90B8F002DBA9B /* MainSettingsSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F3E27E90B8F002DBA9B /* MainSettingsSwitchTableViewCell.swift */; };
@@ -53,9 +50,6 @@
 		54256F4527E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F4427E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift */; };
 		54256F6127EBC94E002DBA9B /* CurrentVideoFrameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F6027EBC94E002DBA9B /* CurrentVideoFrameTableViewCell.swift */; };
 		54256F6327EBC969002DBA9B /* CurrentUploadLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54256F6227EBC969002DBA9B /* CurrentUploadLabelTableViewCell.swift */; };
-		542BE89E2791C75C00E21911 /* VehicleInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542BE89D2791C75B00E21911 /* VehicleInfoManager.swift */; };
-		542BE8A02791C77400E21911 /* VehicleInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542BE89F2791C77400E21911 /* VehicleInfoData.swift */; };
-		542BE8A22791C7AF00E21911 /* VehicleInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542BE8A12791C7AF00E21911 /* VehicleInfoModel.swift */; };
 		543A8F3127250196007D7DF2 /* VideoPlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543A8F3027250194007D7DF2 /* VideoPlaybackViewController.swift */; };
 		543A8F352725103D007D7DF2 /* LibraryTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543A8F342725103D007D7DF2 /* LibraryTableTableViewController.swift */; };
 		543A8F37272510A2007D7DF2 /* LibraryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543A8F36272510A2007D7DF2 /* LibraryTableViewCell.swift */; };
@@ -65,30 +59,12 @@
 		543A8F3F2725BBC4007D7DF2 /* UploadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543A8F3E2725BBC4007D7DF2 /* UploadTableViewCell.swift */; };
 		543A8F412725C92D007D7DF2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543A8F402725C92D007D7DF2 /* SettingsViewController.swift */; };
 		543A8F432725EB31007D7DF2 /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543A8F422725EB31007D7DF2 /* GraphManager.swift */; };
-		5440007C27703F7100B14BE3 /* DateStored.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440006F27703F7100B14BE3 /* DateStored.swift */; };
-		5440007D27703F7100B14BE3 /* MainSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007027703F7100B14BE3 /* MainSensorData.swift */; };
-		5440007E27703F7100B14BE3 /* DateStored+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007127703F7100B14BE3 /* DateStored+Schema.swift */; };
-		5440007F27703F7100B14BE3 /* InitialVehicleData+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007227703F7100B14BE3 /* InitialVehicleData+Schema.swift */; };
-		5440008027703F7100B14BE3 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007327703F7100B14BE3 /* AmplifyModels.swift */; };
-		5440008127703F7100B14BE3 /* InitialVehicleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007427703F7100B14BE3 /* InitialVehicleData.swift */; };
-		5440008227703F7100B14BE3 /* MobileAppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007527703F7100B14BE3 /* MobileAppUser.swift */; };
-		5440008327703F7100B14BE3 /* InitialHealthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007627703F7100B14BE3 /* InitialHealthData.swift */; };
-		5440008427703F7100B14BE3 /* MainSensorData+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007727703F7100B14BE3 /* MainSensorData+Schema.swift */; };
-		5440008527703F7100B14BE3 /* SaveLocation+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007827703F7100B14BE3 /* SaveLocation+Schema.swift */; };
-		5440008627703F7100B14BE3 /* SaveLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007927703F7100B14BE3 /* SaveLocation.swift */; };
-		5440008727703F7100B14BE3 /* MobileAppUser+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007A27703F7100B14BE3 /* MobileAppUser+Schema.swift */; };
-		5440008827703F7100B14BE3 /* InitialHealthData+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440007B27703F7100B14BE3 /* InitialHealthData+Schema.swift */; };
 		5440008A27711AFE00B14BE3 /* DateDataSave+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5440008927711AFE00B14BE3 /* DateDataSave+Extension.swift */; };
-		544ABE2E27577E4900950E4C /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 544ABE2C27577E4900950E4C /* amplifyconfiguration.json */; };
-		544ABE2F27577E4900950E4C /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 544ABE2D27577E4900950E4C /* awsconfiguration.json */; };
 		544ABE74275A69A300950E4C /* CSVparser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544ABE73275A69A300950E4C /* CSVparser.swift */; };
 		544ABE772762A26700950E4C /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 544ABE762762A26700950E4C /* Collections */; };
 		544ABE792762A26700950E4C /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 544ABE782762A26700950E4C /* DequeModule */; };
 		544ABE7B2762A26700950E4C /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 544ABE7A2762A26700950E4C /* OrderedCollections */; };
-		548C8E472725F885007B17A7 /* GraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C8E462725F885007B17A7 /* GraphData.swift */; };
-		548C8E492725F8FE007B17A7 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C8E482725F8FE007B17A7 /* Cell.swift */; };
 		548C8E4B2725FA19007B17A7 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C8E4A2725FA19007B17A7 /* GraphViewController.swift */; };
-		548C8E4D27270866007B17A7 /* HealthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C8E4C27270865007B17A7 /* HealthData.swift */; };
 		5494280A2718E49A0000472C /* DefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549428092718E49A0000472C /* DefaultsManager.swift */; };
 		5494280E271BF4260000472C /* shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5494280D271BF4250000472C /* shared.swift */; };
 		549B4F2727B6CD2D00A26F2A /* ViewControllertwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549B4F2627B6CD2C00A26F2A /* ViewControllertwo.swift */; };
@@ -113,6 +89,30 @@
 		54EE32EF2707B815004A54C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EE32EE2707B815004A54C9 /* Assets.xcassets */; };
 		54EE32F22707B815004A54C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54EE32F02707B815004A54C9 /* LaunchScreen.storyboard */; };
 		54F245C627547D940040F404 /* SourceOfTruth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F245C527547D940040F404 /* SourceOfTruth.swift */; };
+		62309CEE2923D21E00D06FDC /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 62309CEC2923D21E00D06FDC /* amplifyconfiguration.json */; };
+		62309CEF2923D21E00D06FDC /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 62309CED2923D21E00D06FDC /* awsconfiguration.json */; };
+		62309D0C2924193300D06FDC /* UserDefaultsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CF62924193300D06FDC /* UserDefaultsData.swift */; };
+		62309D0D2924193300D06FDC /* VehicleInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CF72924193300D06FDC /* VehicleInfoManager.swift */; };
+		62309D0E2924193300D06FDC /* HealthDataTypeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CF82924193300D06FDC /* HealthDataTypeValue.swift */; };
+		62309D0F2924193300D06FDC /* DateStored+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CF92924193300D06FDC /* DateStored+Schema.swift */; };
+		62309D102924193300D06FDC /* VehicleInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CFA2924193300D06FDC /* VehicleInfoModel.swift */; };
+		62309D112924193300D06FDC /* DateStored.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CFB2924193300D06FDC /* DateStored.swift */; };
+		62309D122924193300D06FDC /* MainSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CFC2924193300D06FDC /* MainSensorData.swift */; };
+		62309D132924193300D06FDC /* MobileAppUser+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CFD2924193300D06FDC /* MobileAppUser+Schema.swift */; };
+		62309D142924193300D06FDC /* VehicleInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CFE2924193300D06FDC /* VehicleInfoData.swift */; };
+		62309D152924193300D06FDC /* InitialHealthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309CFF2924193300D06FDC /* InitialHealthData.swift */; };
+		62309D162924193300D06FDC /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D002924193300D06FDC /* Cell.swift */; };
+		62309D172924193300D06FDC /* InitialVehicleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D012924193300D06FDC /* InitialVehicleData.swift */; };
+		62309D182924193300D06FDC /* SaveLocation+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D022924193300D06FDC /* SaveLocation+Schema.swift */; };
+		62309D192924193300D06FDC /* GraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D032924193300D06FDC /* GraphData.swift */; };
+		62309D1A2924193300D06FDC /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D042924193300D06FDC /* AmplifyModels.swift */; };
+		62309D1B2924193300D06FDC /* HealthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D052924193300D06FDC /* HealthData.swift */; };
+		62309D1C2924193300D06FDC /* MobileAppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D062924193300D06FDC /* MobileAppUser.swift */; };
+		62309D1D2924193300D06FDC /* InitialVehicleData+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D072924193300D06FDC /* InitialVehicleData+Schema.swift */; };
+		62309D1E2924193300D06FDC /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D082924193300D06FDC /* SensorData.swift */; };
+		62309D1F2924193300D06FDC /* MainSensorData+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D092924193300D06FDC /* MainSensorData+Schema.swift */; };
+		62309D202924193300D06FDC /* InitialHealthData+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D0A2924193300D06FDC /* InitialHealthData+Schema.swift */; };
+		62309D212924193300D06FDC /* SaveLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62309D0B2924193300D06FDC /* SaveLocation.swift */; };
 		6242A3092859979C00E0A986 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 6242A3082859979C00E0A986 /* Collections */; };
 		6242A30B2859979C00E0A986 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 6242A30A2859979C00E0A986 /* DequeModule */; };
 		6242A30D2859979C00E0A986 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 6242A30C2859979C00E0A986 /* OrderedCollections */; };
@@ -174,7 +174,6 @@
 		540305C62712B04500EB7FC3 /* WatchKitConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchKitConnection.swift; sourceTree = "<group>"; };
 		540305C82712B08200EB7FC3 /* LocalNotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationHelper.swift; sourceTree = "<group>"; };
 		540305CA2712B0AE00EB7FC3 /* APIFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFetcher.swift; sourceTree = "<group>"; };
-		54072CEB2718A8E30067AE5D /* UserDefaultsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsData.swift; sourceTree = "<group>"; };
 		54072CED2718C7CD0067AE5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		540A2084279669A3007F5A60 /* StyleKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleKit.swift; sourceTree = "<group>"; };
 		540A208627966A1E007F5A60 /* RecordButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButtonView.swift; sourceTree = "<group>"; };
@@ -205,8 +204,6 @@
 		541E8D26271061FE00FB456F /* WatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTests.swift; sourceTree = "<group>"; };
 		541E8D292710623A00FB456F /* HealthKitSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitSupport.swift; sourceTree = "<group>"; };
 		541E8D2C271062D900FB456F /* AllData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllData.swift; sourceTree = "<group>"; };
-		541E8D2F271063AC00FB456F /* HealthDataTypeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataTypeValue.swift; sourceTree = "<group>"; };
-		541E8D31271063E100FB456F /* SensorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorData.swift; sourceTree = "<group>"; };
 		54256F3A27E8E983002DBA9B /* MainSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsViewController.swift; sourceTree = "<group>"; };
 		54256F3C27E8F292002DBA9B /* MainSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsTableViewCell.swift; sourceTree = "<group>"; };
 		54256F3E27E90B8F002DBA9B /* MainSettingsSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsSwitchTableViewCell.swift; sourceTree = "<group>"; };
@@ -215,9 +212,6 @@
 		54256F4427E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsButtonTableViewCell.swift; sourceTree = "<group>"; };
 		54256F6027EBC94E002DBA9B /* CurrentVideoFrameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentVideoFrameTableViewCell.swift; sourceTree = "<group>"; };
 		54256F6227EBC969002DBA9B /* CurrentUploadLabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUploadLabelTableViewCell.swift; sourceTree = "<group>"; };
-		542BE89D2791C75B00E21911 /* VehicleInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoManager.swift; sourceTree = "<group>"; };
-		542BE89F2791C77400E21911 /* VehicleInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoData.swift; sourceTree = "<group>"; };
-		542BE8A12791C7AF00E21911 /* VehicleInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoModel.swift; sourceTree = "<group>"; };
 		543A8F3027250194007D7DF2 /* VideoPlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlaybackViewController.swift; sourceTree = "<group>"; };
 		543A8F342725103D007D7DF2 /* LibraryTableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableTableViewController.swift; sourceTree = "<group>"; };
 		543A8F36272510A2007D7DF2 /* LibraryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableViewCell.swift; sourceTree = "<group>"; };
@@ -227,29 +221,11 @@
 		543A8F3E2725BBC4007D7DF2 /* UploadTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTableViewCell.swift; sourceTree = "<group>"; };
 		543A8F402725C92D007D7DF2 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		543A8F422725EB31007D7DF2 /* GraphManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
-		5440006F27703F7100B14BE3 /* DateStored.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateStored.swift; sourceTree = "<group>"; };
-		5440007027703F7100B14BE3 /* MainSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSensorData.swift; sourceTree = "<group>"; };
-		5440007127703F7100B14BE3 /* DateStored+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateStored+Schema.swift"; sourceTree = "<group>"; };
-		5440007227703F7100B14BE3 /* InitialVehicleData+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InitialVehicleData+Schema.swift"; sourceTree = "<group>"; };
-		5440007327703F7100B14BE3 /* AmplifyModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmplifyModels.swift; sourceTree = "<group>"; };
-		5440007427703F7100B14BE3 /* InitialVehicleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialVehicleData.swift; sourceTree = "<group>"; };
-		5440007527703F7100B14BE3 /* MobileAppUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileAppUser.swift; sourceTree = "<group>"; };
-		5440007627703F7100B14BE3 /* InitialHealthData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialHealthData.swift; sourceTree = "<group>"; };
-		5440007727703F7100B14BE3 /* MainSensorData+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainSensorData+Schema.swift"; sourceTree = "<group>"; };
-		5440007827703F7100B14BE3 /* SaveLocation+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SaveLocation+Schema.swift"; sourceTree = "<group>"; };
-		5440007927703F7100B14BE3 /* SaveLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveLocation.swift; sourceTree = "<group>"; };
-		5440007A27703F7100B14BE3 /* MobileAppUser+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MobileAppUser+Schema.swift"; sourceTree = "<group>"; };
-		5440007B27703F7100B14BE3 /* InitialHealthData+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InitialHealthData+Schema.swift"; sourceTree = "<group>"; };
 		5440008927711AFE00B14BE3 /* DateDataSave+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateDataSave+Extension.swift"; sourceTree = "<group>"; };
-		544ABE2C27577E4900950E4C /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = SOURCE_ROOT; };
-		544ABE2D27577E4900950E4C /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		544ABE6F275A692200950E4C /* WellnessScout-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WellnessScout-Bridging-Header.h"; sourceTree = "<group>"; };
 		544ABE73275A69A300950E4C /* CSVparser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVparser.swift; sourceTree = "<group>"; };
 		545883C82713641A003A8B26 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
-		548C8E462725F885007B17A7 /* GraphData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphData.swift; sourceTree = "<group>"; };
-		548C8E482725F8FE007B17A7 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		548C8E4A2725FA19007B17A7 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
-		548C8E4C27270865007B17A7 /* HealthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthData.swift; sourceTree = "<group>"; };
 		549428092718E49A0000472C /* DefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsManager.swift; sourceTree = "<group>"; };
 		5494280D271BF4250000472C /* shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shared.swift; sourceTree = "<group>"; };
 		549B4F2627B6CD2C00A26F2A /* ViewControllertwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllertwo.swift; sourceTree = "<group>"; };
@@ -279,6 +255,30 @@
 		54EE32F12707B815004A54C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54EE32F32707B815004A54C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54F245C527547D940040F404 /* SourceOfTruth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceOfTruth.swift; sourceTree = "<group>"; };
+		62309CEC2923D21E00D06FDC /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = SOURCE_ROOT; };
+		62309CED2923D21E00D06FDC /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
+		62309CF62924193300D06FDC /* UserDefaultsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserDefaultsData.swift; path = amplify/generated/Model/UserDefaultsData.swift; sourceTree = SOURCE_ROOT; };
+		62309CF72924193300D06FDC /* VehicleInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleInfoManager.swift; path = amplify/generated/Model/VehicleInfoManager.swift; sourceTree = SOURCE_ROOT; };
+		62309CF82924193300D06FDC /* HealthDataTypeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HealthDataTypeValue.swift; path = amplify/generated/Model/HealthDataTypeValue.swift; sourceTree = SOURCE_ROOT; };
+		62309CF92924193300D06FDC /* DateStored+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DateStored+Schema.swift"; path = "amplify/generated/Model/DateStored+Schema.swift"; sourceTree = SOURCE_ROOT; };
+		62309CFA2924193300D06FDC /* VehicleInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleInfoModel.swift; path = amplify/generated/Model/VehicleInfoModel.swift; sourceTree = SOURCE_ROOT; };
+		62309CFB2924193300D06FDC /* DateStored.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateStored.swift; path = amplify/generated/Model/DateStored.swift; sourceTree = SOURCE_ROOT; };
+		62309CFC2924193300D06FDC /* MainSensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainSensorData.swift; path = amplify/generated/Model/MainSensorData.swift; sourceTree = SOURCE_ROOT; };
+		62309CFD2924193300D06FDC /* MobileAppUser+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MobileAppUser+Schema.swift"; path = "amplify/generated/Model/MobileAppUser+Schema.swift"; sourceTree = SOURCE_ROOT; };
+		62309CFE2924193300D06FDC /* VehicleInfoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleInfoData.swift; path = amplify/generated/Model/VehicleInfoData.swift; sourceTree = SOURCE_ROOT; };
+		62309CFF2924193300D06FDC /* InitialHealthData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InitialHealthData.swift; path = amplify/generated/Model/InitialHealthData.swift; sourceTree = SOURCE_ROOT; };
+		62309D002924193300D06FDC /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cell.swift; path = amplify/generated/Model/Cell.swift; sourceTree = SOURCE_ROOT; };
+		62309D012924193300D06FDC /* InitialVehicleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InitialVehicleData.swift; path = amplify/generated/Model/InitialVehicleData.swift; sourceTree = SOURCE_ROOT; };
+		62309D022924193300D06FDC /* SaveLocation+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SaveLocation+Schema.swift"; path = "amplify/generated/Model/SaveLocation+Schema.swift"; sourceTree = SOURCE_ROOT; };
+		62309D032924193300D06FDC /* GraphData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GraphData.swift; path = amplify/generated/Model/GraphData.swift; sourceTree = SOURCE_ROOT; };
+		62309D042924193300D06FDC /* AmplifyModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AmplifyModels.swift; path = amplify/generated/Model/AmplifyModels.swift; sourceTree = SOURCE_ROOT; };
+		62309D052924193300D06FDC /* HealthData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HealthData.swift; path = amplify/generated/Model/HealthData.swift; sourceTree = SOURCE_ROOT; };
+		62309D062924193300D06FDC /* MobileAppUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobileAppUser.swift; path = amplify/generated/Model/MobileAppUser.swift; sourceTree = SOURCE_ROOT; };
+		62309D072924193300D06FDC /* InitialVehicleData+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "InitialVehicleData+Schema.swift"; path = "amplify/generated/Model/InitialVehicleData+Schema.swift"; sourceTree = SOURCE_ROOT; };
+		62309D082924193300D06FDC /* SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SensorData.swift; path = amplify/generated/Model/SensorData.swift; sourceTree = SOURCE_ROOT; };
+		62309D092924193300D06FDC /* MainSensorData+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MainSensorData+Schema.swift"; path = "amplify/generated/Model/MainSensorData+Schema.swift"; sourceTree = SOURCE_ROOT; };
+		62309D0A2924193300D06FDC /* InitialHealthData+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "InitialHealthData+Schema.swift"; path = "amplify/generated/Model/InitialHealthData+Schema.swift"; sourceTree = SOURCE_ROOT; };
+		62309D0B2924193300D06FDC /* SaveLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SaveLocation.swift; path = amplify/generated/Model/SaveLocation.swift; sourceTree = SOURCE_ROOT; };
 		6242A30E28599ADB00E0A986 /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
 		6242A30F28599ADB00E0A986 /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
 		624FB74028B87CB400CBC3B1 /* Mobiscoutjp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Mobiscoutjp.jpg; sourceTree = "<group>"; };
@@ -418,36 +418,6 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		5440006E27703F7100B14BE3 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				5440006F27703F7100B14BE3 /* DateStored.swift */,
-				5440007027703F7100B14BE3 /* MainSensorData.swift */,
-				5440007127703F7100B14BE3 /* DateStored+Schema.swift */,
-				5440007227703F7100B14BE3 /* InitialVehicleData+Schema.swift */,
-				5440007327703F7100B14BE3 /* AmplifyModels.swift */,
-				5440007427703F7100B14BE3 /* InitialVehicleData.swift */,
-				5440007527703F7100B14BE3 /* MobileAppUser.swift */,
-				5440007627703F7100B14BE3 /* InitialHealthData.swift */,
-				5440007727703F7100B14BE3 /* MainSensorData+Schema.swift */,
-				5440007827703F7100B14BE3 /* SaveLocation+Schema.swift */,
-				5440007927703F7100B14BE3 /* SaveLocation.swift */,
-				5440007A27703F7100B14BE3 /* MobileAppUser+Schema.swift */,
-				5440007B27703F7100B14BE3 /* InitialHealthData+Schema.swift */,
-				542BE89F2791C77400E21911 /* VehicleInfoData.swift */,
-				542BE8A12791C7AF00E21911 /* VehicleInfoModel.swift */,
-				542BE89D2791C75B00E21911 /* VehicleInfoManager.swift */,
-				541E8D2F271063AC00FB456F /* HealthDataTypeValue.swift */,
-				541E8D31271063E100FB456F /* SensorData.swift */,
-				54072CEB2718A8E30067AE5D /* UserDefaultsData.swift */,
-				548C8E462725F885007B17A7 /* GraphData.swift */,
-				548C8E482725F8FE007B17A7 /* Cell.swift */,
-				548C8E4C27270865007B17A7 /* HealthData.swift */,
-			);
-			name = Model;
-			path = amplify/generated/Model;
-			sourceTree = SOURCE_ROOT;
-		};
 		5494280C271BF40D0000472C /* shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,9 +479,11 @@
 		54EE32E42707B813004A54C9 /* WellnessScout */ = {
 			isa = PBXGroup;
 			children = (
+				62309CF52924190400D06FDC /* ModelData */,
+				62309CEC2923D21E00D06FDC /* amplifyconfiguration.json */,
+				62309CED2923D21E00D06FDC /* awsconfiguration.json */,
 				62D526DE28C4537E006CB309 /* Extensions */,
 				6242A30F28599ADB00E0A986 /* CHCSVParser.h */,
-				5440006E27703F7100B14BE3 /* Model */,
 				5494280C271BF40D0000472C /* shared */,
 				5403059A27128EF700EB7FC3 /* WellnessScout.entitlements */,
 				541E8D2B2710627B00FB456F /* Data */,
@@ -520,8 +492,6 @@
 				541E8D082710560A00FB456F /* View */,
 				541E8D0A271056BF00FB456F /* Controller */,
 				54EE32E52707B813004A54C9 /* AppDelegate.swift */,
-				544ABE2C27577E4900950E4C /* amplifyconfiguration.json */,
-				544ABE2D27577E4900950E4C /* awsconfiguration.json */,
 				54EE32E72707B813004A54C9 /* SceneDelegate.swift */,
 				54EE32EE2707B815004A54C9 /* Assets.xcassets */,
 				54EE32F02707B815004A54C9 /* LaunchScreen.storyboard */,
@@ -555,6 +525,35 @@
 				43B372783774DE5C040D04CA /* Pods_WellnessScout.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		62309CF52924190400D06FDC /* ModelData */ = {
+			isa = PBXGroup;
+			children = (
+				62309D042924193300D06FDC /* AmplifyModels.swift */,
+				62309D002924193300D06FDC /* Cell.swift */,
+				62309CFB2924193300D06FDC /* DateStored.swift */,
+				62309CF92924193300D06FDC /* DateStored+Schema.swift */,
+				62309D032924193300D06FDC /* GraphData.swift */,
+				62309D052924193300D06FDC /* HealthData.swift */,
+				62309CF82924193300D06FDC /* HealthDataTypeValue.swift */,
+				62309CFF2924193300D06FDC /* InitialHealthData.swift */,
+				62309D0A2924193300D06FDC /* InitialHealthData+Schema.swift */,
+				62309D012924193300D06FDC /* InitialVehicleData.swift */,
+				62309D072924193300D06FDC /* InitialVehicleData+Schema.swift */,
+				62309CFC2924193300D06FDC /* MainSensorData.swift */,
+				62309D092924193300D06FDC /* MainSensorData+Schema.swift */,
+				62309D062924193300D06FDC /* MobileAppUser.swift */,
+				62309CFD2924193300D06FDC /* MobileAppUser+Schema.swift */,
+				62309D0B2924193300D06FDC /* SaveLocation.swift */,
+				62309D022924193300D06FDC /* SaveLocation+Schema.swift */,
+				62309D082924193300D06FDC /* SensorData.swift */,
+				62309CF62924193300D06FDC /* UserDefaultsData.swift */,
+				62309CFE2924193300D06FDC /* VehicleInfoData.swift */,
+				62309CF72924193300D06FDC /* VehicleInfoManager.swift */,
+				62309CFA2924193300D06FDC /* VehicleInfoModel.swift */,
+			);
+			path = ModelData;
 			sourceTree = "<group>";
 		};
 		62D526DE28C4537E006CB309 /* Extensions */ = {
@@ -613,6 +612,8 @@
 				54EE32E02707B813004A54C9 /* Resources */,
 				38E04EB2DC32DF01C7C62BE6 /* [CP] Embed Pods Frameworks */,
 				540305C52712AE0300EB7FC3 /* Embed Watch Content */,
+				2BC7C7C078DB22B49D0DE710 /* [CP] Copy Pods Resources */,
+				62309CE72923CCB900D06FDC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -706,10 +707,10 @@
 				54EE32F22707B815004A54C9 /* LaunchScreen.storyboard in Resources */,
 				624FB74328B87CD100CBC3B1 /* Mobiscoutjp2.jpg in Resources */,
 				540CBCC527D7F1B000837337 /* LibraryCell.xib in Resources */,
+				62309CEE2923D21E00D06FDC /* amplifyconfiguration.json in Resources */,
 				624FB74128B87CB500CBC3B1 /* Mobiscoutjp.jpg in Resources */,
+				62309CEF2923D21E00D06FDC /* awsconfiguration.json in Resources */,
 				54072CEE2718C7CD0067AE5D /* GoogleService-Info.plist in Resources */,
-				544ABE2F27577E4900950E4C /* awsconfiguration.json in Resources */,
-				544ABE2E27577E4900950E4C /* amplifyconfiguration.json in Resources */,
 				54EE32EF2707B815004A54C9 /* Assets.xcassets in Resources */,
 				54EE32ED2707B813004A54C9 /* Main.storyboard in Resources */,
 			);
@@ -718,6 +719,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2BC7C7C078DB22B49D0DE710 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WellnessScout/Pods-WellnessScout-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WellnessScout/Pods-WellnessScout-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WellnessScout/Pods-WellnessScout-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		33EC078D2A93F09D4CD256A1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -757,6 +775,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WellnessScout/Pods-WellnessScout-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		62309CE72923CCB900D06FDC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -777,29 +812,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5440007D27703F7100B14BE3 /* MainSensorData.swift in Sources */,
 				541C9EC3274EF1A7001BA986 /* AuthenticatedApp.swift in Sources */,
-				54072CEC2718A8E40067AE5D /* UserDefaultsData.swift in Sources */,
+				62309D1E2924193300D06FDC /* SensorData.swift in Sources */,
+				62309D1F2924193300D06FDC /* MainSensorData+Schema.swift in Sources */,
 				549B4F2727B6CD2D00A26F2A /* ViewControllertwo.swift in Sources */,
+				62309D0C2924193300D06FDC /* UserDefaultsData.swift in Sources */,
+				62309D0E2924193300D06FDC /* HealthDataTypeValue.swift in Sources */,
 				54EE32EA2707B813004A54C9 /* WelcomeViewController.swift in Sources */,
-				5440007E27703F7100B14BE3 /* DateStored+Schema.swift in Sources */,
 				54EE32E62707B813004A54C9 /* AppDelegate.swift in Sources */,
-				5440008227703F7100B14BE3 /* MobileAppUser.swift in Sources */,
 				540305CB2712B0AE00EB7FC3 /* APIFetcher.swift in Sources */,
-				5440008427703F7100B14BE3 /* MainSensorData+Schema.swift in Sources */,
 				540CBCC427D7F1B000837337 /* LibraryCell.swift in Sources */,
-				5440008127703F7100B14BE3 /* InitialVehicleData.swift in Sources */,
+				62309D1B2924193300D06FDC /* HealthData.swift in Sources */,
+				62309D122924193300D06FDC /* MainSensorData.swift in Sources */,
 				541E8D23271061B100FB456F /* SensorManager.swift in Sources */,
-				542BE8A22791C7AF00E21911 /* VehicleInfoModel.swift in Sources */,
-				5440008627703F7100B14BE3 /* SaveLocation.swift in Sources */,
 				5415C40B277F628200A26B23 /* LocationManager.swift in Sources */,
-				548C8E492725F8FE007B17A7 /* Cell.swift in Sources */,
 				541C9EBB274D8051001BA986 /* ConfirmViewController.swift in Sources */,
-				541E8D30271063AC00FB456F /* HealthDataTypeValue.swift in Sources */,
 				62D526E228C470EB006CB309 /* FaceView.swift in Sources */,
 				541683EE27419B95005C4869 /* AmplifySessionManager.swift in Sources */,
+				62309D1D2924193300D06FDC /* InitialVehicleData+Schema.swift in Sources */,
 				540A208727966A1E007F5A60 /* RecordButtonView.swift in Sources */,
-				5440008827703F7100B14BE3 /* InitialHealthData+Schema.swift in Sources */,
+				62309D102924193300D06FDC /* VehicleInfoModel.swift in Sources */,
+				62309D1A2924193300D06FDC /* AmplifyModels.swift in Sources */,
 				541E8D212710618100FB456F /* WearableDeviceManager.swift in Sources */,
 				543A8F3F2725BBC4007D7DF2 /* UploadTableViewCell.swift in Sources */,
 				54256F3F27E90B8F002DBA9B /* MainSettingsSwitchTableViewCell.swift in Sources */,
@@ -808,23 +841,29 @@
 				541E8D1A271060A200FB456F /* Utilities.swift in Sources */,
 				541E8D1C271060C100FB456F /* PiPVideoMixer.swift in Sources */,
 				543A8F352725103D007D7DF2 /* LibraryTableTableViewController.swift in Sources */,
+				62309D182924193300D06FDC /* SaveLocation+Schema.swift in Sources */,
 				54256F6127EBC94E002DBA9B /* CurrentVideoFrameTableViewCell.swift in Sources */,
 				540A2085279669A3007F5A60 /* StyleKit.swift in Sources */,
 				541E8D162710601A00FB456F /* PreviewView.swift in Sources */,
+				62309D132924193300D06FDC /* MobileAppUser+Schema.swift in Sources */,
 				541E8D27271061FE00FB456F /* WatchTests.swift in Sources */,
-				548C8E4D27270866007B17A7 /* HealthData.swift in Sources */,
 				54256F4327E92119002DBA9B /* MainsettingsVideoFrameTableViewCell.swift in Sources */,
 				54EE32E82707B813004A54C9 /* SceneDelegate.swift in Sources */,
+				62309D162924193300D06FDC /* Cell.swift in Sources */,
 				54A946DE27149F870093A7C0 /* OBDManager.swift in Sources */,
+				62309D202924193300D06FDC /* InitialHealthData+Schema.swift in Sources */,
+				62309D0D2924193300D06FDC /* VehicleInfoManager.swift in Sources */,
 				543A8F3D2725BB73007D7DF2 /* UploadTableViewController.swift in Sources */,
+				62309D1C2924193300D06FDC /* MobileAppUser.swift in Sources */,
 				541E8D182710605600FB456F /* MovieRecorder.swift in Sources */,
-				5440007C27703F7100B14BE3 /* DateStored.swift in Sources */,
 				541E8D1E271060FA00FB456F /* PiPMixer.metal in Sources */,
+				62309D192924193300D06FDC /* GraphData.swift in Sources */,
 				548C8E4B2725FA19007B17A7 /* GraphViewController.swift in Sources */,
 				62D526DD28C45300006CB309 /* UIImage+Helper.swift in Sources */,
+				62309D142924193300D06FDC /* VehicleInfoData.swift in Sources */,
 				541E8D2A2710623A00FB456F /* HealthKitSupport.swift in Sources */,
+				62309D212924193300D06FDC /* SaveLocation.swift in Sources */,
 				540CBCEE27DF86F400837337 /* CardView.swift in Sources */,
-				541E8D32271063E100FB456F /* SensorData.swift in Sources */,
 				5440008A27711AFE00B14BE3 /* DateDataSave+Extension.swift in Sources */,
 				541E8D1227105D3500FB456F /* TabBarViewController.swift in Sources */,
 				541E8D2D271062D900FB456F /* AllData.swift in Sources */,
@@ -832,35 +871,31 @@
 				541686B62788C51600CC5DBB /* CustomObject.m in Sources */,
 				540305C72712B04500EB7FC3 /* WatchKitConnection.swift in Sources */,
 				62D526E028C453B5006CB309 /* CoreGraphicsExtensions.swift in Sources */,
-				5440008727703F7100B14BE3 /* MobileAppUser+Schema.swift in Sources */,
 				54256F4527E92EBF002DBA9B /* MainSettingsButtonTableViewCell.swift in Sources */,
 				540A208927966E0F007F5A60 /* ViewPreview.swift in Sources */,
-				5440008527703F7100B14BE3 /* SaveLocation+Schema.swift in Sources */,
 				543A8F3927251C4A007D7DF2 /* LocalFileManager.swift in Sources */,
 				541E8D0C27105BD100FB456F /* RegisterViewController.swift in Sources */,
 				5494280E271BF4260000472C /* shared.swift in Sources */,
+				62309D152924193300D06FDC /* InitialHealthData.swift in Sources */,
+				62309D112924193300D06FDC /* DateStored.swift in Sources */,
 				541686B92788C95A00CC5DBB /* ObdMainManager.swift in Sources */,
+				62309D0F2924193300D06FDC /* DateStored+Schema.swift in Sources */,
 				6242A31028599ADC00E0A986 /* CHCSVParser.m in Sources */,
-				5440008027703F7100B14BE3 /* AmplifyModels.swift in Sources */,
 				541683F02741AA3A005C4869 /* ConfirmationViewOne.swift in Sources */,
 				54256F4127E90E72002DBA9B /* MainSettingsSliderTableViewCell.swift in Sources */,
-				5440008327703F7100B14BE3 /* InitialHealthData.swift in Sources */,
 				543A8F37272510A2007D7DF2 /* LibraryTableViewCell.swift in Sources */,
-				5440007F27703F7100B14BE3 /* InitialVehicleData+Schema.swift in Sources */,
-				542BE89E2791C75C00E21911 /* VehicleInfoManager.swift in Sources */,
 				54256F3B27E8E983002DBA9B /* MainSettingsViewController.swift in Sources */,
 				541683F22741B53E005C4869 /* AmplifyDataUpload.swift in Sources */,
-				542BE8A02791C77400E21911 /* VehicleInfoData.swift in Sources */,
 				540305C92712B08200EB7FC3 /* LocalNotificationHelper.swift in Sources */,
 				541E8D1027105CDF00FB456F /* ViewController.swift in Sources */,
 				543A8F3B272547B4007D7DF2 /* VideoManager.swift in Sources */,
 				5494280A2718E49A0000472C /* DefaultsManager.swift in Sources */,
 				543A8F432725EB31007D7DF2 /* GraphManager.swift in Sources */,
 				541E8D1427105FD200FB456F /* Constants.swift in Sources */,
-				548C8E472725F885007B17A7 /* GraphData.swift in Sources */,
 				544ABE74275A69A300950E4C /* CSVparser.swift in Sources */,
 				543A8F412725C92D007D7DF2 /* SettingsViewController.swift in Sources */,
 				54256F3D27E8F292002DBA9B /* MainSettingsTableViewCell.swift in Sources */,
+				62309D172924193300D06FDC /* InitialVehicleData.swift in Sources */,
 				54256F6327EBC969002DBA9B /* CurrentUploadLabelTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
